@@ -1,6 +1,8 @@
 fileFormatVersion: 2
-guid: f182e2714eb8a714a99ed091081ce16c
+guid: ed41ebd2345b5924c90f919f45e87d2b
 NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -9,5 +11,5 @@ AssetOrigin:
   productId: 110408
   packageName: Untitled
   packageVersion: 1.0
-  assetPath: Assets/Quoc/Asset/EasyRoads3D/Resources/Materials/roads/road material.mat
+  assetPath: Assets/Snow mountain tracks/Resources/Models/concrete 2.asset
   uploadId: 305612
