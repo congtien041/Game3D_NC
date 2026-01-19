@@ -28,14 +28,28 @@ public class AStarCarAI : MonoBehaviour
         carController = GetComponent<PrometeoNPCController>();
         agent = GetComponent<NavMeshAgent>();
 
-        // Tự tìm Player
         if (playerTarget == null && GameObject.FindWithTag("Player"))
             playerTarget = GameObject.FindWithTag("Player").transform;
 
-        // CẤU HÌNH NAVMESH AGENT ĐỂ KHÔNG TRANH QUYỀN ĐIỀU KHIỂN
-        agent.updatePosition = false; // Không cho Agent tự dịch chuyển xe
-        agent.updateRotation = false; // Không cho Agent tự xoay xe
+        // --- CẤU HÌNH NAVMESH ---
+        agent.updatePosition = false; 
+        agent.updateRotation = false; 
         agent.updateUpAxis = false;
+
+        // --- CẤU HÌNH VẬT LÝ (AUTO FIX LỖI ĐỨNG YÊN) ---
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null) 
+        {
+            rb.sleepThreshold = 0f;       // Không bao giờ ngủ
+            rb.isKinematic = false;       // BẮT BUỘC TẮT (Quan trọng nhất)
+            rb.useGravity = true;         // Phải có trọng lực
+            
+            // Nếu xe quá nặng, giảm xuống 1500kg
+            if (rb.mass > 2000f) rb.mass = 1500f; 
+            
+            // Lực cản không khí thấp thôi
+            rb.linearDamping = 0.05f; 
+        }
     }
 
     // Thêm biến đếm thời gian
@@ -55,11 +69,17 @@ public class AStarCarAI : MonoBehaviour
             agent.SetDestination(playerTarget.position);
             pathUpdateTimer = 0f;
         }
+        DriveCarOnPath();
+
     }
 
     void FixedUpdate()
     {
-        DriveCarOnPath();
+        if (GetComponent<Rigidbody>().linearVelocity.magnitude < 0.1f)
+        {
+            // Đẩy nhẹ xe về phía trước để thắng ma sát nghỉ
+            GetComponent<Rigidbody>().AddForce(transform.forward * 2000f, ForceMode.Force);
+        }
     }
 
     void DriveCarOnPath()
@@ -146,7 +166,7 @@ public class AStarCarAI : MonoBehaviour
             // Nếu cần cua gấp (> 0.6) thì mới nhấp phanh drift
             if (Mathf.Abs(steerInput) > 0.6f && carController.carSpeed > 50f)
             {
-                carController.AI_Handbrake();
+                // carController.AI_Handbrake();
             }
             // Nếu cua vừa vừa thì nhả chân ga (không phanh, không ga)
             else if (Mathf.Abs(steerInput) > 0.4f && carController.carSpeed > 60f)
