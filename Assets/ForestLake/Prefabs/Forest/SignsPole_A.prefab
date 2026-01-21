@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8140130731698271207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SignsPole_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,10 @@ PrefabInstance:
     - target: {fileID: 1031327819, guid: abc00000000000481360548399589353, type: 3}
       propertyPath: m_Name
       value: SM_Sign_C1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031327819, guid: abc00000000000481360548399589353, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1031327819, guid: abc00000000000481360548399589353, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -96,6 +100,10 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1031327822, guid: abc00000000000481360548399589353, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031327822, guid: abc00000000000481360548399589353, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -128,6 +136,10 @@ PrefabInstance:
     - target: {fileID: 1031327812, guid: abc00000000010203454833400872098, type: 3}
       propertyPath: m_Name
       value: SM_Sign_C2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031327812, guid: abc00000000010203454833400872098, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1031327812, guid: abc00000000010203454833400872098, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -178,6 +190,10 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1031327815, guid: abc00000000010203454833400872098, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031327815, guid: abc00000000010203454833400872098, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -210,6 +226,10 @@ PrefabInstance:
     - target: {fileID: 1031327798, guid: abc00000000002575704418478319625, type: 3}
       propertyPath: m_Name
       value: SM_Sign_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031327798, guid: abc00000000002575704418478319625, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1031327798, guid: abc00000000002575704418478319625, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -260,6 +280,10 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1031327801, guid: abc00000000002575704418478319625, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031327801, guid: abc00000000002575704418478319625, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -292,6 +316,10 @@ PrefabInstance:
     - target: {fileID: 1031327805, guid: abc00000000001119361884309536976, type: 3}
       propertyPath: m_Name
       value: SM_SignPole_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031327805, guid: abc00000000001119361884309536976, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1031327805, guid: abc00000000001119361884309536976, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -340,6 +368,10 @@ PrefabInstance:
     - target: {fileID: 1031327806, guid: abc00000000001119361884309536976, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031327808, guid: abc00000000001119361884309536976, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1031327808, guid: abc00000000001119361884309536976, type: 3}
       propertyPath: m_StaticEditorFlags

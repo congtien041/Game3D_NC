@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1031242698}
   - component: {fileID: 1031242699}
   - component: {fileID: 1031242700}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_SmallPine_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 1031242702}
   - component: {fileID: 1031242703}
   - component: {fileID: 1031242704}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_SmallPine_02_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 1031242706}
   - component: {fileID: 1031242707}
   - component: {fileID: 1031242708}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_SmallPine_02_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 1031242710}
   - component: {fileID: 1031242711}
   - component: {fileID: 1031242712}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_SmallPine_02_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 1031242714}
   - component: {fileID: 1031242715}
   - component: {fileID: 1031242716}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_SmallPine_02_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

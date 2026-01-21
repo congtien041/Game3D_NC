@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1031163851}
   - component: {fileID: 1031163852}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Flower_A1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 1031163854}
   - component: {fileID: 1031163855}
   - component: {fileID: 1031163856}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Flower_A1_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 1031163858}
   - component: {fileID: 1031163859}
   - component: {fileID: 1031163860}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Flower_A1_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 1031163862}
   - component: {fileID: 1031163863}
   - component: {fileID: 1031163864}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Flower_A1_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 1031163866}
   - component: {fileID: 1031163867}
   - component: {fileID: 1031163868}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Flower_A1_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

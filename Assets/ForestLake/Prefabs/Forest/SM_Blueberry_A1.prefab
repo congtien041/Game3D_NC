@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1031163805}
   - component: {fileID: 1031163806}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Blueberry_A1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 1031163808}
   - component: {fileID: 1031163809}
   - component: {fileID: 1031163810}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Blueberry_A1_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 1031163812}
   - component: {fileID: 1031163813}
   - component: {fileID: 1031163814}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Blueberry_A1_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 1031163816}
   - component: {fileID: 1031163817}
   - component: {fileID: 1031163818}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Blueberry_A1_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 1031163820}
   - component: {fileID: 1031163821}
   - component: {fileID: 1031163822}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Blueberry_A1_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 1031163824}
   - component: {fileID: 1031163825}
   - component: {fileID: 1031163826}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Blueberry_A1_LOD4
   m_TagString: Untagged
   m_Icon: {fileID: 0}

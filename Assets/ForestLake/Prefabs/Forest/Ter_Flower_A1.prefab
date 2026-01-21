@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1031163851}
   - component: {fileID: 8984537509953467238}
   - component: {fileID: 5752547810685998180}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ter_Flower_A1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
