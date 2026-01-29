@@ -7,7 +7,7 @@ public class HealNode : Node {
     public HealNode(GuardAI ai) { this.ai = ai; }
 
     public override NodeState Evaluate() {
-        if (ai.health < 20f || (isHealing && ai.health < 500f)) {
+        if (ai.health < 100f || (isHealing && ai.health < 500f)) {
             isHealing = true;
             
             // Kiểm tra xem đã kéo HealStation vào Inspector chưa

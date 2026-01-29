@@ -24,7 +24,7 @@ public class GuardAI : MonoBehaviour {
         rootNode.Evaluate();
         // Giới hạn máu không vượt quá 100
         if (health > 500f) health = 500f;
-        if (Input.GetKeyDown(KeyCode.K)) health -= 40f;
+        if (Input.GetKeyDown(KeyCode.K)) health -= 50f;
     }
 }
 
@@ -36,8 +36,8 @@ public class ChaseNode : Node {
     public ChaseNode(GuardAI ai) { this.ai = ai; }
     public override NodeState Evaluate() {
         float dist = Vector3.Distance(ai.transform.position, ai.player.position);
-        if (dist < 40f) {
-            ai.agent.speed = 10.0f; 
+        if (dist < 100f) {
+            ai.agent.speed = 20.0f; 
             ai.agent.SetDestination(ai.player.position);
             return NodeState.RUNNING;
         }
