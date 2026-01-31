@@ -683,6 +683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Container: {fileID: 171910608}
+  m_TargetMesh: {fileID: 0}
   m_RebuildOnSplineChange: 1
   m_RebuildFrequency: 30
   m_UpdateColliders: 1
@@ -691,6 +692,16 @@ MonoBehaviour:
   m_Capped: 1
   m_Radius: 0.25
   m_Range: {x: 0, y: 1}
+  m_FlipNormals: 0
+  m_Shape:
+    rid: 6566007965576593414
+  references:
+    version: 2
+    RefIds:
+    - rid: 6566007965576593414
+      type: {class: Circle, ns: UnityEngine.Splines.ExtrusionShapes, asm: Unity.Splines}
+      data:
+        m_Sides: 8
 --- !u!23 &171910606
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3621,6 +3632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Container: {fileID: 456815687}
+  m_TargetMesh: {fileID: 0}
   m_RebuildOnSplineChange: 1
   m_RebuildFrequency: 30
   m_UpdateColliders: 1
@@ -3629,6 +3641,16 @@ MonoBehaviour:
   m_Capped: 1
   m_Radius: 0.25
   m_Range: {x: 0, y: 1}
+  m_FlipNormals: 0
+  m_Shape:
+    rid: 6566007965576593413
+  references:
+    version: 2
+    RefIds:
+    - rid: 6566007965576593413
+      type: {class: Circle, ns: UnityEngine.Splines.ExtrusionShapes, asm: Unity.Splines}
+      data:
+        m_Sides: 8
 --- !u!23 &456815685
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17154,15 +17176,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3818829741540774067, guid: ba3f6a92dec635942b5d029535080cff, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3818829741540774067, guid: ba3f6a92dec635942b5d029535080cff, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3818829741540774067, guid: ba3f6a92dec635942b5d029535080cff, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3818829741540774067, guid: ba3f6a92dec635942b5d029535080cff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17174,7 +17196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3818829741540774067, guid: ba3f6a92dec635942b5d029535080cff, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 84.99278
+      value: 89.23
       objectReference: {fileID: 0}
     - target: {fileID: 3818829741540774067, guid: ba3f6a92dec635942b5d029535080cff, type: 3}
       propertyPath: m_LocalRotation.w
