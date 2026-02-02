@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: player
   m_EditorClassIdentifier: 
   monsterName: Player
-  hp: 10
-  damage: 1
+  hp: 5522
+  damage: 5555
   prefabName: player

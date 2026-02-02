@@ -122,6 +122,12 @@ public class LoadAssetBundle : MonoBehaviour
             ctrl.SetupMonster(_loadedData);
         }
 
+        if (ctrl != null)
+        {
+            // Nạp lại dữ liệu MỚI NHẤT cho quái (dù là quái cũ hay mới)
+            ctrl.SetupMonster(_loadedData);
+        }
+
         // BƯỚC C: ĐẶT VỊ TRÍ
         float x = Random.Range(-5f, 5f);
         float z = Random.Range(-5f, 5f);
