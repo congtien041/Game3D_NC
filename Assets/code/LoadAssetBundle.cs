@@ -28,7 +28,7 @@ public class LoadAssetBundle : MonoBehaviour
     public int maxMonsters = 5;       
     
     private GameObject _prefabTemplate;
-    private MonsterData _loadedData;
+    public MonsterData _loadedData;     
     private int _currentCount = 0;
     
     // Object Pooling
