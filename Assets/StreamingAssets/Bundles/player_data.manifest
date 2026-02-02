@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.29f1
+CRC: 3958269225
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d244d7172b6d7d380f42f4db22260d57
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 8c8706f745dc34f3163f5118dd5d2066
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 70b3f29403d33f44f19a9d1562391b8a
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 6d235c1152a0522429ddc9b20e0c1da7, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Editor/player.asset
+Dependencies: []
