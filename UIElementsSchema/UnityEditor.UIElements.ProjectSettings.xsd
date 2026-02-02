@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:editor="UnityEditor.UIElements" xmlns:engine="UnityEngine.UIElements" xmlns="UnityEditor.Accessibility" elementFormDefault="qualified" targetNamespace="UnityEditor.UIElements.ProjectSettings" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="UnityEngine.UIElements.xsd" namespace="UnityEngine.UIElements" />
-  <xs:complexType name="TabbedViewType">
+  <xs:complexType name="ProjectSettingsSectionType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:attribute default="" name="name" type="xs:string" use="optional" />
@@ -16,6 +16,7 @@
         <xs:attribute default="" name="data-source" type="xs:string" use="optional" />
         <xs:attribute default="" name="data-source-path" type="xs:string" use="optional" />
         <xs:attribute default="" name="data-source-type" type="xs:string" use="optional" />
+        <xs:attribute default="" name="label" type="xs:string" use="optional" />
         <xs:attribute default="" name="content-container" type="xs:string" use="optional" />
         <xs:attribute default="" name="class" type="xs:string" use="optional" />
         <xs:attribute default="" name="style" type="xs:string" use="optional" />
@@ -23,7 +24,7 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="TabbedView" substitutionGroup="engine:VisualElement" xmlns:q1="UnityEditor.UIElements.ProjectSettings" type="q1:TabbedViewType" />
+  <xs:element name="ProjectSettingsSection" substitutionGroup="engine:VisualElement" xmlns:q1="UnityEditor.UIElements.ProjectSettings" type="q1:ProjectSettingsSectionType" />
   <xs:complexType name="BuiltInShaderElementType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
@@ -75,7 +76,7 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="ProjectSettingsTitleBar" substitutionGroup="engine:VisualElement" xmlns:q3="UnityEditor.UIElements.ProjectSettings" type="q3:ProjectSettingsTitleBarType" />
-  <xs:complexType name="ProjectSettingsSectionType">
+  <xs:complexType name="TabbedViewType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:attribute default="" name="name" type="xs:string" use="optional" />
@@ -90,7 +91,6 @@
         <xs:attribute default="" name="data-source" type="xs:string" use="optional" />
         <xs:attribute default="" name="data-source-path" type="xs:string" use="optional" />
         <xs:attribute default="" name="data-source-type" type="xs:string" use="optional" />
-        <xs:attribute default="" name="label" type="xs:string" use="optional" />
         <xs:attribute default="" name="content-container" type="xs:string" use="optional" />
         <xs:attribute default="" name="class" type="xs:string" use="optional" />
         <xs:attribute default="" name="style" type="xs:string" use="optional" />
@@ -98,7 +98,7 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="ProjectSettingsSection" substitutionGroup="engine:VisualElement" xmlns:q4="UnityEditor.UIElements.ProjectSettings" type="q4:ProjectSettingsSectionType" />
+  <xs:element name="TabbedView" substitutionGroup="engine:VisualElement" xmlns:q4="UnityEditor.UIElements.ProjectSettings" type="q4:TabbedViewType" />
   <xs:complexType name="TabButtonType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">

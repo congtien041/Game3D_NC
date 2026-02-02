@@ -4,116 +4,149 @@ using System.IO;
 
 public class CarShopController : MonoBehaviour
 {
-    [Header("Cấu hình Bundle")]
-    public string bundleName = "cars_bundle"; // Tên file bundle đã build
-    public string currentCarName = "Enemy";   // Tên mặc định khi vào game
+    [Header("Cấu hình Mặc định")]
+    public string defaultBundleName = "cars_bundle"; // Bundle load khi vừa vào game
+    public string defaultCarName = "Enemy";          // Xe hiện khi vừa vào game
 
     [Header("Cấu hình Tô màu")]
-    public string paintMaterialKeyword = "Body"; // Chỉ tô màu Material nào có chữ này
+    public string paintMaterialKeyword = "Body"; 
 
+    // Biến nội bộ
     private AssetBundle loadedBundle;
     private GameObject currentCarInstance;
-    private string bundlePath;
+    private string currentBundleName; // Lưu tên bundle đang dùng
 
     IEnumerator Start()
     {
-        // 1. Tạo đường dẫn
-        bundlePath = Path.Combine(Application.streamingAssetsPath, "Bundles", bundleName);
+        // Khi game bắt đầu, load bundle mặc định
+        yield return LoadBundleProcess(defaultBundleName, defaultCarName);
+    }
 
-        // 2. Load Bundle (Chỉ load 1 lần duy nhất)
+    // --- CHỨC NĂNG QUAN TRỌNG: ĐỔI BUNDLE (Logic Core) ---
+    // Hàm này dùng để gọi quy trình hủy cũ -> nạp mới
+    public void SwitchBundle(string newBundleName, string carToSpawn)
+    {
+        // Nếu đang dùng đúng bundle đó rồi thì không load lại, chỉ spawn lại xe
+        if (currentBundleName == newBundleName && loadedBundle != null)
+        {
+            SpawnCar(carToSpawn);
+            return;
+        }
+
+        // Bắt đầu Coroutine để tải bundle mới
+        StartCoroutine(LoadBundleProcess(newBundleName, carToSpawn));
+    }
+
+    // Coroutine xử lý tải Bundle
+    IEnumerator LoadBundleProcess(string newBundleName, string carToSpawn)
+    {
+        // 1. DỌN DẸP BUNDLE CŨ (Giải phóng RAM)
+        if (loadedBundle != null)
+        {
+            // Xóa xe đang hiển thị trước
+            if (currentCarInstance != null) Destroy(currentCarInstance);
+            
+            // Unload(true) để xóa sạch dữ liệu bundle cũ khỏi bộ nhớ
+            loadedBundle.Unload(true);
+            loadedBundle = null;
+            
+            // Đợi 1 frame cho Unity dọn rác
+            yield return null; 
+        }
+
+        // 2. TẠO ĐƯỜNG DẪN
+        string path = Path.Combine(Application.streamingAssetsPath, "Bundles", newBundleName);
+        Debug.Log("Đang tải Bundle: " + newBundleName);
+
+        // 3. LOAD BUNDLE MỚI
+        var bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
+        yield return bundleLoadRequest;
+
+        loadedBundle = bundleLoadRequest.assetBundle;
+
         if (loadedBundle == null)
         {
-            var bundleLoadRequest = AssetBundle.LoadFromFileAsync(bundlePath);
-            yield return bundleLoadRequest;
-
-            loadedBundle = bundleLoadRequest.assetBundle;
-
-            if (loadedBundle == null)
-            {
-                Debug.LogError("Không tìm thấy Bundle tại: " + bundlePath);
-                yield break;
-            }
+            Debug.LogError("Lỗi: Không tìm thấy Bundle tại: " + path);
+            currentBundleName = ""; 
+            yield break;
         }
 
-        // 3. Sinh chiếc xe đầu tiên
-        SpawnCar(currentCarName);
+        // Cập nhật tên bundle hiện tại
+        currentBundleName = newBundleName;
+
+        // 4. Sinh chiếc xe đầu tiên của Bundle mới
+        SpawnCar(carToSpawn);
     }
 
-    // --- CHỨC NĂNG 1: ĐỔI XE (Dùng cho UI Button) ---
+    // --- CÁC HÀM CẦU NỐI CHO UI (Gắn vào Button Unity) ---
+    // Bạn hãy sửa tên string bên dưới cho khớp với tên file Bundle của bạn
+
+    public void LoadBundleA()
+    {
+        // Ví dụ: Button 1 load gói xe Đua
+        SwitchBundle("cars_bundle", "Enemy"); 
+    }
+
+    public void LoadBundleB()
+    {
+        // Ví dụ: Button 2 load gói xe Tải (Giả sử bạn có file tên 'trucks_bundle')
+        SwitchBundle("yellow", "Enemy");
+    }
+
+    // --- CHỨC NĂNG: ĐỔI XE (Logic cũ) ---
     public void SpawnCar(string prefabName)
-{
-    if (loadedBundle == null) return;
-
-    // 1. Luôn phải Load Prefab gốc từ Bundle ra trước để làm "mẫu chuẩn"
-    GameObject sourcePrefab = loadedBundle.LoadAsset<GameObject>(prefabName);
-
-    if (sourcePrefab == null)
     {
-        Debug.LogError("Không tìm thấy xe: " + prefabName + " trong Bundle!");
-        return;
-    }
+        if (loadedBundle == null) return;
 
-    // 2. Kiểm tra xem có xe nào đang hiển thị không
-    if (transform.childCount > 0)
-    {
-        GameObject currentChild = transform.GetChild(0).gameObject;
-        string currentName = currentChild.name.Replace("(Clone)", "").Trim();
-
-        // 3. Nếu ĐÚNG xe mình cần
-        if (currentName == prefabName)
+        GameObject sourcePrefab = loadedBundle.LoadAsset<GameObject>(prefabName);
+        if (sourcePrefab == null)
         {
-            Debug.Log("Xe đã có sẵn. Đang reset về trạng thái gốc của Bundle...");
-
-            // Reset vị trí
-            currentChild.transform.localPosition = Vector3.zero;
-            currentChild.transform.localRotation = Quaternion.identity;
-            currentChild.transform.localScale = Vector3.one;
-
-            // --- BƯỚC QUAN TRỌNG: RESET MÀU/MATERIAL ---
-            // Gọi hàm copy dữ liệu từ Prefab gốc đè lên xe hiện tại
-            ResetMaterialsToDefault(currentChild, sourcePrefab);
-
-            currentCarInstance = currentChild;
-            return; // Xong việc, thoát hàm
+            Debug.LogError("Không tìm thấy xe: " + prefabName + " trong Bundle " + currentBundleName);
+            return;
         }
-        
-        // Nếu sai xe thì xóa đi
-        Destroy(currentChild);
+
+        // Logic giữ xe cũ, reset transform (như code cũ của bạn)
+        if (transform.childCount > 0)
+        {
+            GameObject currentChild = transform.GetChild(0).gameObject;
+            string currentName = currentChild.name.Replace("(Clone)", "").Trim();
+
+            if (currentName == prefabName)
+            {
+                currentChild.transform.localPosition = Vector3.zero;
+                currentChild.transform.localRotation = Quaternion.identity;
+                currentChild.transform.localScale = Vector3.one;
+                ResetMaterialsToDefault(currentChild, sourcePrefab);
+                currentCarInstance = currentChild;
+                return;
+            }
+            Destroy(currentChild);
+        }
+
+        currentCarInstance = Instantiate(sourcePrefab, transform);
+        currentCarInstance.transform.localPosition = Vector3.zero;
+        currentCarInstance.transform.localRotation = Quaternion.identity;
     }
 
-    // 4. Nếu chưa có xe hoặc vừa xóa xe cũ -> Tạo mới
-    currentCarInstance = Instantiate(sourcePrefab, transform);
-    currentCarInstance.transform.localPosition = Vector3.zero;
-    currentCarInstance.transform.localRotation = Quaternion.identity;
-}
-
-// Hàm này sẽ đi tìm từng bộ phận và trả lại màu gốc (Material gốc)
-void ResetMaterialsToDefault(GameObject currentObj, GameObject sourcePrefab)
-{
-    // Lấy tất cả Renderer của xe hiện tại và xe gốc (Prefab)
-    Renderer[] currentRenderers = currentObj.GetComponentsInChildren<Renderer>();
-    Renderer[] sourceRenderers = sourcePrefab.GetComponentsInChildren<Renderer>();
-
-    // Duyệt qua từng bộ phận của xe hiện tại
-    foreach (var curRend in currentRenderers)
+    // --- CÁC HÀM PHỤ TRỢ (Giữ nguyên) ---
+    void ResetMaterialsToDefault(GameObject currentObj, GameObject sourcePrefab)
     {
-        // Tìm bộ phận tương ứng bên xe gốc (so sánh theo tên)
-        // Ví dụ: Tìm cái "Body" bên Prefab để lấy màu gốc
-        foreach (var srcRend in sourceRenderers)
+        Renderer[] currentRenderers = currentObj.GetComponentsInChildren<Renderer>();
+        Renderer[] sourceRenderers = sourcePrefab.GetComponentsInChildren<Renderer>();
+
+        foreach (var curRend in currentRenderers)
         {
-            if (curRend.name == srcRend.name)
+            foreach (var srcRend in sourceRenderers)
             {
-                // Trả lại Material gốc (sharedMaterial)
-                // Việc này sẽ xóa bay màu đỏ/xanh bạn đã tô, về lại màu mặc định
-                curRend.sharedMaterials = srcRend.sharedMaterials;
-                break;
+                if (curRend.name == srcRend.name)
+                {
+                    curRend.sharedMaterials = srcRend.sharedMaterials;
+                    break;
+                }
             }
         }
     }
-}
 
-    // --- CHỨC NĂNG 2: ĐỔI MÀU (Dùng cho UI Button) ---
-    // Hàm trung gian để Button gọi được (vì Button không truyền được Color trực tiếp dễ dàng)
     public void SetColorRed() => ChangeColor(Color.red);
     public void SetColorBlue() => ChangeColor(Color.blue);
     public void SetColorGreen() => ChangeColor(Color.green);
@@ -121,31 +154,21 @@ void ResetMaterialsToDefault(GameObject currentObj, GameObject sourcePrefab)
     public void ChangeColor(Color newColor)
     {
         if (currentCarInstance == null) return;
-
-        // Lấy tất cả Renderer trong xe (kể cả con cháu)
         Renderer[] renderers = currentCarInstance.GetComponentsInChildren<Renderer>();
-
         foreach (var rend in renderers)
         {
-            // Duyệt qua từng Material của từng bộ phận
             foreach (var mat in rend.materials)
             {
-                // MẤU CHỐT: Chỉ đổi màu nếu tên Material chứa từ khóa (VD: "Body")
                 if (mat.name.Contains(paintMaterialKeyword))
                 {
                     mat.color = newColor;
-                    // Nếu dùng URP/HDRP có thể cần: mat.SetColor("_BaseColor", newColor);
                 }
             }
         }
     }
 
-    // Giải phóng bộ nhớ khi tắt Shop hoặc chuyển Scene
     void OnDestroy()
     {
-        if (loadedBundle != null)
-        {
-            loadedBundle.Unload(true);
-        }
+        if (loadedBundle != null) loadedBundle.Unload(true);
     }
 }

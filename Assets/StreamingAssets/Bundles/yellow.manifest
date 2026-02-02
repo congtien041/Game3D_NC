@@ -1,0 +1,57 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.26f1
+CRC: 2850017235
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8962c64f3e52276cbd6d7789943ba032
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e582733e39ebc4c2aca82269e275da9a
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 3c0b25e8a882e8c8b7285d84d478b337
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5aff069a313b8fe4fb9235d5cdaffd95, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8aba4eef564e8aa45ab997a0bf0fdb2f, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 146
+  Script: {instanceID: 0}
+- Class: 195
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 215
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Scenes/Enemy.prefab
+Dependencies: []
