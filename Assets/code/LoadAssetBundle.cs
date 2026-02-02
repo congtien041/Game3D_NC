@@ -1,97 +1,83 @@
 using System.Collections;
-using System.Collections.Generic; // Để dùng Queue
+using System.Collections.Generic;
 using UnityEngine;
 
 #if UNITY_EDITOR
-using UnityEditor; // Chỉ dùng thư viện này trong Editor
+using UnityEditor;
 #endif
 
 public class LoadAssetBundle : MonoBehaviour
 {
     [Header("Cấu hình Chung")]
-    public bool useEditorMode = true; // Tích vào để chỉnh sửa Real-time
+    public bool useEditorMode = true; // Tích vào để sửa Real-time
+    public string editorDataPath = "Assets/GameData/Monster/DragonData.asset";
 
-    [Header("Đường dẫn file gốc (Dùng cho Editor Mode)")]
-    // Bạn phải điền đường dẫn chính xác của file SO trong Project
-    // Ví dụ: Assets/GameData/Monster/DragonData.asset
-    public string editorDataPath = "Assets/Editor/player.asset";
-    // public ScriptableObject editorDataPath; // Chứa tham chiếu file gốc
-
-    [Header("Cấu hình Bundle (Dùng cho Build thật)")]
+    [Header("Cấu hình Bundle")]
     public string modelBundleName = "player"; 
     public string assetName = "Capsule";      
     public string dataBundleName = "monster_data"; 
     public string dataFileName = "DragonData";     
 
-    [Header("Cấu hình Spam Quái")]
+    [Header("Spam Quái")]
     public float spawnInterval = 2.0f;
     public int maxMonsters = 5;       
     
+    // ĐỂ PUBLIC CHO UI TRUY CẬP
+    public MonsterData _loadedData; 
+
     private GameObject _prefabTemplate;
-    public MonsterData _loadedData;     
     private int _currentCount = 0;
     
-    // Object Pooling
+    // Hồ chứa quái (Object Pooling)
     private Queue<GameObject> _monsterPool = new Queue<GameObject>();
 
     IEnumerator Start()
     {
-        // --- BƯỚC 1: LOAD DỮ LIỆU (Hybrid) ---
-        
+        // --- 1. LOAD DATA ---
         #if UNITY_EDITOR
         if (useEditorMode)
         {
-            // CÁCH 1: LOAD TRỰC TIẾP TỪ DATABASE (Cập nhật tức thì)
-            Debug.Log("Mode: Editor (Real-time update)");
             _loadedData = AssetDatabase.LoadAssetAtPath<MonsterData>(editorDataPath);
-            
-            if (_loadedData == null)
-            {
-                Debug.LogError($"Lỗi: Đường dẫn Editor sai! Kiểm tra lại: {editorDataPath}");
-                yield break;
-            }
+            if (_loadedData == null) Debug.LogError("Sai đường dẫn Editor Data Path!");
         }
         else
         {
-            // Nếu bỏ tích useEditorMode thì load bundle như thường để test
             yield return StartCoroutine(LoadDataFromBundle());
         }
         #else
-            // CÁCH 2: KHI ĐÃ BUILD GAME THÌ BẮT BUỘC DÙNG BUNDLE
             yield return StartCoroutine(LoadDataFromBundle());
         #endif
 
-        // --- BƯỚC 2: LOAD MODEL (Vẫn dùng Bundle hoặc load thường tùy bạn) ---
-        // Ở đây tôi giữ nguyên load Bundle cho Model để test hình ảnh
+        // --- 2. LOAD MODEL ---
         string pathPrefix = Application.streamingAssetsPath + "/Bundles/";
         var modelBundleReq = AssetBundle.LoadFromFileAsync(pathPrefix + modelBundleName);
         yield return modelBundleReq;
 
         var modelBundle = modelBundleReq.assetBundle;
-        if (modelBundle == null) { Debug.LogError("Không thấy Bundle Model"); yield break; }
+        if (modelBundle != null)
+        {
+            _prefabTemplate = modelBundle.LoadAsset<GameObject>(assetName);
+            modelBundle.Unload(false);
+        }
 
-        _prefabTemplate = modelBundle.LoadAsset<GameObject>(assetName);
-        modelBundle.Unload(false);
-
-        // --- BƯỚC 3: START SPAM ---
+        // --- 3. START SPAM ---
         if (_loadedData != null && _prefabTemplate != null)
         {
             StartCoroutine(SpamMonsterRoutine());
         }
     }
 
-    // Tách hàm load bundle ra riêng để gọn code
     IEnumerator LoadDataFromBundle()
     {
         string pathPrefix = Application.streamingAssetsPath + "/Bundles/";
         var dataBundleReq = AssetBundle.LoadFromFileAsync(pathPrefix + dataBundleName);
         yield return dataBundleReq;
 
-        var dataBundle = dataBundleReq.assetBundle;
-        if (dataBundle == null) { Debug.LogError("Không thấy Bundle Data"); yield break; }
-
-        _loadedData = dataBundle.LoadAsset<MonsterData>(dataFileName);
-        dataBundle.Unload(false);
+        if (dataBundleReq.assetBundle != null)
+        {
+            _loadedData = dataBundleReq.assetBundle.LoadAsset<MonsterData>(dataFileName);
+            dataBundleReq.assetBundle.Unload(false);
+        }
     }
 
     IEnumerator SpamMonsterRoutine()
@@ -107,30 +93,39 @@ public class LoadAssetBundle : MonoBehaviour
         }
     }
 
+    // --- HÀM QUAN TRỌNG NHẤT ĐÃ ĐƯỢC SỬA ---
     void SpawnOneMonster()
     {
         if (_prefabTemplate == null || _loadedData == null) return;
 
         GameObject minion = null;
+        MonsterController ctrl = null;
+
+        // BƯỚC A: TÌM XÁC (Mới hoặc Cũ)
         if (_monsterPool.Count > 0)
         {
             minion = _monsterPool.Dequeue();
-            minion.SetActive(true);
+            minion.SetActive(true); // Bật lại quái cũ
+            ctrl = minion.GetComponent<MonsterController>();
         }
         else
         {
             minion = Instantiate(_prefabTemplate);
-            var ctrl = minion.GetComponent<MonsterController>();
+            ctrl = minion.GetComponent<MonsterController>();
             if (ctrl == null) ctrl = minion.AddComponent<MonsterController>();
-            
-            // QUAN TRỌNG: Lúc này _loadedData là file gốc
-            // Bạn thay đổi file gốc, con quái mới sinh ra sẽ nhận chỉ số mới ngay lập tức
+        }
+
+        // BƯỚC B: NẠP DỮ LIỆU (BẮT BUỘC CHẠY CHO CẢ 2 TRƯỜNG HỢP)
+        if (ctrl != null)
+        {
+            // Dòng này sẽ lấy dữ liệu MỚI NHẤT từ UI và đẩy vào con quái
             ctrl.SetupMonster(_loadedData);
         }
-        
-        // Setup vị trí ngẫu nhiên
+
+        // BƯỚC C: ĐẶT VỊ TRÍ
         float x = Random.Range(-5f, 5f);
         float z = Random.Range(-5f, 5f);
         minion.transform.position = new Vector3(x, 0, z) + transform.position;
+        minion.transform.rotation = Quaternion.identity;
     }
 }

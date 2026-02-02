@@ -1,29 +1,29 @@
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor; // Thư viện để ép Inspector cập nhật
+#endif
+
 public class MonsterDebugUI : MonoBehaviour
 {
-    // Tham chiếu đến bộ Spawner để lấy dữ liệu
     public LoadAssetBundle spawner;
 
-    // Biến tạm để lưu text người dùng nhập
+    // Dùng string để hứng text nhập vào
     private string inputHP = "";
     private string inputDamage = "";
     private string inputInterval = "";
 
-    // Biến kiểm tra xem đã lấy được data chưa
     private bool isInitialized = false;
 
     void Start()
     {
-        // Tự động tìm script LoadAssetBundle trong scene nếu chưa gán
         if (spawner == null)
             spawner = FindFirstObjectByType<LoadAssetBundle>();
     }
 
     void OnGUI()
     {
-        // 1. Vẽ cái hộp nền ở góc trái trên màn hình
-        GUI.Box(new Rect(10, 10, 250, 200), "BẢNG CHỈNH SỐ LIỆU (DEBUG)");
+        GUI.Box(new Rect(10, 10, 260, 220), "BẢNG ĐIỀU KHIỂN (LIVE)");
 
         if (spawner == null || spawner._loadedData == null)
         {
@@ -31,69 +31,73 @@ public class MonsterDebugUI : MonoBehaviour
             return;
         }
 
-        // Nếu lần đầu tiên thấy data, cập nhật hiển thị lên ô nhập
+        // Lấy số liệu lần đầu tiên
         if (!isInitialized)
         {
             RefreshUI();
             isInitialized = true;
         }
 
-        // --- HÀNG 1: Tên quái ---
-        GUI.Label(new Rect(20, 40, 200, 20), $"Quái: {spawner._loadedData.monsterName}");
+        // HIỂN THỊ THÔNG TIN THỰC TẾ TRONG FILE
+        GUI.Label(new Rect(20, 30, 240, 20), $"Quái: {spawner._loadedData.monsterName}");
+        GUI.Label(new Rect(20, 50, 240, 20), $"<color=yellow>Data Gốc: HP={spawner._loadedData.hp} | DMG={spawner._loadedData.damage}</color>");
 
-        // --- HÀNG 2: Máu (HP) ---
-        GUI.Label(new Rect(20, 70, 60, 20), "Max HP:");
-        // Ô nhập liệu cho HP
-        inputHP = GUI.TextField(new Rect(90, 70, 100, 20), inputHP);
+        // --- Ô NHẬP LIỆU ---
+        GUI.Label(new Rect(20, 80, 60, 20), "Max HP:");
+        inputHP = GUI.TextField(new Rect(90, 80, 100, 20), inputHP);
 
-        // --- HÀNG 3: Sát thương (Damage) ---
-        GUI.Label(new Rect(20, 100, 60, 20), "Damage:");
-        inputDamage = GUI.TextField(new Rect(90, 100, 100, 20), inputDamage);
+        GUI.Label(new Rect(20, 110, 60, 20), "Damage:");
+        inputDamage = GUI.TextField(new Rect(90, 110, 100, 20), inputDamage);
 
-        // --- HÀNG 4: Tốc độ đẻ quái ---
-        GUI.Label(new Rect(20, 130, 60, 20), "Tốc độ:");
-        inputInterval = GUI.TextField(new Rect(90, 130, 100, 20), inputInterval);
+        GUI.Label(new Rect(20, 140, 60, 20), "Tốc độ:");
+        inputInterval = GUI.TextField(new Rect(90, 140, 100, 20), inputInterval);
 
-        // --- NÚT BẤM: Cập nhật ---
-        if (GUI.Button(new Rect(20, 160, 210, 30), "CẬP NHẬT NGAY"))
+        // --- NÚT CẬP NHẬT ---
+        if (GUI.Button(new Rect(20, 170, 220, 35), "CẬP NHẬT NGAY"))
         {
             ApplyChanges();
         }
     }
 
-    // Hàm lưu giá trị từ ô nhập vào ScriptableObject
     void ApplyChanges()
     {
         if (spawner != null && spawner._loadedData != null)
         {
-            // Chuyển đổi text sang số (float)
-            float newHp, newDmg, newSpeed;
+            float parsedVal;
 
-            if (float.TryParse(inputHP, out newHp))
+            // Chỉ cập nhật nếu ô nhập KHÔNG TRỐNG và là SỐ HỢP LỆ
+            if (float.TryParse(inputHP, out parsedVal))
             {
-                spawner._loadedData.hp = newHp;
+                spawner._loadedData.hp = parsedVal;
             }
 
-            if (float.TryParse(inputDamage, out newDmg))
+            if (float.TryParse(inputDamage, out parsedVal))
             {
-                spawner._loadedData.damage = newDmg;
+                spawner._loadedData.damage = parsedVal;
             }
             
-            // Cập nhật tốc độ spawn trực tiếp vào biến của spawner
-            if (float.TryParse(inputInterval, out newSpeed))
+            if (float.TryParse(inputInterval, out parsedVal))
             {
-                spawner.spawnInterval = newSpeed;
+                spawner.spawnInterval = parsedVal;
             }
 
-            Debug.Log($"Đã cập nhật: HP={newHp}, DMG={newDmg}, Speed={newSpeed}");
+            // --- BÍ KÍP: ÉP UNITY INSPECTOR CẬP NHẬT GIAO DIỆN ---
+            #if UNITY_EDITOR
+            EditorUtility.SetDirty(spawner._loadedData); // Đánh dấu file đã thay đổi
+            #endif
+
+            Debug.Log($"<color=cyan>Đã lưu vào Data:</color> HP={spawner._loadedData.hp} | DMG={spawner._loadedData.damage}");
         }
     }
 
-    // Hàm lấy giá trị hiện tại điền vào ô nhập
+    // Hàm lấy lại số liệu từ data điền vào ô nhập
     void RefreshUI()
     {
-        inputHP = spawner._loadedData.hp.ToString();
-        inputDamage = spawner._loadedData.damage.ToString();
-        inputInterval = spawner.spawnInterval.ToString();
+        if (spawner._loadedData != null)
+        {
+            inputHP = spawner._loadedData.hp.ToString();
+            inputDamage = spawner._loadedData.damage.ToString();
+            inputInterval = spawner.spawnInterval.ToString();
+        }
     }
 }

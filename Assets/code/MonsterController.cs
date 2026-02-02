@@ -8,13 +8,19 @@ public class MonsterController : MonoBehaviour
     public float currentHp;
     public float damage;
 
+    // Hàm này được gọi bởi Spawner
     public void SetupMonster(MonsterData data)
     {
+        // 1. Copy dữ liệu mới
         this.monsterName = data.monsterName;
         this.maxHp = data.hp;
-        this.currentHp = data.hp; 
+        this.currentHp = data.hp; // Reset máu về đầy
         this.damage = data.damage;
 
-        // this.gameObject.name = $"{monsterName}_{GetInstanceID()}";
+        // 2. Cập nhật tên trong Hierarchy để dễ tìm
+        this.gameObject.name = $"{monsterName}_HP{maxHp}_{GetInstanceID()}";
+
+        // 3. LOG KIỂM TRA (Dòng này sẽ hiện trong Console khi quái đẻ ra)
+        Debug.Log($"<color=green>[Quái Spawn]</color> Tên: {monsterName} | Nhận Máu Mới: {this.maxHp}");
     }
 }
