@@ -5,21 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
+  - enabled: 1
+    path: "Assets/Ti\u1EBFn/Scenes/Menu.unity"
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 8fc8198ee6231674db31921df54872a1
-  - enabled: 1
-    path: Assets/Scenes/SelectMap.unity
-    guid: b05761a6da1d15b4a8881d17ac37444e
-  - enabled: 1
-    path: Assets/Scenes/LapRacing.unity
-    guid: 6a6a3d07277d78844a730cc4a17170c3
-  - enabled: 1
-    path: Assets/Scenes/MapRacing1.unity
-    guid: caf678721b4497242a784fc05f9197c4
+    path: "Assets/Ti\u1EBFn/Scenes/Game.unity"
+    guid: 6c5ce534ed53c74428892771f3a029c9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
