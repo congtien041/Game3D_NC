@@ -7,6 +7,7 @@ public class GlobalAudio : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource nitroSource;
 
     [Header("Music")]
     public AudioClip backgroundMusic;
@@ -15,6 +16,7 @@ public class GlobalAudio : MonoBehaviour
     public AudioSource engineSource;
     public AudioClip acceleration;
     public AudioClip reverseSound;
+    public AudioClip nitroBoost;
 
     public AudioClip brakeLoop;     
     public AudioClip ignition;
@@ -46,9 +48,7 @@ public class GlobalAudio : MonoBehaviour
 
     public void StartEngineSound()
     {
-        if (engineSource.isPlaying && engineSource.clip == acceleration)
-            return;
-
+        if (engineSource.isPlaying) return;
         engineSource.clip = acceleration;
         engineSource.loop = true;
         engineSource.Play();
@@ -60,7 +60,18 @@ public class GlobalAudio : MonoBehaviour
             engineSource.Stop();
     }
 
-   
+   public void PlayNitroSound(bool play)
+    {
+        if (play) {
+            if (!nitroSource.isPlaying) {
+                nitroSource.clip = nitroBoost;
+                nitroSource.loop = true;
+                nitroSource.Play();
+            }
+        } else {
+            nitroSource.Stop();
+        }
+    }
 
     public void StartReverseSound()
     {
@@ -90,11 +101,7 @@ public class GlobalAudio : MonoBehaviour
         engineSource.Play();
     }
 
-    public void StopBrakeLoop()
-    {
-        if (engineSource.isPlaying && engineSource.clip == brakeLoop)
-            engineSource.Stop();
-    }
+    public void StopBrakeLoop() { if (sfxSource.clip == brakeLoop) sfxSource.Stop(); }
 
     
 
@@ -107,9 +114,5 @@ public class GlobalAudio : MonoBehaviour
         musicSource.Play();
     }
 
-    public void PlaySFX(AudioClip clip)
-    {
-        if (clip == null) return;
-        sfxSource.PlayOneShot(clip);
-    }
+    public void PlaySFX(AudioClip clip) { if (clip != null) sfxSource.PlayOneShot(clip); }
 }

@@ -119,63 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &173322371
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3504381755402720900, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
 --- !u!1 &1245254927
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,11 +477,427 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7896996236134145611, guid: 6ed5770642e80e848b5f8ec1bd7c13b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ed5770642e80e848b5f8ec1bd7c13b4, type: 3}
+--- !u!198 &1864285328 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3848693995442819114, guid: 6ed5770642e80e848b5f8ec1bd7c13b4, type: 3}
+  m_PrefabInstance: {fileID: 1864285327}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1864285329 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8417840022542232083, guid: 6ed5770642e80e848b5f8ec1bd7c13b4, type: 3}
+  m_PrefabInstance: {fileID: 1864285327}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &172622350169074294 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 1132421965120197593, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &204535493250975399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2554332824996988462, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &734168781771114374
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 974930837327080618, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_Name
+      value: "\u0111\u1ECF"
+      objectReference: {fileID: 0}
+    - target: {fileID: 974930837327080618, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2954324909737479678, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: 'tireSmoke.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1864285329}
+    - target: {fileID: 2954324909737479678, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: 'tireSmoke.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1864285328}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+--- !u!1 &3512210391055609533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3825692506758075102, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3577204233782159377
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1542658762589295478, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: 'tireMarks.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8417003567849767062}
+    - target: {fileID: 1542658762589295478, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: 'tireMarks.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5958933799985949395}
+    - target: {fileID: 1542658762589295478, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: 'tireSmoke.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1864285329}
+    - target: {fileID: 1542658762589295478, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: 'tireSmoke.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1864285328}
+    - target: {fileID: 8101388834790085277, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_Name
+      value: 1993 Toyota Supra MK4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7d05b64d02589f745a778849c2885878, type: 3}
+--- !u!1 &3803821674401285273 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6181460885735447630, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &4268765578746300929 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 2660818876829849641, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &4757507257946532295 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 2945253400814475623, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5350405408448483010
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: 'tireMarks.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8417003567849767062}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: 'tireMarks.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5958933799985949395}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: 'tireSmoke.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1864285329}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: 'tireSmoke.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1864285328}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: wheels.Array.data[0].wheelModel
+      value: 
+      objectReference: {fileID: 3803821674401285273}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: wheels.Array.data[1].wheelModel
+      value: 
+      objectReference: {fileID: 204535493250975399}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: wheels.Array.data[2].wheelModel
+      value: 
+      objectReference: {fileID: 3512210391055609533}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: wheels.Array.data[3].wheelModel
+      value: 
+      objectReference: {fileID: 7214867140341027343}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: wheels.Array.data[0].wheelCollider
+      value: 
+      objectReference: {fileID: 6606190058660371636}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: wheels.Array.data[1].wheelCollider
+      value: 
+      objectReference: {fileID: 172622350169074294}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: wheels.Array.data[2].wheelCollider
+      value: 
+      objectReference: {fileID: 4268765578746300929}
+    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: wheels.Array.data[3].wheelCollider
+      value: 
+      objectReference: {fileID: 4757507257946532295}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733668233950053992, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+      propertyPath: m_Name
+      value: 2005 BMW M3 GTR E46 - Empty
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
+--- !u!96 &5958933799985949395 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 6963902353962195571, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &6606190058660371636 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 3644457331089740377, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6676700176320202337
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337561459212041587, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700215570882778397, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_Name
+      value: 2020 Porsche Taycan Turbo S
+      objectReference: {fileID: 0}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: 'tireMarks.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8417003567849767062}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: 'tireMarks.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5958933799985949395}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: 'tireSmoke.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1864285329}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: 'tireSmoke.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1864285328}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: wheels.Array.data[0].wheelModel
+      value: 
+      objectReference: {fileID: 3803821674401285273}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: wheels.Array.data[1].wheelModel
+      value: 
+      objectReference: {fileID: 204535493250975399}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: wheels.Array.data[2].wheelModel
+      value: 
+      objectReference: {fileID: 3512210391055609533}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: wheels.Array.data[3].wheelModel
+      value: 
+      objectReference: {fileID: 7214867140341027343}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: wheels.Array.data[0].wheelCollider
+      value: 
+      objectReference: {fileID: 6606190058660371636}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: wheels.Array.data[1].wheelCollider
+      value: 
+      objectReference: {fileID: 172622350169074294}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: wheels.Array.data[2].wheelCollider
+      value: 
+      objectReference: {fileID: 4268765578746300929}
+    - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: wheels.Array.data[3].wheelCollider
+      value: 
+      objectReference: {fileID: 4757507257946532295}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+--- !u!1 &7214867140341027343 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2332126884820472202, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!96 &8417003567849767062 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 5201039016409042222, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+  m_PrefabInstance: {fileID: 734168781771114374}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -547,4 +906,7 @@ SceneRoots:
   - {fileID: 1402130387}
   - {fileID: 1245254930}
   - {fileID: 1864285327}
-  - {fileID: 173322371}
+  - {fileID: 734168781771114374}
+  - {fileID: 3577204233782159377}
+  - {fileID: 6676700176320202337}
+  - {fileID: 5350405408448483010}
