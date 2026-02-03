@@ -18,7 +18,7 @@ public class UpgradeMenuUI : MonoBehaviour
 
         if (currentLevel >= 5) {
             statsText.text = "CẤP ĐỘ: TỐI ĐA (5)\nĐã mở khóa toàn bộ sức mạnh!";
-            upgradeButton.interactable = false; // Vô hiệu hóa nút khi max cấp
+            upgradeButton.interactable = false; 
         } else {
             statsText.text = "Cấp độ: " + currentLevel + "/5\nTốc độ: +" + (currentLevel * 250) + "\nPhí: $1000";
             upgradeButton.interactable = true;
@@ -27,7 +27,9 @@ public class UpgradeMenuUI : MonoBehaviour
 
     public void OnUpgradeClick() {
         carSelection.UpgradeEngine();
-        GlobalAudio.Instance.PlaySFX(GlobalAudio.Instance.buttonClick);
+        // Fix lỗi gọi buttonClick
+        if (GlobalAudio.Instance != null)
+            GlobalAudio.Instance.PlaySFX(GlobalAudio.Instance.buttonClick);
     }
 
     public void OnHackMoney() {
