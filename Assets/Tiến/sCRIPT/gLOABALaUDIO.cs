@@ -3,116 +3,54 @@ using UnityEngine;
 public class GlobalAudio : MonoBehaviour
 {
     public static GlobalAudio Instance;
-
     [Header("Audio Sources")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
     public AudioSource nitroSource;
-
-    [Header("Music")]
-    public AudioClip backgroundMusic;
-
-    [Header("Car Sounds")]
     public AudioSource engineSource;
+
+    [Header("Clips")]
+    public AudioClip backgroundMusic;
     public AudioClip acceleration;
-    public AudioClip reverseSound;
     public AudioClip nitroBoost;
-
-    public AudioClip brakeLoop;     
+    public AudioClip brakeLoop;
+    public AudioClip buttonClick; // THÊM LẠI BIẾN NÀY ĐỂ FIX LỖI UPGRADEMENUUI
     public AudioClip ignition;
-    public AudioClip braking;       
 
-    [Header("UI")]
-    public AudioClip buttonClick;
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+    void Awake() {
+        if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
+        else Destroy(gameObject);
     }
 
-    void Start()
-    {
-        Debug.Log("GlobalAudio Start() is RUNNING!");
-        PlayMusic(backgroundMusic);
+    void Start() { PlayMusic(backgroundMusic); }
+
+    public void StartEngineSound() {
+        if (engineSource == null || engineSource.isPlaying) return;
+        engineSource.clip = acceleration; engineSource.loop = true; engineSource.Play();
     }
 
-    
-
-    public void StartEngineSound()
-    {
-        if (engineSource.isPlaying) return;
-        engineSource.clip = acceleration;
-        engineSource.loop = true;
-        engineSource.Play();
-    }
-
-    public void StopEngineSound()
-    {
-        if (engineSource.isPlaying && engineSource.clip == acceleration)
-            engineSource.Stop();
-    }
-
-   public void PlayNitroSound(bool play)
-    {
+    public void PlayNitroSound(bool play) {
+        if (nitroSource == null) return;
         if (play) {
-            if (!nitroSource.isPlaying) {
-                nitroSource.clip = nitroBoost;
-                nitroSource.loop = true;
-                nitroSource.Play();
-            }
-        } else {
-            nitroSource.Stop();
-        }
+            if (!nitroSource.isPlaying) { nitroSource.clip = nitroBoost; nitroSource.loop = true; nitroSource.Play(); }
+        } else nitroSource.Stop();
     }
 
-    public void StartReverseSound()
-    {
-        if (engineSource.isPlaying && engineSource.clip == reverseSound)
-            return;
-
-        engineSource.clip = reverseSound;
-        engineSource.loop = true;
-        engineSource.Play();
+    public void StartBrakeLoop() {
+        if (sfxSource == null || (sfxSource.clip == brakeLoop && sfxSource.isPlaying)) return;
+        sfxSource.clip = brakeLoop; sfxSource.loop = true; sfxSource.Play();
     }
 
-    public void StopReverseSound()
-    {
-        if (engineSource.isPlaying && engineSource.clip == reverseSound)
-            engineSource.Stop();
+    public void StopBrakeLoop() { 
+        if (sfxSource != null && sfxSource.clip == brakeLoop) sfxSource.Stop(); 
     }
 
-   
-
-    public void StartBrakeLoop()
-    {
-        if (engineSource.isPlaying && engineSource.clip == brakeLoop)
-            return;  // already playing brake loop
-
-        engineSource.clip = brakeLoop;
-        engineSource.loop = true;
-        engineSource.Play();
+    public void PlayMusic(AudioClip clip) {
+        if (musicSource == null || clip == null) return;
+        musicSource.loop = true; musicSource.clip = clip; musicSource.Play();
     }
 
-    public void StopBrakeLoop() { if (sfxSource.clip == brakeLoop) sfxSource.Stop(); }
-
-    
-
-    public void PlayMusic(AudioClip clip)
-    {
-        if (clip == null) return;
-
-        musicSource.loop = true;
-        musicSource.clip = clip;
-        musicSource.Play();
+    public void PlaySFX(AudioClip clip) { 
+        if (sfxSource != null && clip != null) sfxSource.PlayOneShot(clip); 
     }
-
-    public void PlaySFX(AudioClip clip) { if (clip != null) sfxSource.PlayOneShot(clip); }
 }
