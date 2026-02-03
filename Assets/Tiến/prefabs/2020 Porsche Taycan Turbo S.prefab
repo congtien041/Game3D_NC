@@ -3373,6 +3373,7 @@ MonoBehaviour:
   nitroCharge: 100
   maxNitro: 100
   nitroFire: {fileID: 0}
+  isItemBoostActive: 0
   isDrifting: 0
 --- !u!1 &6068408656579203949
 GameObject:
@@ -3807,7 +3808,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bf9016be9dbcb274aaa831ae07b99d1d, type: 2}
+  - {fileID: 2100000, guid: 580069c847bda3744a3095631038951f, type: 2}
   - {fileID: 2100000, guid: e1478cac08512504d89c07cb547adb41, type: 2}
   - {fileID: 2100000, guid: 182c3dab26c06b24a940e13e4ce351ce, type: 2}
   m_StaticBatchInfo:
@@ -4422,7 +4423,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bf9016be9dbcb274aaa831ae07b99d1d, type: 2}
+  - {fileID: 2100000, guid: 580069c847bda3744a3095631038951f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

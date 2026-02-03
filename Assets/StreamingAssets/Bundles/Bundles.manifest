@@ -1,9 +1,12 @@
 ManifestFileVersion: 0
 UnityVersion: 6000.0.26f1
-CRC: 153722090
+CRC: 3084589154
 HashAppended: 0
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: yellow
+      Dependencies: {}
+    Info_1:
+      Name: bmw_green
       Dependencies: {}

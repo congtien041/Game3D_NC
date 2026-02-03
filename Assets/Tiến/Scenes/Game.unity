@@ -612,8 +612,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boostDuration: 5
-  respawnTime: 10
   itemModel: {fileID: 881436264}
+  respawnTime: 10
 --- !u!65 &881436266
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -774,6 +774,7 @@ MonoBehaviour:
   - {fileID: 9108196023673849763, guid: d00d8322fa32f5b4285c2749b83d505a, type: 3}
   - {fileID: 4326294514583874037, guid: 9fde5fd82ed2aa1448ee70f81dc25e05, type: 3}
   - {fileID: 3766087048271578186, guid: 0b4ccee369499db41aed34be0850ab4e, type: 3}
+  - {fileID: 974930837327080618, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
   spawnPoint: {fileID: 280830790}
 --- !u!4 &994713531
 Transform:
@@ -1874,12 +1875,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1921586792838354548}
   sfxSource: {fileID: 6677378969002160244}
-  nitroSource: {fileID: 0}
+  nitroSource: {fileID: 6677378969002160244}
   backgroundMusic: {fileID: 0}
   engineSource: {fileID: 5404409726231821242}
   acceleration: {fileID: 8300000, guid: 6317ba339b5073e4f9e5f77f4b6f6ca2, type: 3}
   reverseSound: {fileID: 8300000, guid: 6317ba339b5073e4f9e5f77f4b6f6ca2, type: 3}
-  nitroBoost: {fileID: 0}
+  nitroBoost: {fileID: 8300000, guid: ec5aef8b4d07c134cb7c40cd21001d2a, type: 3}
   brakeLoop: {fileID: 0}
   ignition: {fileID: 8300000, guid: 4450edea1c853be409ff435e9217794d, type: 3}
   braking: {fileID: 8300000, guid: 6a539b2077e5017458d0b17bc2605f5c, type: 3}
