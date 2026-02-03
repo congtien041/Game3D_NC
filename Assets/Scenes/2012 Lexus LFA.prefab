@@ -1994,7 +1994,7 @@ GameObject:
   - component: {fileID: 6603199843453189058}
   - component: {fileID: 1183952496621324008}
   - component: {fileID: 1825624447412530176}
-  m_Layer: 11
+  m_Layer: 6
   m_Name: ArrowWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
