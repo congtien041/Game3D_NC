@@ -1,9 +1,12 @@
 ManifestFileVersion: 0
 UnityVersion: 6000.0.26f1
-CRC: 153722090
+CRC: 1560500375
 HashAppended: 0
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: yellow
+      Dependencies: {}
+    Info_1:
+      Name: toyota_red
       Dependencies: {}

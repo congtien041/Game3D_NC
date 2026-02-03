@@ -1,132 +1,155 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 public class CarShopController : MonoBehaviour
 {
-    [Header("Cấu hình Mặc định")]
-    public string defaultBundleName = "cars_bundle"; 
-    public string defaultCarName = "Enemy";       
+    // --- PHẦN ĐỊNH NGHĨA DỮ LIỆU ---
 
-    [Header("Cấu hình Tô màu")]
-    public string paintMaterialKeyword = "Body"; 
-
-    private AssetBundle loadedBundle;
-    private GameObject currentCarInstance;
-    private string currentBundleName; 
-    IEnumerator Start()
+    [System.Serializable]
+    public class CarColorInfo
     {
-        yield return LoadBundleProcess(defaultBundleName, defaultCarName);
+        public string colorName;      
+        public string bundleName;     
+        public string prefabName;     
     }
 
-    public void SwitchBundle(string newBundleName, string carToSpawn)
+    [System.Serializable]
+    public class CarProfile
     {
-        // Nếu đang dùng đúng bundle đó rồi thì không load lại, chỉ spawn lại xe
-        if (currentBundleName == newBundleName && loadedBundle != null)
+        public string carID;          
+        public List<CarColorInfo> colors = new List<CarColorInfo>(); 
+    }
+
+    // --- PHẦN CẤU HÌNH & QUẢN LÝ ---
+
+    [Header("Cấu hình Shop")]
+    public Transform spawnPoint;      
+    
+    [Header("Dữ liệu Xe & Bundle")]
+    public List<CarProfile> carDatabase = new List<CarProfile>();
+
+    // --- BIẾN NỘI BỘ ---
+    private AssetBundle currentLoadedBundle;
+    private string currentBundleName = "";
+    private GameObject currentCarInstance;
+    private int currentCarIndex = 0; 
+
+    void Awake()
+    {
+        LoadCar(1, 1);
+    }
+    private void Start()
+    {
+        if (carDatabase.Count > 0 && carDatabase[0].colors.Count > 0)
         {
-            SpawnCar(carToSpawn);
-            return;
+            LoadCar(0, 0);
+        }
+    }
+
+    // --- CÁC HÀM UI ---
+    public void SelectCarType(int carIndex)
+    {
+        if (carIndex < 0 || carIndex >= carDatabase.Count) return;
+        currentCarIndex = carIndex;
+        LoadCar(currentCarIndex, 0); 
+    }
+
+    public void SelectColor(int colorIndex)
+    {
+        LoadCar(currentCarIndex, colorIndex);
+    }
+
+    // --- XỬ LÝ LOGIC ---
+
+    public void LoadCar(int carIndex, int colorIndex)
+    {
+        if (carIndex >= carDatabase.Count) return;
+        var selectedCar = carDatabase[carIndex];
+
+        if (colorIndex >= selectedCar.colors.Count) return;
+        var selectedColor = selectedCar.colors[colorIndex];
+
+        StartCoroutine(ProcessLoadBundle(selectedColor));
+    }
+
+    IEnumerator ProcessLoadBundle(CarColorInfo info)
+    {
+        // 1. Load Bundle (Giữ nguyên logic cũ)
+        if (currentBundleName != info.bundleName)
+        {
+            if (currentLoadedBundle != null)
+            {
+                currentLoadedBundle.Unload(true);
+                currentLoadedBundle = null;
+                currentCarInstance = null;
+            }
+
+            string path = Path.Combine(Application.streamingAssetsPath, "Bundles", info.bundleName);
+            var request = AssetBundle.LoadFromFileAsync(path);
+            yield return request;
+
+            currentLoadedBundle = request.assetBundle;
+            if (currentLoadedBundle == null)
+            {
+                Debug.LogError("Lỗi: Không tìm thấy Bundle tại " + path);
+                currentBundleName = ""; 
+                yield break;
+            }
+            currentBundleName = info.bundleName;
         }
 
-        StartCoroutine(LoadBundleProcess(newBundleName, carToSpawn));
-    }
-
-    IEnumerator LoadBundleProcess(string newBundleName, string carToSpawn)
-    {
-        if (loadedBundle != null)
+        // 2. Spawn Xe và Xử lý lỗi
+        if (currentLoadedBundle != null)
         {
             if (currentCarInstance != null) Destroy(currentCarInstance);
-            
-            loadedBundle.Unload(true);
-            loadedBundle = null;
-            
-            yield return null; 
-        }
+            foreach (Transform child in spawnPoint) Destroy(child.gameObject);
 
-        string path = Path.Combine(Application.streamingAssetsPath, "Bundles", newBundleName);
-        Debug.Log("Đang tải Bundle: " + newBundleName);
-
-        var bundleLoadRequest = AssetBundle.LoadFromFileAsync(path);
-        yield return bundleLoadRequest;
-
-        loadedBundle = bundleLoadRequest.assetBundle;
-
-        if (loadedBundle == null)
-        {
-            Debug.LogError("Lỗi: Không tìm thấy Bundle tại: " + path);
-            currentBundleName = ""; 
-            yield break;
-        }
-
-        currentBundleName = newBundleName;
-
-        SpawnCar(carToSpawn);
-    }
-
-
-    public void LoadBundleA()
-    {
-        SwitchBundle("cars_bundle", "Enemy"); 
-    }
-
-    public void LoadBundleB()
-    {
-        SwitchBundle("yellow", "Enemy");
-    }
-
-    public void SpawnCar(string prefabName)
-    {
-        if (loadedBundle == null) return;
-
-        GameObject sourcePrefab = loadedBundle.LoadAsset<GameObject>(prefabName);
-        if (sourcePrefab == null)
-        {
-            Debug.LogError("Không tìm thấy xe: " + prefabName + " trong Bundle " + currentBundleName);
-            return;
-        }
-
-        if (transform.childCount > 0)
-        {
-            GameObject currentChild = transform.GetChild(0).gameObject;
-            string currentName = currentChild.name.Replace("(Clone)", "").Trim();
-
-            if (currentName == prefabName)
+            GameObject prefab = currentLoadedBundle.LoadAsset<GameObject>(info.prefabName);
+            if (prefab != null)
             {
-                currentChild.transform.localPosition = Vector3.zero;
-                currentChild.transform.localRotation = Quaternion.identity;
-                currentChild.transform.localScale = Vector3.one;
-                ResetMaterialsToDefault(currentChild, sourcePrefab);
-                currentCarInstance = currentChild;
-                return;
+                currentCarInstance = Instantiate(prefab, spawnPoint);
+                
+                // --- CẬP NHẬT MỚI: Reset vị trí chuẩn ---
+                currentCarInstance.transform.localPosition = Vector3.zero; // Về đúng tâm 0,0,0
+                currentCarInstance.transform.localRotation = Quaternion.identity;
+                currentCarInstance.transform.localScale = Vector3.one;
+
+                // --- CẬP NHẬT MỚI: Tắt Vật lý & Script ---
+                CleanupCarForShop(currentCarInstance);
             }
-            Destroy(currentChild);
-        }
-
-        currentCarInstance = Instantiate(sourcePrefab, transform);
-        currentCarInstance.transform.localPosition = Vector3.zero;
-        currentCarInstance.transform.localRotation = Quaternion.identity;
-    }
-
-    void ResetMaterialsToDefault(GameObject currentObj, GameObject sourcePrefab)
-    {
-        Renderer[] currentRenderers = currentObj.GetComponentsInChildren<Renderer>();
-        Renderer[] sourceRenderers = sourcePrefab.GetComponentsInChildren<Renderer>();
-
-        foreach (var curRend in currentRenderers)
-        {
-            foreach (var srcRend in sourceRenderers)
+            else
             {
-                if (curRend.name == srcRend.name)
-                {
-                    curRend.sharedMaterials = srcRend.sharedMaterials;
-                    break;
-                }
+                Debug.LogError($"Không tìm thấy Prefab '{info.prefabName}' trong Bundle");
             }
         }
     }
 
-    void OnDestroy()
+    // Hàm phụ trợ: Tắt hết chức năng thừa để xe chỉ đứng yên làm cảnh
+    void CleanupCarForShop(GameObject carObj)
     {
-        if (loadedBundle != null) loadedBundle.Unload(true);
+        // 1. Tắt Vật Lý (Rigidbody) để xe không bị rơi tự do
+        Rigidbody rb = carObj.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true; // Đóng băng vật lý
+            rb.useGravity = false; // Tắt trọng lực
+        }
+
+        // 2. Tắt các Script điều khiển (CarController, Audio, AI...)
+        // Lấy tất cả các script MonoBehaviour có trên xe (bao gồm cả con của nó)
+        MonoBehaviour[] scripts = carObj.GetComponentsInChildren<MonoBehaviour>();
+        
+        foreach (var script in scripts)
+        {
+            // Tránh tắt chính script này nếu lỡ gắn nhầm, hoặc các script hệ thống quan trọng (tùy chỉnh)
+            // Ở đây ta tắt tất cả để an toàn nhất
+            script.enabled = false;
+        }
+
+        // Lưu ý: Collider (va chạm) vẫn giữ nguyên để bạn có thể xoay xe bằng chuột nếu muốn sau này.
+        // Nếu muốn tắt luôn va chạm thì dùng:
+        // foreach(var col in carObj.GetComponentsInChildren<Collider>()) col.enabled = false;
     }
 }
