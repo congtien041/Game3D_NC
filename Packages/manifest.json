@@ -1,16 +1,35 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "com.unity.ai.navigation": "2.0.5",
+=======
+    "com.unity.2d.sprite": "1.0.0",
+    "com.unity.ai.navigation": "2.0.5",
+    "com.unity.cinemachine": "3.1.5",
+>>>>>>> origin/Duy_Asm2
     "com.unity.collab-proxy": "2.10.2",
+    "com.unity.entities": "1.4.3",
     "com.unity.ide.rider": "3.0.31",
     "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.inputsystem": "1.11.2",
     "com.unity.multiplayer.center": "1.0.0",
+<<<<<<< HEAD
+=======
+    "com.unity.postprocessing": "3.5.0",
+    "com.unity.probuilder": "6.0.8",
+>>>>>>> origin/Duy_Asm2
     "com.unity.render-pipelines.universal": "17.0.3",
     "com.unity.test-framework": "1.4.5",
     "com.unity.timeline": "1.8.7",
     "com.unity.ugui": "2.0.0",
+<<<<<<< HEAD
     "com.unity.visualscripting": "1.9.5",
+=======
+    "com.unity.visualscripting": "1.9.4",
+    "dev.bxbstudio.inputs-manager": "file:D:\\Game3D_NC\\Assets\\BxB Studio\\MVC Installer\\Packages\\dev.bxbstudio.inputs-manager@1.1.16.tgz",
+    "dev.bxbstudio.mvc.community": "file:D:\\Game3D_NC\\Assets\\BxB Studio\\MVC Installer\\Packages\\dev.bxbstudio.mvc.community@1.4.3-beta.tgz",
+    "dev.bxbstudio.utilities": "file:D:\\Game3D_NC\\Assets\\BxB Studio\\MVC Installer\\Packages\\dev.bxbstudio.utilities@1.1.11.tgz",
+>>>>>>> origin/Duy_Asm2
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
