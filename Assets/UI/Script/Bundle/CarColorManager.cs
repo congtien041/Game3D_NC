@@ -48,11 +48,6 @@ public class CarShopController : MonoBehaviour
         }
     }
 
-    // =========================================================
-    // PHẦN 1: CHỌN XE (SELECT CAR)
-    // =========================================================
-
-    // Gán vào các nút chọn xe (Xe A -> 0, Xe B -> 1, ...)
     public void SelectCar(int carIndex)
     {
         // 1. Kiểm tra dữ liệu hợp lệ
@@ -74,45 +69,39 @@ public class CarShopController : MonoBehaviour
 
         // 5. Tiến hành load
         LoadCarByBundle(currentCarIndex, currentColorIndex);
+
+        PlayerPrefs.SetInt("SavedCarID", currentCarIndex);
+        PlayerPrefs.SetInt("SavedColorID", currentColorIndex);
+        PlayerPrefs.Save();
     }
-
-    // =========================================================
-    // PHẦN 2: CHỌN MÀU (SELECT COLOR)
-    // =========================================================
-
-    // Gán vào các nút màu (Đỏ -> 0, Xanh -> 1, ...)
     public void SelectColor(int colorIndex)
     {
         if (carDatabase.Count == 0) return;
 
         var currentCar = carDatabase[currentCarIndex];
 
-        // 1. Kiểm tra xem xe hiện tại có màu này không
         if (colorIndex < 0 || colorIndex >= currentCar.colorBundles.Count)
         {
             Debug.LogWarning($"Xe {currentCar.carID} không có màu số {colorIndex}");
             return;
         }
 
-        // 2. Nếu chọn lại đúng màu đang hiện thì thôi
         if (colorIndex == currentColorIndex && currentCarInstance != null) return;
 
-        // 3. Cập nhật Index màu
         currentColorIndex = colorIndex;
 
-        // 4. Tiến hành load (Giữ nguyên xe, chỉ đổi màu)
         LoadCarByBundle(currentCarIndex, currentColorIndex);
+
+        PlayerPrefs.SetInt("SavedCarID", currentCarIndex);
+        PlayerPrefs.SetInt("SavedColorID", currentColorIndex);
+        PlayerPrefs.Save();
     }
 
-    // =========================================================
-    // PHẦN 3: LOGIC LOAD ASSET BUNDLE (CORE)
-    // =========================================================
 
     private void LoadCarByBundle(int carIndex, int colorIndex)
     {
         var selectedCar = carDatabase[carIndex];
         
-        // Kiểm tra kỹ lại xem xe này có bundle màu không để tránh lỗi
         if (selectedCar.colorBundles.Count == 0)
         {
             Debug.LogError($"Xe {selectedCar.carID} chưa được thiết lập Bundle màu nào!");
@@ -121,7 +110,6 @@ public class CarShopController : MonoBehaviour
 
         var selectedOption = selectedCar.colorBundles[colorIndex];
 
-        // Ngắt quá trình cũ nếu đang chạy dở
         if (currentLoadingProcess != null) StopCoroutine(currentLoadingProcess);
         
         currentLoadingProcess = StartCoroutine(ProcessLoadAndSpawn(selectedOption));
@@ -129,7 +117,6 @@ public class CarShopController : MonoBehaviour
 
     IEnumerator ProcessLoadAndSpawn(ColorOption option)
     {
-        // --- BƯỚC 1: XỬ LÝ BUNDLE ---
         if (currentBundleName != option.bundleName)
         {
             // Unload cái cũ
@@ -155,7 +142,6 @@ public class CarShopController : MonoBehaviour
             currentBundleName = option.bundleName;
         }
 
-        // --- BƯỚC 2: SPAWN PREFAB ---
         if (currentLoadedBundle != null)
         {
             if (currentCarInstance != null) Destroy(currentCarInstance);
@@ -170,10 +156,6 @@ public class CarShopController : MonoBehaviour
                 currentCarInstance = Instantiate(prefab, spawnPoint);
                 SetupCarTransform(currentCarInstance);
                 CleanupCarForShop(currentCarInstance);
-            }
-            else
-            {
-                Debug.LogError($"Không tìm thấy Prefab '{option.prefabName}' trong Bundle");
             }
         }
     }
