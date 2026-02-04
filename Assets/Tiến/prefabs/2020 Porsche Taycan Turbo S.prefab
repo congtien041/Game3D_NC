@@ -3301,6 +3301,7 @@ Transform:
   - {fileID: 3986641245645739389}
   - {fileID: 7688750118390989278}
   - {fileID: 3202952607080895479}
+  - {fileID: 5083686341956351932}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &141055868482660878
@@ -3372,7 +3373,7 @@ MonoBehaviour:
   currentGear: 1
   nitroCharge: 100
   maxNitro: 100
-  nitroFire: {fileID: 0}
+  nitroFire: {fileID: 7953965870323489426}
   isItemBoostActive: 0
   isDrifting: 0
 --- !u!1 &6068408656579203949
@@ -5906,6 +5907,73 @@ ParticleSystem:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4121091811543137509, guid: ddf4ea2625767fd4bb4153e7e4009ad5, type: 3}
   m_PrefabInstance: {fileID: 6481747314770266488}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6836576389611052328
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5337561459212041587}
+    m_Modifications:
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.49999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.49999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.50000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413606195246207528, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_Name
+      value: Magic fire pro red
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+--- !u!4 &5083686341956351932 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+  m_PrefabInstance: {fileID: 6836576389611052328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7953965870323489426 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3495444016078555066, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+  m_PrefabInstance: {fileID: 6836576389611052328}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7132554110476021426
 PrefabInstance:

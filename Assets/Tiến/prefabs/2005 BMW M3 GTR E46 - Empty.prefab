@@ -10652,6 +10652,7 @@ Transform:
   - {fileID: 3863186603287773035}
   - {fileID: 5629122358018274674}
   - {fileID: 7146765394645359836}
+  - {fileID: 1331050389136320694}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &4966217355542575404
@@ -10723,7 +10724,7 @@ MonoBehaviour:
   currentGear: 1
   nitroCharge: 100
   maxNitro: 100
-  nitroFire: {fileID: 0}
+  nitroFire: {fileID: 4221596184050648472}
   isItemBoostActive: 0
   isDrifting: 0
 --- !u!1 &5784034467697939585
@@ -15462,6 +15463,85 @@ Transform:
   - {fileID: 7854222602229778858}
   m_Father: {fileID: 6983530758763615144}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &726294005794161186
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2426222677309109954}
+    m_Modifications:
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.49999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.49999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.50000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495444016078555066, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.47450984
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495444016078555066, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.4755779
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495444016078555066, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413606195246207528, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+      propertyPath: m_Name
+      value: Magic fire pro red
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+--- !u!4 &1331050389136320694 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1759930856304470676, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+  m_PrefabInstance: {fileID: 726294005794161186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4221596184050648472 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3495444016078555066, guid: faaf3c2f0679c924d8f9e5040b0b521b, type: 3}
+  m_PrefabInstance: {fileID: 726294005794161186}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1816133822387127755
 PrefabInstance:
   m_ObjectHideFlags: 0
