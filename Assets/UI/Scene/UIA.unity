@@ -4611,6 +4611,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &943905910 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1798005493263320227, guid: b1483aa34bb34bf4eaa9fac168e17c71, type: 3}
+  m_PrefabInstance: {fileID: 7961993324601001927}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1046677431 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1474615624420342167, guid: 1abdbd33170980f4382d78c6c2887846, type: 3}
+  m_PrefabInstance: {fileID: 1640343818651117271}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1162845960
 GameObject:
   m_ObjectHideFlags: 0
@@ -5063,6 +5085,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1376418057}
+  - component: {fileID: 1376418058}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -5085,6 +5108,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1376418058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376418056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c782488b2aba934c908a47a3b79d5df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  txtMoney: {fileID: 943905910}
+  btnPlay: {fileID: 1342335014}
+  btnAction: {fileID: 1999235905}
+  txtAction: {fileID: 1046677431}
+  cars:
+  - carName: Toyota
+    carID: 1
+    price: 0
+    isFree: 1
+    selectButton: {fileID: 862712207}
+  - carName: bwm
+    carID: 2
+    price: 1000
+    isFree: 0
+    selectButton: {fileID: 929186349}
+  - carName: porsche
+    carID: 3
+    price: 200
+    isFree: 0
+    selectButton: {fileID: 517051262}
 --- !u!1 &1461428276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3280519133430969738, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
@@ -5841,6 +5896,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996658172}
   m_CullTransparentMesh: 1
+--- !u!114 &1999235905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2699619167218607223, guid: 1abdbd33170980f4382d78c6c2887846, type: 3}
+  m_PrefabInstance: {fileID: 1640343818651117271}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2006770469
 GameObject:
   m_ObjectHideFlags: 0
