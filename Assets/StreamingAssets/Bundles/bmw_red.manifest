@@ -1,0 +1,55 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.26f1
+CRC: 688206775
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9b3bd601b87707eb1cb7858e2ffe8aba
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e380dde6607f6a8651995fc8196cec1f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: a76ba07e386f838a3aa6a2a8a403db6c
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: cbeadaa1d1ee52b40892c0a7ee236aa5, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 134
+  Script: {instanceID: 0}
+- Class: 146
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: .CarController/Wheel
+Assets:
+- "Assets/Ti\u1EBFn/prefabs/2005 BMW M3 GTR E46 - Empty.prefab"
+Dependencies: []

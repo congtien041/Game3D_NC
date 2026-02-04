@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: "Assets/Ti\u1EBFn/Scenes/Menu.unity"
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/UI/Scene/UIA.unity
+    guid: dfd38a2cded5fa548bf83249c81183de
   - enabled: 1
-    path: "Assets/Ti\u1EBFn/Scenes/Game.unity"
-    guid: 6c5ce534ed53c74428892771f3a029c9
+    path: Assets/Scenes/LapRacing 1.unity
+    guid: d22d54e4863404a76a527008fa92b9dc
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

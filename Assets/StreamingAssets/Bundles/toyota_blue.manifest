@@ -1,0 +1,67 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.26f1
+CRC: 2492513631
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ac2ed9651235131dd54ad476f11ed2a6
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c1b912f8f7095f80b98798821532f04a
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: ebc3011a5bdcf186f6ae55b0ff007361
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: cbeadaa1d1ee52b40892c0a7ee236aa5, type: 3}
+- Class: 114
+  Script: {fileID: 413881835, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: 881450874, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1073286560, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1111805404, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 134
+  Script: {instanceID: 0}
+- Class: 146
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: .CarController/Wheel
+- AssemblyName: MVC
+  ClassName: MVC.VFX.VehicleWheelSpin/SpinMaterialModule
+Assets:
+- "Assets/Ti\u1EBFn/prefabs/1993 Toyota Supra MK4.prefab"
+Dependencies: []
