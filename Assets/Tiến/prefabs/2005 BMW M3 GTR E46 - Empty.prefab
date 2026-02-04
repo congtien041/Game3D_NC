@@ -10710,7 +10710,7 @@ MonoBehaviour:
   - {fileID: 203200196688519826}
   - {fileID: 6015698920506791968}
   tireSmoke:
-  - {fileID: 6719293525392870886}
+  - {fileID: 2515906816148040505}
   - {fileID: 6719293525392870886}
   baseMaxSpeed: 90
   baseAcceleration: 1500
@@ -15601,6 +15601,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddf4ea2625767fd4bb4153e7e4009ad5, type: 3}
+--- !u!198 &2515906816148040505 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4121091811527957601, guid: ddf4ea2625767fd4bb4153e7e4009ad5, type: 3}
+  m_PrefabInstance: {fileID: 2007273652103018328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2515906816162220989 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4121091811543137509, guid: ddf4ea2625767fd4bb4153e7e4009ad5, type: 3}
