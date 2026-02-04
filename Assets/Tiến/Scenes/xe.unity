@@ -598,6 +598,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u0111\u1ECF"
       objectReference: {fileID: 0}
+    - target: {fileID: 974930837327080618, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6311998703572880930, guid: 7d62a8b347c9cfa44bbdc3dbf5155cd4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -24962,29 +24966,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1542658762589295478, guid: 7d05b64d02589f745a778849c2885878, type: 3}
-      propertyPath: 'tireMarks.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8417003567849767062}
-    - target: {fileID: 1542658762589295478, guid: 7d05b64d02589f745a778849c2885878, type: 3}
-      propertyPath: 'tireMarks.Array.data[1]'
-      value: 
-      objectReference: {fileID: 5958933799985949395}
-    - target: {fileID: 1542658762589295478, guid: 7d05b64d02589f745a778849c2885878, type: 3}
-      propertyPath: 'tireSmoke.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1864285329}
-    - target: {fileID: 1542658762589295478, guid: 7d05b64d02589f745a778849c2885878, type: 3}
-      propertyPath: 'tireSmoke.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1864285328}
     - target: {fileID: 8101388834790085277, guid: 7d05b64d02589f745a778849c2885878, type: 3}
       propertyPath: m_Name
       value: 1993 Toyota Supra MK4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8101388834790085277, guid: 7d05b64d02589f745a778849c2885878, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8289931633569850870, guid: 7d05b64d02589f745a778849c2885878, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25054,54 +25038,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: 'tireMarks.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8417003567849767062}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: 'tireMarks.Array.data[1]'
-      value: 
-      objectReference: {fileID: 5958933799985949395}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: 'tireSmoke.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1864285329}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: 'tireSmoke.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1864285328}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: wheels.Array.data[0].wheelModel
-      value: 
-      objectReference: {fileID: 3803821674401285273}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: wheels.Array.data[1].wheelModel
-      value: 
-      objectReference: {fileID: 204535493250975399}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: wheels.Array.data[2].wheelModel
-      value: 
-      objectReference: {fileID: 3512210391055609533}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: wheels.Array.data[3].wheelModel
-      value: 
-      objectReference: {fileID: 7214867140341027343}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: wheels.Array.data[0].wheelCollider
-      value: 
-      objectReference: {fileID: 6606190058660371636}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: wheels.Array.data[1].wheelCollider
-      value: 
-      objectReference: {fileID: 172622350169074294}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: wheels.Array.data[2].wheelCollider
-      value: 
-      objectReference: {fileID: 4268765578746300929}
-    - target: {fileID: 1606815555420786065, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: wheels.Array.data[3].wheelCollider
-      value: 
-      objectReference: {fileID: 4757507257946532295}
     - target: {fileID: 2426222677309109954, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -25145,10 +25081,6 @@ PrefabInstance:
     - target: {fileID: 5733668233950053992, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
       propertyPath: m_Name
       value: 2005 BMW M3 GTR E46 - Empty
-      objectReference: {fileID: 0}
-    - target: {fileID: 5733668233950053992, guid: 2d0c1ded2b002d446b0b798bce08f756, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -25219,6 +25151,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5700215570882778397, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688750118390989278, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8805682135254922927, guid: 04bc19139cbd863498cbd524e21ced46, type: 3}
