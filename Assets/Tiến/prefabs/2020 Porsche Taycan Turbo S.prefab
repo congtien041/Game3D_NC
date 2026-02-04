@@ -3356,8 +3356,8 @@ MonoBehaviour:
     wheelCollider: {fileID: 0}
     axel: 0
   tireMarks:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7723475451292567263}
+  - {fileID: 5116694894033770404}
   tireSmoke:
   - {fileID: 0}
   - {fileID: 0}
@@ -5567,6 +5567,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7344874181333496817, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
   m_PrefabInstance: {fileID: 1063254302592365871}
   m_PrefabAsset: {fileID: 0}
+--- !u!96 &7723475451292567263 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 7344874181333496816, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
+  m_PrefabInstance: {fileID: 1063254302592365871}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2516415715483984980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5648,6 +5653,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
+--- !u!96 &5116694894033770404 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 7344874181333496816, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
+  m_PrefabInstance: {fileID: 2516415715483984980}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5116694894033770405 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7344874181333496817, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}

@@ -10629,7 +10629,7 @@ GameObject:
   - component: {fileID: 1606815555420786065}
   m_Layer: 0
   m_Name: 2005 BMW M3 GTR E46 - Empty
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10707,8 +10707,8 @@ MonoBehaviour:
     wheelCollider: {fileID: 0}
     axel: 0
   tireMarks:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 203200196688519826}
+  - {fileID: 6015698920506791968}
   tireSmoke:
   - {fileID: 0}
   - {fileID: 0}
@@ -15757,6 +15757,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
+--- !u!96 &6015698920506791968 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 7344874181333496816, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
+  m_PrefabInstance: {fileID: 3932260866280401872}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6015698920506791969 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7344874181333496817, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
@@ -16073,6 +16078,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
+--- !u!96 &203200196688519826 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 7344874181333496816, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
+  m_PrefabInstance: {fileID: 7439900025489625442}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &203200196688519827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7344874181333496817, guid: ab4ea67cd9337c341af0bd7182c60f92, type: 3}
