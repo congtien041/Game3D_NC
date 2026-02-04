@@ -2385,6 +2385,69 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29a2224320214ef489d7ecf10d4141dd, type: 3}
+--- !u!1 &232905396 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3504381755402720900, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
+  m_PrefabInstance: {fileID: 351587588}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &232905401 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 925001861829384489, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
+  m_PrefabInstance: {fileID: 351587588}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &232905402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232905396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 0
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 0}
+  mBehaviorSource:
+    behaviorName: Enemy
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(405.0014,230.367859)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-4.998596,120.367859)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-118.4706,158.4636)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"IsBehindPlayer","NodeData":{"Offset":"(-3.85961914,150)"},"ID":3,"Name":"Is
+        Behind Player","Instant":true,"SharedTransformenemy":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":0},"SharedTransformplayer":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":1}},{"Type":"RamPlayer","NodeData":{"Offset":"(-0.06903076,408.1474)"},"ID":4,"Name":"Ram
+        Player","Instant":true,"SharedTransformenemy":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":2},"SharedTransformplayer":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":3},"SharedFloatramSpeed":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatramDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0}},{"Type":"ChasePlayer","NodeData":{"Offset":"(2.6239624,274.844849)"},"ID":5,"Name":"Chase
+        Player","Instant":true,"SharedTransformenemy":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":4},"SharedTransformplayer":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":5},"SharedFloatmoveSpeed":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatturnSpeed":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(75.63428,749.7061)"},"ID":6,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"DriveToNextWaypoint","NodeData":{"Offset":"(-4.407654,390.448975)"},"ID":7,"Name":"Drive
+        To Next Waypoint","Instant":true,"SharedTransformenemy":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedTransformListwaypoints":{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":null,"List`1mValue":[]},"SharedIntcurrentIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedFloatspeed":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatturnSpeed":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatreachDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0}},{"Type":"BoostSpeed","NodeData":{"Offset":"(2.28076172,253.07019)"},"ID":8,"Name":"Boost
+        Speed","Instant":true,"SharedTransformenemy":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null,"TransformmValue":6},"SharedFloatboostSpeed":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0}},{"Type":"IsAheadPlayer","NodeData":{"Offset":"(3.972618,135.444565)"},"ID":9,"Name":"Is
+        Ahead Player","Instant":true,"SharedTransformenemy":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"SharedTransformplayer":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}}]}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects:
+        - {fileID: 232905401}
+        - {fileID: 545049986}
+        - {fileID: 232905401}
+        - {fileID: 545049986}
+        - {fileID: 232905401}
+        - {fileID: 545049986}
+        - {fileID: 232905401}
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.9
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &242850157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3329,7 +3392,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3504381755402720900, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 232905402}
   m_SourcePrefab: {fileID: 100100000, guid: 9aec509bbee670749aef2477ece5bc3d, type: 3}
 --- !u!114 &355282362
 MonoBehaviour:
@@ -10225,6 +10291,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 29a2224320214ef489d7ecf10d4141dd, type: 3}
   m_PrefabInstance: {fileID: 1105249842}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &545049986 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3818829741540774067, guid: ba3f6a92dec635942b5d029535080cff, type: 3}
+  m_PrefabInstance: {fileID: 2041124109}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &545786199
 MonoBehaviour:
