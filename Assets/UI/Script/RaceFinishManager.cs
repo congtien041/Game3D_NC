@@ -1,88 +1,115 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Thư viện để chuyển Scene
-using TMPro; // Thư viện TextMeshPro cho UI đẹp (nếu dùng Text thường thì đổi thành UnityEngine.UI)
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class RaceFinishManager : MonoBehaviour
 {
     [Header("Cài đặt chung")]
-    public string menuSceneName = "MainMenu"; // Tên scene Menu để quay về (Public như bạn yêu cầu)
-    
-    [Header("UI Kết quả")]
-    public GameObject resultPanel;      // Panel chứa bảng kết quả (ẩn đi lúc đầu)
-    // public TextMeshProUGUI rankText;    // Text hiển thị hạng (VD: "Hạng: 1")
-    public TextMeshProUGUI timeText;    // Text hiển thị thời gian (VD: "01:23.45")
+    public string menuSceneName = "MainMenu";
 
-    // Biến nội bộ để tính toán
-    private float startTime;
-    private int currentRankPosition = 1; // Bắt đầu là hạng 1
+    [Header("UI Kết quả")]
+    public GameObject resultPanel;
+    public TextMeshProUGUI timeText;
+
+    // Biến logic
+    private bool isRaceStarted = false; 
+    private float raceStartTime;        
     private bool playerFinished = false;
+    
+    // Biến chống lặp (Cooldown)
+    private float lastTriggerTime = -999f;
+    private float triggerCooldown = 3.0f; // 3 giây cooldown
 
     void Start()
     {
-        // Ghi lại thời gian bắt đầu đua
-        startTime = Time.time;
+        Debug.Log("--- Game Bắt Đầu: Script RaceFinishManager đã chạy ---");
         
-        // Ẩn bảng kết quả khi bắt đầu game
         if (resultPanel != null)
             resultPanel.SetActive(false);
+        else
+            Debug.LogWarning("CHÚ Ý: Chưa gắn Result Panel vào Script!");
+
+        isRaceStarted = false;
     }
 
-    // Hàm này chạy khi có vật thể đi qua vạch đích
     private void OnTriggerEnter(Collider other)
     {
-        // Kiểm tra xem đối tượng va chạm là Player hay Enemy
-        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        // 1. Kiểm tra xem cái gì vừa chạm vào vạch
+        Debug.Log($"[Va Chạm] Vật thể: '{other.name}' - Tag: '{other.tag}' đã chạm vạch.");
+
+        // Chỉ xử lý nếu là Player
+        if (other.CompareTag("Player"))
         {
-            // Tính toán thời gian chạy của đối tượng này
-            float finishTime = Time.time - startTime;
-            
-            // Lấy hạng hiện tại và tăng biến đếm hạng lên cho người sau
-            int rank = currentRankPosition;
-            currentRankPosition++;
+            // 2. Kiểm tra Cooldown
+            if (Time.time < lastTriggerTime + triggerCooldown)
+            {
+                float timeRemaining = (lastTriggerTime + triggerCooldown) - Time.time;
+                Debug.Log($"[Bỏ qua] Đang trong thời gian chờ (Cooldown). Còn lại: {timeRemaining:0.00}s");
+                return; // Thoát hàm ngay lập tức
+            }
 
-            Debug.Log(other.name + " đã về đích! Hạng: " + rank + " - Thời gian: " + finishTime);
+            // Cập nhật thời gian va chạm hợp lệ gần nhất
+            lastTriggerTime = Time.time;
 
-            // Nếu là Player thì hiện bảng UI
-            if (other.CompareTag("Player") && !playerFinished)
+            // --- TRƯỜNG HỢP 1: LẦN ĐẦU CHẠM (XUẤT PHÁT) ---
+            if (!isRaceStarted)
+            {
+                isRaceStarted = true;
+                raceStartTime = Time.time; 
+                
+                Debug.Log("<color=green>--- XUẤT PHÁT! Bắt đầu tính giờ ---</color>");
+                Debug.Log($"Thời điểm bắt đầu: {raceStartTime}");
+            }
+            // --- TRƯỜNG HỢP 2: LẦN SAU CHẠM (VỀ ĐÍCH) ---
+            else if (!playerFinished)
             {
                 playerFinished = true;
-                ShowResultUI(rank, finishTime);
+                float finalDuration = Time.time - raceStartTime;
                 
-                // Tùy chọn: Tắt điều khiển xe/nhân vật tại đây nếu cần
-                // other.GetComponent<CarController>().enabled = false; 
+                Debug.Log($"<color=yellow>--- VỀ ĐÍCH! ---</color>");
+                Debug.Log($"Tổng thời gian chạy: {finalDuration} giây");
+
+                ShowResultUI(finalDuration);
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[Cảnh báo] Vật thể '{other.name}' không có Tag là 'Player'. Hãy kiểm tra lại Inspector.");
+        }
+    }
+
+    void ShowResultUI(float time)
+    {
+        Debug.Log("Đang hiển thị bảng kết quả...");
+
+        if (resultPanel != null)
+        {
+            resultPanel.SetActive(true);
+
+            if (timeText != null)
+            {
+                int minutes = Mathf.FloorToInt(time / 60); 
+                int seconds = Mathf.FloorToInt(time % 60);
+
+                string timeString = $"Time: {minutes}m{seconds}s";
+                timeText.text = timeString;
+                
+                Debug.Log($"Đã cập nhật Text thành: '{timeString}'");
             }
             else
             {
-                // Nếu là Enemy, có thể cho Enemy dừng lại hoặc chạy tiếp tùy logic game
-                // Destroy(other.gameObject, 2f); // Ví dụ: Xóa Enemy sau 2s về đích
+                Debug.LogError("LỖI: Chưa gắn Time Text vào Script!");
             }
         }
-    }
-
-    // Hàm hiển thị UI
-    void ShowResultUI(int rank, float time)
-    {
-        if (resultPanel != null)
+        else
         {
-            resultPanel.SetActive(true); // Hiện bảng
-
-            // Hiển thị hạng
-            // if (rankText != null)
-            //     rankText.text = "THỨ HẠNG: " + rank;
-
-            // Hiển thị thời gian định dạng Phút:Giây
-            if (timeText != null)
-            {
-                string minutes = Mathf.Floor(time / 60).ToString("00");
-                string seconds = (time % 60).ToString("00.00");
-                timeText.text = "THỜI GIAN: " + minutes + ":" + seconds;
-            }
+            Debug.LogError("LỖI: Chưa gắn Result Panel vào Script!");
         }
     }
 
-    // Hàm này gắn vào nút "Về Menu" trên UI
     public void BackToMenu()
     {
+        Debug.Log("Người chơi bấm nút về Menu.");
         SceneManager.LoadScene(menuSceneName);
     }
 }
