@@ -1,86 +1,85 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Thư viện để chuyển Scene
-using TMPro; // Thư viện TextMeshPro cho UI đẹp (nếu dùng Text thường thì đổi thành UnityEngine.UI)
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class RaceFinishManager : MonoBehaviour
 {
     [Header("Cài đặt chung")]
-    public string menuSceneName = "MainMenu"; // Tên scene Menu để quay về (Public như bạn yêu cầu)
-    
-    [Header("UI Kết quả")]
-    public GameObject resultPanel;      // Panel chứa bảng kết quả (ẩn đi lúc đầu)
-    // public TextMeshProUGUI rankText;    // Text hiển thị hạng (VD: "Hạng: 1")
-    public TextMeshProUGUI timeText;    // Text hiển thị thời gian (VD: "01:23.45")
+    public string menuSceneName = "MainMenu";
 
-    // Biến nội bộ để tính toán
-    private float startTime;
-    private int currentRankPosition = 1; // Bắt đầu là hạng 1
+    [Header("UI Kết quả")]
+    public GameObject resultPanel;
+    public TextMeshProUGUI timeText;
+
+    // --- BIẾN MỚI THÊM VÀO ---
+    private bool isRaceStarted = false; // Kiểm tra xem đua đã bắt đầu chưa
+    private float raceStartTime;        // Thời điểm bắt đầu đua
     private bool playerFinished = false;
+    
+    // Biến chống lặp (Cooldown): Giúp xe không bị tính 2 lần khi vừa chạm vạch
+    private float lastTriggerTime = -999f;
+    private float triggerCooldown = 3.0f; // 3 giây sau khi xuất phát mới được tính là về đích (tránh lỗi)
 
     void Start()
     {
-        // Ghi lại thời gian bắt đầu đua
-        startTime = Time.time;
-        
-        // Ẩn bảng kết quả khi bắt đầu game
+        // Lúc đầu game chưa tính giờ ngay
         if (resultPanel != null)
             resultPanel.SetActive(false);
+            
+        isRaceStarted = false;
     }
 
-    // Hàm này chạy khi có vật thể đi qua vạch đích
     private void OnTriggerEnter(Collider other)
     {
-        // Kiểm tra xem đối tượng va chạm là Player hay Enemy
-        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        // Chỉ xử lý logic cho Player theo yêu cầu
+        if (other.CompareTag("Player"))
         {
-            // Tính toán thời gian chạy của đối tượng này
-            float finishTime = Time.time - startTime;
-            
-            // Lấy hạng hiện tại và tăng biến đếm hạng lên cho người sau
-            int rank = currentRankPosition;
-            currentRankPosition++;
+            // Kiểm tra thời gian hồi (tránh va chạm kép trong 1 khung hình)
+            if (Time.time < lastTriggerTime + triggerCooldown) return;
 
-            Debug.Log(other.name + " đã về đích! Hạng: " + rank + " - Thời gian: " + finishTime);
-
-            // Nếu là Player thì hiện bảng UI
-            if (other.CompareTag("Player") && !playerFinished)
+            // --- TRƯỜNG HỢP 1: LẦN ĐẦU CHẠM (XUẤT PHÁT) ---
+            if (!isRaceStarted)
+            {
+                isRaceStarted = true;
+                raceStartTime = Time.time; // Ghi lại mốc thời gian bắt đầu
+                lastTriggerTime = Time.time; // Ghi lại thời gian va chạm
+                
+                Debug.Log("Đã qua vạch xuất phát! Bắt đầu tính giờ.");
+                
+                // Gợi ý: Tại đây bạn có thể hiện UI thông báo "GO!"
+            }
+            // --- TRƯỜNG HỢP 2: LẦN SAU CHẠM (VỀ ĐÍCH) ---
+            else if (!playerFinished)
             {
                 playerFinished = true;
-                ShowResultUI(rank, finishTime);
+                float finalDuration = Time.time - raceStartTime; // Tính tổng thời gian chạy
                 
-                // Tùy chọn: Tắt điều khiển xe/nhân vật tại đây nếu cần
-                // other.GetComponent<CarController>().enabled = false; 
-            }
-            else
-            {
-                // Nếu là Enemy, có thể cho Enemy dừng lại hoặc chạy tiếp tùy logic game
-                // Destroy(other.gameObject, 2f); // Ví dụ: Xóa Enemy sau 2s về đích
+                Debug.Log("Đã về đích! Hoàn thành vòng đua.");
+                ShowResultUI(finalDuration);
             }
         }
     }
 
-    // Hàm hiển thị UI
-    void ShowResultUI(int rank, float time)
+    // Hàm hiển thị UI với định dạng mới
+    void ShowResultUI(float time)
     {
         if (resultPanel != null)
         {
-            resultPanel.SetActive(true); // Hiện bảng
+            resultPanel.SetActive(true);
 
-            // Hiển thị hạng
-            // if (rankText != null)
-            //     rankText.text = "THỨ HẠNG: " + rank;
-
-            // Hiển thị thời gian định dạng Phút:Giây
             if (timeText != null)
             {
-                string minutes = Mathf.Floor(time / 60).ToString("00");
-                string seconds = (time % 60).ToString("00.00");
-                timeText.text = "THỜI GIAN: " + minutes + ":" + seconds;
+                // Tính toán Phút và Giây
+                // Mathf.FloorToInt làm tròn xuống số nguyên (VD: 64s -> 1m)
+                int minutes = Mathf.FloorToInt(time / 60); 
+                int seconds = Mathf.FloorToInt(time % 60);
+
+                // Định dạng chuỗi theo yêu cầu: "Time: 1m4s"
+                timeText.text = $"Time: {minutes}m{seconds}s";
             }
         }
     }
 
-    // Hàm này gắn vào nút "Về Menu" trên UI
     public void BackToMenu()
     {
         SceneManager.LoadScene(menuSceneName);
