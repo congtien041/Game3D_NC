@@ -1,16 +1,16 @@
 ManifestFileVersion: 0
 UnityVersion: 6000.0.26f1
-CRC: 3175818854
+CRC: 3618101651
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 60b4b215789c95bab6878c6e3e63ba0c
+    Hash: 495a18e887ae2cf66c8d98c8bf7d741d
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c1b912f8f7095f80b98798821532f04a
+    Hash: 1a8f5ab6fe790bf0666503742a1fb384
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 28af1b0ba39a4878d490b87e8bb02cd7
+    Hash: 94b09cf816ff2483c67f4b060905b3ab
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -33,25 +33,31 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 64
   Script: {instanceID: 0}
-- Class: 96
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 83
   Script: {instanceID: 0}
 - Class: 108
   Script: {instanceID: 0}
 - Class: 114
-  Script: {fileID: 11500000, guid: cbeadaa1d1ee52b40892c0a7ee236aa5, type: 3}
+  Script: {fileID: 11500000, guid: 9205bc1bbacc90040a998067b5643d16, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 48a249bcf1a5c9542b170d3594dd5450, type: 3}
 - Class: 114
   Script: {fileID: 413881835, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
 - Class: 114
   Script: {fileID: 881450874, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
 - Class: 114
-  Script: {fileID: -1073286560, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+  Script: {fileID: -59341653, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
 - Class: 114
   Script: {fileID: -1111805404, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1041476857, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 134
-  Script: {instanceID: 0}
-- Class: 146
   Script: {instanceID: 0}
 - Class: 198
   Script: {instanceID: 0}
@@ -59,15 +65,48 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
 - AssemblyName: Assembly-CSharp
-  ClassName: .CarController/Wheel
+  ClassName: MVC.Demo.PoliceAISiren/LightRenderer
+- AssemblyName: CFXRRuntime
+  ClassName: CartoonFX.CFXR_Effect/AnimatedLight
+- AssemblyName: CFXRRuntime
+  ClassName: CartoonFX.CFXR_Effect/CameraShake
 - AssemblyName: MVC
-  ClassName: MVC.Core.VehicleChassis/WingModule
+  ClassName: MVC.Base.VehicleExhaust
 - AssemblyName: MVC
-  ClassName: MVC.Core.VehicleChassis/WingModule/BehaviourModule
+  ClassName: MVC.Base.VehicleTireCompound/WheelColliderFrictionCurve
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/AudioMixersModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/BehaviourModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/BrakeModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/DriverIKModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule/ComponentModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule/LightModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/StabilityModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/SteeringModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/TransmissionModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleDifferential
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleWheel/SuspensionModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleWheel/WheelModule
 - AssemblyName: MVC
   ClassName: MVC.VFX.VehicleWheelSpin/SpinMaterialModule
+- AssemblyName: Unity.Mathematics
+  ClassName: Unity.Mathematics.float3
 - AssemblyName: Utilities
-  ClassName: Utilities.Utility/Interval
+  ClassName: Utilities.Utility/SimpleInterval
 Assets:
-- "Assets/Ti\u1EBFn/prefabs/2020 Porsche Taycan Turbo S.prefab"
+- Assets/BxB Studio/MVC Getting Started/Prefabs/Vehicles/Cars/2008 Subaru Impreza
+  WRX STi - Police Edition.prefab
 Dependencies: []
