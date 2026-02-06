@@ -1,16 +1,16 @@
 ManifestFileVersion: 0
 UnityVersion: 6000.0.26f1
-CRC: 3280962700
+CRC: 1348371531
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 35cbd71ce1f04cf03eb453f460e5f272
+    Hash: 5d7d4d5418b006852859e95166e06a63
   TypeTreeHash:
     serializedVersion: 2
-    Hash: e380dde6607f6a8651995fc8196cec1f
+    Hash: cfde64bf67681f228946d79eb96b4bc5
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 522a016f24447edcfebffc07db6e02ae
+    Hash: a580d67b4be6082bfa758a8b32dbecf2
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -33,23 +33,98 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 64
   Script: {instanceID: 0}
-- Class: 96
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 108
   Script: {instanceID: 0}
 - Class: 114
-  Script: {fileID: 11500000, guid: cbeadaa1d1ee52b40892c0a7ee236aa5, type: 3}
+  Script: {fileID: 11500000, guid: 9205bc1bbacc90040a998067b5643d16, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+- Class: 114
+  Script: {fileID: 413881835, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -2087680280, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1227526772, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: 881450874, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1073286560, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1763949111, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -59341653, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1111805404, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1041476857, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 183720734fff2ae4798c9393336f506b, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 134
   Script: {instanceID: 0}
-- Class: 146
+- Class: 137
   Script: {instanceID: 0}
 - Class: 198
   Script: {instanceID: 0}
 - Class: 199
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
-- AssemblyName: Assembly-CSharp
-  ClassName: .CarController/Wheel
+- AssemblyName: CFXRRuntime
+  ClassName: CartoonFX.CFXR_Effect/AnimatedLight
+- AssemblyName: CFXRRuntime
+  ClassName: CartoonFX.CFXR_Effect/CameraShake
+- AssemblyName: MVC
+  ClassName: MVC.Base.VehicleExhaust
+- AssemblyName: MVC
+  ClassName: MVC.Base.VehicleLight
+- AssemblyName: MVC
+  ClassName: MVC.Base.VehicleTireCompound/WheelColliderFrictionCurve
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/AudioMixersModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/BehaviourModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/BrakeModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/DriverIKModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule/ComponentModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule/LightModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/StabilityModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/SteeringModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/TransmissionModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleDifferential
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleWheel/SuspensionModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleWheel/WheelModule
+- AssemblyName: MVC
+  ClassName: MVC.IK.VehicleDriver/AnimationModule
+- AssemblyName: MVC
+  ClassName: MVC.VFX.VehicleWheelSpin/SpinMaterialModule
+- AssemblyName: Unity.Mathematics
+  ClassName: Unity.Mathematics.float3
+- AssemblyName: Utilities
+  ClassName: Utilities.Utility/SimpleInterval
 Assets:
-- "Assets/Ti\u1EBFn/prefabs/2005 BMW M3 GTR E46 - Empty.prefab"
+- Assets/BxB Studio/MVC Getting Started/Prefabs/Vehicles/Cars/2005 BMW M3 GTR E46
+  - Drift.prefab
 Dependencies: []

@@ -1,16 +1,16 @@
 ManifestFileVersion: 0
 UnityVersion: 6000.0.26f1
-CRC: 1784055752
+CRC: 285976445
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d67e439e203f1912a03c931d5fd51950
+    Hash: b123479ac421d026047d04146109c73f
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c1b912f8f7095f80b98798821532f04a
+    Hash: cb0b034346b353d72abbb4ebfbfe447e
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 44fe2e6eeaa1bad935f47ba473b71920
+    Hash: 1d6f4e7aa7741cb821a4b447beda2c80
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -33,12 +33,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 64
   Script: {instanceID: 0}
-- Class: 96
-  Script: {instanceID: 0}
 - Class: 108
   Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: cbeadaa1d1ee52b40892c0a7ee236aa5, type: 3}
 - Class: 114
   Script: {fileID: 413881835, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
 - Class: 114
@@ -46,22 +42,54 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1073286560, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
 - Class: 114
+  Script: {fileID: -59341653, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
   Script: {fileID: -1111805404, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
+- Class: 114
+  Script: {fileID: -1041476857, guid: 7c0bac27308dcf24eb0bf21c68fb9c41, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 134
   Script: {instanceID: 0}
-- Class: 146
-  Script: {instanceID: 0}
-- Class: 198
-  Script: {instanceID: 0}
-- Class: 199
-  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
-- AssemblyName: Assembly-CSharp
-  ClassName: .CarController/Wheel
+- AssemblyName: MVC
+  ClassName: MVC.Base.VehicleExhaust
+- AssemblyName: MVC
+  ClassName: MVC.Base.VehicleLight
+- AssemblyName: MVC
+  ClassName: MVC.Base.VehicleTireCompound/WheelColliderFrictionCurve
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/AudioMixersModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/BehaviourModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/BrakeModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/DriverIKModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule/ComponentModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/InteriorModule/LightModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/StabilityModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/SteeringModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.Vehicle/TransmissionModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleDifferential
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleWheel/SuspensionModule
+- AssemblyName: MVC
+  ClassName: MVC.Core.VehicleWheel/WheelModule
 - AssemblyName: MVC
   ClassName: MVC.VFX.VehicleWheelSpin/SpinMaterialModule
+- AssemblyName: Unity.Mathematics
+  ClassName: Unity.Mathematics.float3
+- AssemblyName: Utilities
+  ClassName: Utilities.Utility/SimpleInterval
 Assets:
-- "Assets/Ti\u1EBFn/prefabs/1993 Toyota Supra MK4.prefab"
+- Assets/BxB Studio/MVC Getting Started/Prefabs/Vehicles/Cars/1993 Toyota Supra MK4.prefab
 Dependencies: []
