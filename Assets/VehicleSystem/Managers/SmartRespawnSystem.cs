@@ -1,129 +1,146 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI; 
-using VehicleSystem.Core;
+using System.Collections; // Cần thiết cho Coroutine
+using VehicleSystem.Core; // Để gọi TrackPath và CarController
 
 namespace VehicleSystem.Managers
 {
     public class SmartRespawnSystem : MonoBehaviour
     {
         [Header("References")]
-        public Transform playerCar;
-        public Rigidbody carRb;
-        public TrackPath trackPath; // Kéo cái đường đua vào đây
+        public CarControllerVipro playerCarScript; 
+        public TrackPath trackPath; 
 
         [Header("Settings - Rớt Map")]
-        public float fallLimitY = -10f; // Nếu Y thấp hơn số này -> Reset
+        public float fallLimitY = -10f; 
 
-        [Header("Settings - Ngược Chiều")]
-        public float allowedAngle = 110f; 
-        public float timeToReset = 3.0f;
+        [Header("Settings - Giới hạn")]
+        public float maxDistanceFromRoad = 15.0f; 
+        public float allowedAngle = 110f;         
+        public float timeToReset = 3.0f;          
         
         [Header("UI")]
+
         public GameObject wrongWayPanel;
+
         public TextMeshProUGUI timerText;
 
-        private float wrongWayTimer = 0f;
+        // Biến nội bộ
+        private Transform playerTransform;
+        private Rigidbody carRb;
+        private float warningTimer = 0f; 
         private bool isResetting = false;
 
+        [System.Obsolete]
         private void Start()
         {
-            if (playerCar == null)
+            if (playerCarScript == null)
             {
                 GameObject p = GameObject.FindGameObjectWithTag("Player");
-                if (p)
-                {
-                    playerCar = p.transform;
-                    carRb = p.GetComponent<Rigidbody>();
-                }
+                if (p) playerCarScript = p.GetComponent<CarControllerVipro>();
             }
+
+            if (playerCarScript != null)
+            {
+                playerTransform = playerCarScript.transform;
+                carRb = playerCarScript.GetComponent<Rigidbody>();
+            }
+            if (trackPath == null) trackPath = FindObjectOfType<TrackPath>();
             if (wrongWayPanel) wrongWayPanel.SetActive(false);
         }
 
-        [System.Obsolete]
         private void Update()
         {
-            if (playerCar == null || trackPath == null) return;
-            if (isResetting) return;
+            if (playerCarScript == null || trackPath == null) return;
+            if (isResetting) return; 
 
-            // 1. KIỂM TRA RỚT MAP (Độ cao Y)
-            if (playerCar.position.y < fallLimitY)
+            if (playerTransform.position.y < fallLimitY)
             {
-                RespawnCar();
+                StartCoroutine(RespawnRoutine());
                 return;
             }
-
-            // 2. KIỂM TRA NGƯỢC CHIỀU & LỆCH ĐƯỜNG
-            CheckDirectionAndDistance();
+            CheckErrors();
         }
 
-        [System.Obsolete]
-        void CheckDirectionAndDistance()
+        void CheckErrors()
         {
-            // Tìm điểm mốc gần nhất xe đang đứng
-            Transform closestPoint = trackPath.GetClosestWaypoint(playerCar.position);
+            bool hasError = false;
+            string message = "";
 
-            if (closestPoint != null)
+            float distToRoad = trackPath.GetDistanceFromRoad(playerTransform.position);
+            
+            if (distToRoad > maxDistanceFromRoad)
             {
-                // Tính góc lệch giữa đầu xe và hướng của điểm mốc
-                // (Điểm mốc luôn xoay theo hướng đường đi)
-                float angle = Vector3.Angle(playerCar.forward, closestPoint.forward);
-
-                // Nếu góc lệch quá lớn (đang quay đầu)
-                if (angle > allowedAngle)
+                hasError = true;
+                message = "OFF TRACK!"; 
+            }
+            else
+            {
+                Transform closestPoint = trackPath.GetClosestWaypoint(playerTransform.position);
+                if (closestPoint != null)
                 {
-                    wrongWayTimer += Time.deltaTime;
-                    if (wrongWayPanel) 
+                    float angle = Vector3.Angle(playerTransform.forward, closestPoint.forward);
+                    if (angle > allowedAngle)
                     {
-                        wrongWayPanel.SetActive(true);
-                        if (timerText) timerText.text = "RESET: " + (timeToReset - wrongWayTimer).ToString("F1");
-                    }
-
-                    if (wrongWayTimer >= timeToReset)
-                    {
-                        RespawnCar();
+                        hasError = true;
+                        message = "WRONG WAY!"; 
                     }
                 }
-                else
+            }
+
+            if (hasError)
+            {
+                warningTimer += Time.deltaTime;
+                
+                if (wrongWayPanel) 
                 {
-                    // Đang đi đúng hướng
-                    wrongWayTimer = 0f;
-                    if (wrongWayPanel) wrongWayPanel.SetActive(false);
+                    wrongWayPanel.SetActive(true);
+                    if (timerText) timerText.text = $"{message}\nRESET IN: {timeToReset - warningTimer:F1}";
                 }
+
+                if (warningTimer >= timeToReset)
+                {
+                    StartCoroutine(RespawnRoutine());
+                }
+            }
+            else
+            {
+                warningTimer = 0f;
+                if (wrongWayPanel) wrongWayPanel.SetActive(false);
             }
         }
 
-        [System.Obsolete]
-        public void RespawnCar()
+        IEnumerator RespawnRoutine()
         {
             isResetting = true;
             
-            // Tìm điểm gần nhất
-            Transform spawnPoint = trackPath.GetClosestWaypoint(playerCar.position);
+            if (wrongWayPanel) wrongWayPanel.SetActive(false);
+            warningTimer = 0f;
+
+            Transform spawnPoint = trackPath.GetClosestWaypoint(playerTransform.position);
 
             if (spawnPoint != null)
             {
-                // Dịch chuyển xe về đó
-                // Cộng thêm Vector3.up * 2f để thả xe từ trên cao xuống chút xíu cho đỡ kẹt đất
-                playerCar.position = spawnPoint.position + Vector3.up * 2f;
+                playerTransform.position = spawnPoint.position + Vector3.up * 2f;
                 
-                // QUAN TRỌNG: Xoay đầu xe theo hướng của đường đua
-                playerCar.rotation = spawnPoint.rotation; 
+                playerTransform.rotation = spawnPoint.rotation; 
                 
-                // Xóa quán tính (để xe không bị trôi tiếp)
                 if (carRb != null)
                 {
-                    carRb.velocity = Vector3.zero;
+                    carRb.linearVelocity = Vector3.zero;
                     carRb.angularVelocity = Vector3.zero;
+                    carRb.Sleep(); 
                 }
                 
-                Debug.Log("Đã hồi sinh tại mốc: " + spawnPoint.name);
+                if (playerCarScript != null)
+                {
+                    playerCarScript.SetInvincible(true);
+                }
             }
 
-            // Reset UI
-            wrongWayTimer = 0f;
-            if (wrongWayPanel) wrongWayPanel.SetActive(false);
-            
+            yield return new WaitForSeconds(0.5f);
+            if (carRb != null) carRb.WakeUp();
+
             isResetting = false;
         }
     }

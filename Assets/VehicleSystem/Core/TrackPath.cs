@@ -6,59 +6,79 @@ namespace VehicleSystem.Core
     public class TrackPath : MonoBehaviour
     {
         public Color pathColor = Color.yellow;
-        // Danh sách các điểm mốc chạy dọc đường đua
         public List<Transform> waypoints = new List<Transform>();
 
-        // Hàm này giúp vẽ đường nối các điểm trong màn hình Scene để dễ chỉnh sửa
-        private void OnDrawGizmos()
+        public int GetClosestWaypointIndex(Vector3 carPos)
         {
-            Gizmos.color = pathColor;
-            
-            // Tự động lấy các con (child) làm waypoint nếu danh sách trống
-            if (waypoints.Count == 0)
-            {
-                waypoints = new List<Transform>();
-                foreach (Transform child in transform)
-                {
-                    waypoints.Add(child);
-                }
-            }
+            int closestIndex = -1;
+            float minDistance = Mathf.Infinity;
 
             for (int i = 0; i < waypoints.Count; i++)
             {
                 if (waypoints[i] == null) continue;
-
-                Vector3 current = waypoints[i].position;
-                
-                // Vẽ cầu (điểm mốc)
-                Gizmos.DrawWireSphere(current, 1f);
-
-                // Vẽ đường nối tới điểm tiếp theo
-                if (i < waypoints.Count - 1 && waypoints[i+1] != null)
-                {
-                    Gizmos.DrawLine(current, waypoints[i+1].position);
-                }
-            }
-        }
-
-        // HÀM QUAN TRỌNG: Tìm điểm mốc gần chiếc xe nhất
-        public Transform GetClosestWaypoint(Vector3 carPosition)
-        {
-            Transform closestPoint = null;
-            float minDistance = Mathf.Infinity;
-
-            foreach (Transform point in waypoints)
-            {
-                if (point == null) continue;
-
-                float dist = Vector3.Distance(carPosition, point.position);
+                float dist = Vector3.Distance(carPos, waypoints[i].position);
                 if (dist < minDistance)
                 {
                     minDistance = dist;
-                    closestPoint = point;
+                    closestIndex = i;
                 }
             }
-            return closestPoint;
+            return closestIndex;
+        }
+
+        public float GetDistanceFromRoad(Vector3 carPos)
+        {
+            int i = GetClosestWaypointIndex(carPos);
+            if (i == -1) return Mathf.Infinity;
+            float distA = Mathf.Infinity;
+            float distB = Mathf.Infinity;
+
+            if (i > 0) 
+                distA = DistancePointToSegment(carPos, waypoints[i-1].position, waypoints[i].position);
+            
+            if (i < waypoints.Count - 1)
+                distB = DistancePointToSegment(carPos, waypoints[i].position, waypoints[i+1].position);
+
+            return Mathf.Min(distA, distB);
+        }
+
+        float DistancePointToSegment(Vector3 P, Vector3 A, Vector3 B)
+        {
+            Vector3 AB = B - A;
+            Vector3 AP = P - A;
+            
+            float magnitudeAB = AB.sqrMagnitude; 
+            
+            if (magnitudeAB == 0) return Vector3.Distance(P, A);
+
+            float t = Vector3.Dot(AP, AB) / magnitudeAB;
+
+            t = Mathf.Clamp01(t);
+
+            Vector3 closestPointOnLine = A + AB * t;
+
+            return Vector3.Distance(P, closestPointOnLine);
+        }
+
+        public Transform GetClosestWaypoint(Vector3 carPosition)
+        {
+            int index = GetClosestWaypointIndex(carPosition);
+            if (index != -1) return waypoints[index];
+            return null;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (waypoints == null || waypoints.Count < 2) return;
+            Gizmos.color = pathColor;
+            for (int i = 0; i < waypoints.Count - 1; i++)
+            {
+                if (waypoints[i] != null && waypoints[i+1] != null)
+                {
+                    Gizmos.DrawLine(waypoints[i].position, waypoints[i+1].position);
+                    Gizmos.DrawWireSphere(waypoints[i].position, 0.5f);
+                }
+            }
         }
     }
 }
