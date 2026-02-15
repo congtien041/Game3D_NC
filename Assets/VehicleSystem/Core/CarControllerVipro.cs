@@ -16,25 +16,28 @@ namespace VehicleSystem.Core
         public Transform rearRightMesh;
 
         [Header("Car Settings")]
-        public float motorTorque = 1500f;   
-        public float maxSteeringAngle = 30f;
-        public float brakeForce = 3000f;    
-        public float decelerationForce = 300f; 
+        private float motorTorque = 1500f;   
+        private float maxSteeringAngle = 30f;
+        private float brakeForce = 3000f;    
+        private float decelerationForce = 300f; 
 
         [Header("Stability & Recovery (Chống lật & Khôi phục)")]
         public Transform centerOfMass;   
-        public float waitTimeToFlip = 3f;
+        private float waitTimeToFlip = 3f;
         private float currentMotorTorque;
         private float currentSteeringAngle;
         private float currentBrakeForce;
         private float flipTimer = 0f;     
         private Rigidbody rb; 
         [Header("CountDown")]
-        public bool isEngineOn = false;            
+        [HideInInspector] public bool isEngineOn = false;  
+        [Header("Status")]
+        private bool isTargetable = true;  
+        public GameObject Car;
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
-            
+            Car = this.gameObject;
             if (centerOfMass != null)
             {
                 rb.centerOfMass = centerOfMass.localPosition;
@@ -158,5 +161,37 @@ namespace VehicleSystem.Core
                 flipTimer = 0f;
             }
         }
+
+        public void SetInvincible(bool state)
+        {
+            isTargetable = !state;
+            
+            StartCoroutine(BlinkEffect(state));
+        }
+
+        private System.Collections.IEnumerator BlinkEffect(bool active)
+        {
+            if (!active) 
+            {
+                ToggleMeshes(true);
+                yield break;
+            }
+
+            float timer = 0;
+            while (timer < 3f)
+            {
+                ToggleMeshes(false);
+                yield return new WaitForSeconds(0.1f);
+                ToggleMeshes(true);
+                yield return new WaitForSeconds(0.1f);
+                timer += 0.2f;
+            }
+            ToggleMeshes(true);
+        }
+
+        private void ToggleMeshes(bool show)
+        {
+            if (Car) Car.gameObject.SetActive(show);
+        }
     }
-}
+}   
