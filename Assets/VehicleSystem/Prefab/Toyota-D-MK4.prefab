@@ -6672,8 +6672,9 @@ GameObject:
   - component: {fileID: 7586781150869868783}
   - component: {fileID: 2918391174284037057}
   - component: {fileID: 3382872239333695609}
+  - component: {fileID: 3945580594646265415}
   m_Layer: 6
-  m_Name: 1993 Toyota Supra MK4 - Empty
+  m_Name: Toyota-D-MK4
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6724,7 +6725,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &3382872239333695609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6745,12 +6746,25 @@ MonoBehaviour:
   frontRightMesh: {fileID: 4495874479681465369}
   rearLeftMesh: {fileID: 1375550917448928723}
   rearRightMesh: {fileID: 1568264989271014161}
-  motorTorque: 1500
-  maxSteeringAngle: 30
-  brakeForce: 3000
-  decelerationForce: 300
   centerOfMass: {fileID: 6271008502754982846}
-  waitTimeToFlip: 3
+  isEngineOn: 0
+--- !u!114 &3945580594646265415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5952793461770132626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf3961dd6828ea94ba274274dfeb81e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCar: {fileID: 3382872239333695609}
+  carRb: {fileID: 2918391174284037057}
+  trackPath: {fileID: 0}
+  warningPanel: {fileID: 0}
+  warningText: {fileID: 0}
 --- !u!1 &6090416159921354469
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ namespace VehicleSystem.Core
         public WheelCollider rearLeftCollider;
         public WheelCollider rearRightCollider;
 
-        [Header("Wheel Transforms (Hình ảnh bánh xe)")]
+        [Header("Wheel Transforms")]
         public Transform frontLeftMesh;
         public Transform frontRightMesh;
         public Transform rearLeftMesh;
@@ -25,10 +25,11 @@ namespace VehicleSystem.Core
 
         [Header("Stability & Recovery")]
         public Transform centerOfMass;   
-        public float waitTimeToFlip = 3f;
+        private float waitTimeToFlip = 3f;
         
         [Header("CountDown & Status")]
-        [HideInInspector] public bool isEngineOn = false;  
+        [HideInInspector] public bool isEngineOn = false; 
+        [HideInInspector] public bool isCountdown = false; 
         private bool isTargetable = true;  
         private Renderer[] allRenderers;
 
