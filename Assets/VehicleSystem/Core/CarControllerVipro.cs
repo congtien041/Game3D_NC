@@ -21,12 +21,12 @@ namespace VehicleSystem.Core
         private float motorTorque = 1500f;   
         private float maxSteeringAngle = 30f;
         private float brakeForce = 3000f;    
-        private float decelerationForce = 300f; 
+        private float decelerationForce = 300f;
+        [HideInInspector] public float maxSpeed = 120f;
 
         [Header("Stability & Recovery")]
         public Transform centerOfMass;   
         private float waitTimeToFlip = 3f;
-        
         [Header("CountDown & Status")]
         [HideInInspector] public bool isEngineOn = false; 
         [HideInInspector] public bool isCountdown = false; 
@@ -37,7 +37,7 @@ namespace VehicleSystem.Core
         private float currentSteeringAngle;
         private float currentBrakeForce;
         private float flipTimer = 0f;     
-        private Rigidbody rb; 
+        private Rigidbody rb;
 
         private void Start()
         {
@@ -68,7 +68,25 @@ namespace VehicleSystem.Core
         }
         private void HandleMotor()
         {
-            frontLeftCollider.motorTorque = frontRightCollider.motorTorque = rearLeftCollider.motorTorque = rearRightCollider.motorTorque = currentMotorTorque;
+            float speed = rb.linearVelocity.magnitude * 3.6f; // đổi m/s -> km/h
+            Debug.Log(speed);
+            if (speed < maxSpeed)
+            {
+                frontLeftCollider.motorTorque = currentMotorTorque;
+                frontRightCollider.motorTorque = currentMotorTorque;
+                rearLeftCollider.motorTorque = currentMotorTorque;
+                rearRightCollider.motorTorque = currentMotorTorque;
+            }
+            else
+            {
+                frontLeftCollider.motorTorque = 0f;
+                frontRightCollider.motorTorque = 0f;
+                rearLeftCollider.motorTorque = 0f;
+                rearRightCollider.motorTorque = 0f;
+            }
+
+
+            // frontLeftCollider.motorTorque = frontRightCollider.motorTorque = rearLeftCollider.motorTorque = rearRightCollider.motorTorque = currentMotorTorque;
             if (currentBrakeForce > 0) ApplyBrake(currentBrakeForce);
             else if (currentMotorTorque == 0) ApplyBrake(decelerationForce);
             else ApplyBrake(0f);
@@ -103,7 +121,7 @@ namespace VehicleSystem.Core
                 if (flipTimer >= waitTimeToFlip) {
                     transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
                     transform.position = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
-                    rb.velocity = Vector3.zero; rb.angularVelocity = Vector3.zero; flipTimer = 0f;
+                    rb.linearVelocity = Vector3.zero; rb.angularVelocity = Vector3.zero; flipTimer = 0f;
                 }
             } else flipTimer = 0f;
         }
