@@ -70095,8 +70095,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca5452082b6ce04696d6b66ac379251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleTapWindow: 0.3
-  spinNitroReward: 40
 --- !u!1 &760755051 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4347464739848741702, guid: a12554c3fb1ef914b88e9676219439cd, type: 3}
@@ -85673,13 +85671,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 936125175}
+  - component: {fileID: 936125176}
   m_Layer: 5
   m_Name: WrongWay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &936125175
 RectTransform:
   m_ObjectHideFlags: 0
@@ -85700,6 +85699,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &936125176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936125174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c43d4718bf3695544ae6feb0382c9c15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warningPanel: {fileID: 936125174}
+  warningText: {fileID: 289370143}
 --- !u!1 &936706995 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7987585536396493598, guid: a12554c3fb1ef914b88e9676219439cd, type: 3}
