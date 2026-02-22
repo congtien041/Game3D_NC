@@ -7,7 +7,7 @@ namespace VehicleSystem.Core
     {
         [Header("Target Settings")]
         private Transform activeCar; 
-        
+        private CarControllerVipro carController;
         [Header("Game Mode")]
         public bool isCinematic = true; 
 
@@ -52,7 +52,10 @@ namespace VehicleSystem.Core
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
                 if (player) activeCar = player.transform;
             }
-
+            if (activeCar != null)
+            {
+                carController = activeCar.GetComponent<CarControllerVipro>();
+            }
             if (isCinematic) RandomizeShot();
         }
 
@@ -79,6 +82,7 @@ namespace VehicleSystem.Core
                 RandomizeShot();
                 timer = 0;
             }
+            
 
             CinematicShot shot = introShots[currentShotIndex];
 
@@ -101,6 +105,10 @@ namespace VehicleSystem.Core
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 60, Time.deltaTime * 2f);
 
             float wantedRotationAngle = activeCar.eulerAngles.y;
+            if (carController != null && carController.isSpinning)
+            {
+                wantedRotationAngle = transform.eulerAngles.y;
+            }
             float wantedHeight = activeCar.position.y + height;
 
             float currentRotationAngle = transform.eulerAngles.y;

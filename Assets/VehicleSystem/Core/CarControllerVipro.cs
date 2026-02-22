@@ -27,6 +27,10 @@ namespace VehicleSystem.Core
         [Header("Stability & Recovery")]
         public Transform centerOfMass;   
         private float waitTimeToFlip = 3f;
+        [Header("Nitro")]
+        [HideInInspector] public bool isSpinning = false; 
+        [HideInInspector] public float externalTorqueMultiplier = 1f; 
+        [HideInInspector] public float externalSpeedMultiplier = 1f;
         [Header("CountDown & Status")]
         [HideInInspector] public bool isEngineOn = false; 
         [HideInInspector] public bool isCountdown = false; 
@@ -68,25 +72,17 @@ namespace VehicleSystem.Core
         }
         private void HandleMotor()
         {
-            float speed = rb.linearVelocity.magnitude * 3.6f; // đổi m/s -> km/h
-            Debug.Log(speed);
-            if (speed < maxSpeed)
-            {
-                frontLeftCollider.motorTorque = currentMotorTorque;
-                frontRightCollider.motorTorque = currentMotorTorque;
-                rearLeftCollider.motorTorque = currentMotorTorque;
-                rearRightCollider.motorTorque = currentMotorTorque;
-            }
-            else
-            {
-                frontLeftCollider.motorTorque = 0f;
-                frontRightCollider.motorTorque = 0f;
-                rearLeftCollider.motorTorque = 0f;
-                rearRightCollider.motorTorque = 0f;
-            }
-
-
-            // frontLeftCollider.motorTorque = frontRightCollider.motorTorque = rearLeftCollider.motorTorque = rearRightCollider.motorTorque = currentMotorTorque;
+            float speed = rb.linearVelocity.magnitude * 3.6f; 
+            float actualMaxSpeed = maxSpeed * externalSpeedMultiplier;
+            float actualTorque = currentMotorTorque * externalTorqueMultiplier;
+            float speedFactor = 1.0f - (speed / actualMaxSpeed);
+            speedFactor = Mathf.Clamp(speedFactor, 0f, 1.0f);
+            float finalTorque = actualTorque * speedFactor;
+            frontLeftCollider.motorTorque = finalTorque;
+            frontRightCollider.motorTorque = finalTorque;
+            rearLeftCollider.motorTorque = finalTorque;
+            rearRightCollider.motorTorque = finalTorque;
+            Debug.Log($"speed: {speed}, actualMaxSpeed: {actualMaxSpeed}, actualTorque: {actualTorque}, speedFactor: {speedFactor}, finalTorque: {finalTorque}");
             if (currentBrakeForce > 0) ApplyBrake(currentBrakeForce);
             else if (currentMotorTorque == 0) ApplyBrake(decelerationForce);
             else ApplyBrake(0f);
