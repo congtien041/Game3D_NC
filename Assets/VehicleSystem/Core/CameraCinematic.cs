@@ -11,7 +11,7 @@ namespace VehicleSystem.Core
 
         [Header("Game Mode")]
         public bool isCinematic = true; 
-        private bool isWinCinematic = false;   // 🔥 thêm
+        private bool isWinCinematic = false;  
 
         [System.Serializable]
         public struct CinematicShot
@@ -34,14 +34,13 @@ namespace VehicleSystem.Core
             new CinematicShot { offset = new Vector3(2f, 0.3f, 3.5f), fov = 45 }
         };
 
-        // 🔥 WIN SETTINGS
         [Header("Win Cinematic Settings")]
-        
         private float winAngle = 0f;
         public Vector3 winOffset = new Vector3(-4f, 2f, 6f);
         public float winRotateSpeed = 25f;
         public float winFOV = 50f;
-
+        private float currentWinRadius;
+        private float currentWinHeight;
         [Header("Gameplay Follow Settings")]
         public float distance = 6.0f;    
         public float height = 2.5f;      
@@ -73,7 +72,7 @@ namespace VehicleSystem.Core
         {
             if (activeCar == null) return;
 
-            if (isWinCinematic)          // 🔥 ưu tiên win trước
+            if (isWinCinematic)         
             {
                 HandleWinMode();
             }
@@ -110,35 +109,20 @@ namespace VehicleSystem.Core
             transform.LookAt(activeCar.position + Vector3.up * 0.5f);
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, shot.fov, Time.deltaTime * 2f);
         }
-
-        // 🔥 WIN MODE
         void HandleWinMode()
-{
-    winAngle += winRotateSpeed * Time.deltaTime;
-
-    // Tính vị trí xoay quanh xe bằng sin/cos
-    Vector3 offset = new Vector3(
-        Mathf.Sin(winAngle * Mathf.Deg2Rad) * winOffset.z,
-        winOffset.y,
-        Mathf.Cos(winAngle * Mathf.Deg2Rad) * winOffset.z
-    );
-
-    Vector3 desiredPos = activeCar.position + offset;
-
-    transform.position = Vector3.Lerp(
-        transform.position,
-        desiredPos,
-        Time.deltaTime * 5f   // tăng smooth lên cho mượt
-    );
-
-    transform.LookAt(activeCar.position + Vector3.up * 0.8f);
-
-    cam.fieldOfView = Mathf.Lerp(
-        cam.fieldOfView,
-        winFOV,
-        Time.deltaTime * 3f
-    );
-}
+        {
+            winAngle += winRotateSpeed * Time.deltaTime;
+            currentWinRadius = Mathf.Lerp(currentWinRadius, winOffset.z, Time.deltaTime * 5f);
+            currentWinHeight = Mathf.Lerp(currentWinHeight, winOffset.y, Time.deltaTime * 5f);
+            Vector3 offset = new Vector3(
+                Mathf.Sin(winAngle * Mathf.Deg2Rad) * currentWinRadius,
+                currentWinHeight,
+                Mathf.Cos(winAngle * Mathf.Deg2Rad) * currentWinRadius
+            );
+            transform.position = activeCar.position + offset;
+            transform.LookAt(activeCar.position + Vector3.up * 0.8f);
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, winFOV, Time.deltaTime * 3f);
+        }
 
         void RandomizeShot()
         {
