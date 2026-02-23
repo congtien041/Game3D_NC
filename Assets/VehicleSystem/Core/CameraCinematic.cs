@@ -10,6 +10,7 @@ namespace VehicleSystem.Core
         private CarControllerVipro carController;
 
         [Header("Game Mode")]
+        private bool isGameplay = true;
         public bool isCinematic = true; 
         private bool isWinCinematic = false;   // 🔥 thêm
 
@@ -73,15 +74,19 @@ namespace VehicleSystem.Core
         {
             if (activeCar == null) return;
 
-            if (isWinCinematic)          // 🔥 ưu tiên win trước
+            if (isWinCinematic)
             {
                 HandleWinMode();
+                return;
             }
-            else if (isCinematic)
+
+            if (isCinematic)
             {
                 HandleCinematicMode();
+                return;
             }
-            else
+
+            if (isGameplay)
             {
                 HandleGameplayMode();
             }
@@ -185,10 +190,10 @@ namespace VehicleSystem.Core
             isCinematic = false;
         }
 
-        // 🔥 GỌI KHI WIN
         public void TriggerWin()
         {
             isCinematic = false;
+            isGameplay = false;
             isWinCinematic = true;
         }
     }
