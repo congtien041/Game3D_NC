@@ -9,32 +9,32 @@ public class WinTrigger : MonoBehaviour
     public GameObject winUI;
     public GameObject nextUI;
 
+    private int triggerCount = 0;   // 👈 đếm số lần đi qua
     private bool hasTriggered = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !hasTriggered)
+        if (!other.CompareTag("Player")) return;
+
+        triggerCount++;
+
+        // Chỉ trigger ở lần thứ 2
+        if (triggerCount >= 2 && !hasTriggered)
         {
             hasTriggered = true;
 
             cameraScript.TriggerWin();
-
             StartCoroutine(ShowWinSequence());
         }
     }
 
     IEnumerator ShowWinSequence()
     {
-        // Bật UI Win
         winUI.SetActive(true);
 
-        // Chờ 5 giây
         yield return new WaitForSeconds(5f);
 
-        // Tắt Win UI
         winUI.SetActive(false);
-
-        // Bật UI tiếp theo
         nextUI.SetActive(true);
     }
 }
