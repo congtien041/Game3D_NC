@@ -34,8 +34,6 @@ namespace VehicleSystem.Core
         private float stuckDistanceThreshold = 0.5f; 
         private float stuckTimer = 0f;
         private Vector3 lastRecordedPosition;
-        
-        // Lưu mảng các điểm mà không cần dùng Tag
         private Transform[] cachedTrackPaths; 
 
         [Header("Nitro")]
@@ -60,11 +58,7 @@ namespace VehicleSystem.Core
             rb = GetComponent<Rigidbody>();
             if (centerOfMass != null) rb.centerOfMass = centerOfMass.localPosition;
             allRenderers = GetComponentsInChildren<Renderer>();
-            
             lastRecordedPosition = transform.position;
-
-            // --- KHÔNG DÙNG TAG NỮA ---
-            // Tự động tìm kịch bản TrackPath, sau đó lấy tất cả các điểm con (children) của nó
             TrackPath trackPathManager = Object.FindAnyObjectByType<TrackPath>();
             if (trackPathManager != null)
             {
@@ -75,10 +69,6 @@ namespace VehicleSystem.Core
                     cachedTrackPaths[i] = trackPathManager.transform.GetChild(i);
                 }
             }
-            else
-            {
-                Debug.LogWarning("Không tìm thấy script TrackPath trên map!");
-            }
         }
 
         private void Update()
@@ -87,7 +77,6 @@ namespace VehicleSystem.Core
             
             CheckAndResetFlip();
             CheckStuckAndReset();  
-            CheckOffTrack();       
         }
 
         private void FixedUpdate()
@@ -99,34 +88,24 @@ namespace VehicleSystem.Core
             HandleSteering();
             UpdateWheelMeshes();
         }
-
-        // ===============================================
-        // LÔ-GÍC: BAY RA KHỎI ĐƯỜNG ĐUA BẰNG ĐOẠN THẲNG
-        // ===============================================
         private void CheckOffTrack()
         {
             if (cachedTrackPaths == null || cachedTrackPaths.Length < 2) return;
 
             float minDistanceToRoad = Mathf.Infinity;
             Transform bestResetPoint = null;
-
-            // Duyệt qua TỪNG CẶP điểm nối tiếp nhau theo đúng thứ tự (1-2, 2-3, 3-4...)
             for (int i = 0; i < cachedTrackPaths.Length; i++)
             {
                 Transform currentPoint = cachedTrackPaths[i];
                 
-                // Điểm tiếp theo (Dùng % để điểm cuối cùng nối vòng lại điểm đầu tiên tạo thành Track kín)
                 Transform nextPoint = cachedTrackPaths[(i + 1) % cachedTrackPaths.Length];
 
-                // Tính khoảng cách từ xe đến cái BỀ MẶT ĐƯỜNG nối giữa 2 điểm này
                 float distanceToSegment = DistanceToLineSegment(transform.position, currentPoint.position, nextPoint.position);
 
-                // Tìm ra đoạn đường nào đang gần xe nhất
                 if (distanceToSegment < minDistanceToRoad)
                 {
                     minDistanceToRoad = distanceToSegment;
                     
-                    // Xác định xem trong đoạn đường này, xe đang đứng nghiêng về điểm nào hơn để lát nữa Reset về đó
                     float distToCurrent = Vector3.Distance(transform.position, currentPoint.position);
                     float distToNext = Vector3.Distance(transform.position, nextPoint.position);
                     
@@ -134,13 +113,11 @@ namespace VehicleSystem.Core
                 }
             }
 
-            // Bất chấp điểm dài điểm ngắn, chỉ cần xe văng ra khỏi CÁI ĐƯỜNG ẢO đó xa hơn maxDistance là bị bế về!
             if (minDistanceToRoad > maxDistanceFromTrack && bestResetPoint != null)
             {
                 ResetCarTo(bestResetPoint, "Bay ra khỏi đường đua!");
             }
         }
-        // HÀM TOÁN HỌC ĐỂ TÍNH KHOẢNG CÁCH TỚI ĐOẠN THẲNG
         private float DistanceToLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
         {
             Vector3 lineDirection = lineEnd - lineStart;
@@ -150,16 +127,11 @@ namespace VehicleSystem.Core
             Vector3 vectorToPoint = point - lineStart;
             float projectLength = Vector3.Dot(vectorToPoint, lineDirection);
 
-            // Giới hạn projection nằm gọn trong đoạn thẳng
             projectLength = Mathf.Clamp(projectLength, 0f, lineLength);
 
             Vector3 closestPointOnLine = lineStart + lineDirection * projectLength;
             return Vector3.Distance(point, closestPointOnLine);
         }
-
-        // ===============================================
-        // LÔ-GÍC: KẸT XE BẰNG TỌA ĐỘ 
-        // ===============================================
         private void CheckStuckAndReset()
         {
             bool isBraking = Input.GetKey(KeyCode.Space);
@@ -204,14 +176,10 @@ namespace VehicleSystem.Core
         {
             transform.position = targetPath.position + Vector3.up * 1.5f;
             transform.rotation = targetPath.rotation;
-            
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            
             stuckTimer = 0f;
             lastRecordedPosition = transform.position;
-            
-            Debug.Log($"<color=orange>RESET XE: {reason}</color>");
         }
 
         private void HandleInput()
@@ -232,7 +200,7 @@ namespace VehicleSystem.Core
             float speedFactor = 1.0f - (speed / actualMaxSpeed);
             speedFactor = Mathf.Clamp(speedFactor, 0f, 1.0f);
             float finalTorque = actualTorque * speedFactor;
-            
+            Debug.Log("Spedd: " + speed);
             frontLeftCollider.motorTorque = finalTorque;
             frontRightCollider.motorTorque = finalTorque;
             rearLeftCollider.motorTorque = finalTorque;

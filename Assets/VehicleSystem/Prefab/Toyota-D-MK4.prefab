@@ -6672,6 +6672,9 @@ GameObject:
   - component: {fileID: 7586781150869868783}
   - component: {fileID: 2918391174284037057}
   - component: {fileID: 3382872239333695609}
+  - component: {fileID: 8898341449307314351}
+  - component: {fileID: 823217535994637483}
+  - component: {fileID: 3175689293408183204}
   m_Layer: 6
   m_Name: Toyota-D-MK4
   m_TagString: Player
@@ -6747,8 +6750,67 @@ MonoBehaviour:
   rearRightMesh: {fileID: 1568264989271014161}
   maxSpeed: 120
   centerOfMass: {fileID: 6271008502754982846}
+  maxDistanceFromTrack: 20
+  stuckTimeLimit: 3
+  isSpinning: 0
+  externalTorqueMultiplier: 1
+  externalSpeedMultiplier: 1
   isEngineOn: 0
   isCountdown: 0
+--- !u!114 &8898341449307314351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5952793461770132626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca5452082b6ce04696d6b66ac379251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doubleTapWindow: 0.3
+--- !u!114 &823217535994637483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5952793461770132626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9af4466afba2b040a59532351dba88b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxNitro: 100
+  currentNitro: 100
+  nitroDrainRate: 30
+  nitroSpeedMultiplier: 1.3
+  nitroTorqueMultiplier: 1.5
+  passiveRegenRate: 2
+  driftRegenRate: 15
+  spinNitroBonus: 30
+--- !u!65 &3175689293408183204
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5952793461770132626}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.35688782, z: 1}
+  m_Center: {x: 0, y: 0.3215561, z: 0}
 --- !u!1 &6090416159921354469
 GameObject:
   m_ObjectHideFlags: 0
