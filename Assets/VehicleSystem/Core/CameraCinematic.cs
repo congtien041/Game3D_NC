@@ -47,7 +47,10 @@ namespace VehicleSystem.Core
         public float lookAtHeight = 1.0f; 
         public float rotationDamping = 3.0f; 
         public float heightDamping = 2.0f;   
-
+        [Header("--- HIỆU ỨNG TỐC ĐỘ (DYNAMIC FOV) ---")]
+        public float baseFOV = 60f;          // FOV khi đi chậm
+        public float highSpeedFOV = 150f;     // FOV khi max tốc độ (cảm giác hút mắt)
+        public float maxSpeedForEffect = 150f;
         private int currentShotIndex = 0;
         private float timer = 0;
         private Camera cam; 
@@ -131,28 +134,29 @@ namespace VehicleSystem.Core
 
         void HandleGameplayMode()
         {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 60, Time.deltaTime * 2f);
+            // --- XỬ LÝ DYNAMIC FOV ---
+            
+            float currentSpeed = carController.currentspeed;
+            // Tính tỷ lệ tốc độ (từ 0 đến 1)
+            float speedRatio = Mathf.Clamp01(currentSpeed / maxSpeedForEffect);
+            
+            // Tính FOV mục tiêu dựa trên tốc độ
+            float targetFOV = Mathf.Lerp(baseFOV, highSpeedFOV, speedRatio);
+
+            // Lerp FOV mượt mà
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * 2f);
+            // ------------------------
 
             float wantedRotationAngle = activeCar.eulerAngles.y;
             if (carController != null && carController.isSpinning)
                 wantedRotationAngle = transform.eulerAngles.y;
 
             float wantedHeight = activeCar.position.y + height;
-
             float currentRotationAngle = transform.eulerAngles.y;
             float currentHeight = transform.position.y;
 
-            currentRotationAngle = Mathf.LerpAngle(
-                currentRotationAngle,
-                wantedRotationAngle,
-                rotationDamping * Time.deltaTime
-            );
-
-            currentHeight = Mathf.Lerp(
-                currentHeight,
-                wantedHeight,
-                heightDamping * Time.deltaTime
-            );
+            currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
+            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
 
             Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
 
@@ -174,6 +178,8 @@ namespace VehicleSystem.Core
         {
             isCinematic = false;
             isWinCinematic = true;
+            Vector3 dirToCam = transform.position - activeCar.position;
+            winAngle = Mathf.Atan2(dirToCam.x, dirToCam.z) * Mathf.Rad2Deg;
         }
     }
 }   

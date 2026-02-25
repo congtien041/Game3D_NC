@@ -44,15 +44,18 @@ namespace VehicleSystem.Core
         [Header("CountDown & Status")]
         [HideInInspector] public bool isEngineOn = false; 
         [HideInInspector] public bool isCountdown = false; 
+        [HideInInspector] public float currentspeed;
         private bool isTargetable = true;  
         private Renderer[] allRenderers;
-
+        [Header("Steering Settings")]
+        public float maxSteerAngleLowSpeed = 35f; 
+        public float maxSteerAngleHighSpeed = 8f; // 🔥 Số càng nhỏ xe càng đầm khi chạy nhanh
+        public float highSpeedThreshold = 120f;
         private float currentMotorTorque;
         private float currentSteeringAngle;
         private float currentBrakeForce;
         private float flipTimer = 0f;     
         private Rigidbody rb;
-
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
@@ -87,50 +90,6 @@ namespace VehicleSystem.Core
             HandleMotor();
             HandleSteering();
             UpdateWheelMeshes();
-        }
-        private void CheckOffTrack()
-        {
-            if (cachedTrackPaths == null || cachedTrackPaths.Length < 2) return;
-
-            float minDistanceToRoad = Mathf.Infinity;
-            Transform bestResetPoint = null;
-            for (int i = 0; i < cachedTrackPaths.Length; i++)
-            {
-                Transform currentPoint = cachedTrackPaths[i];
-                
-                Transform nextPoint = cachedTrackPaths[(i + 1) % cachedTrackPaths.Length];
-
-                float distanceToSegment = DistanceToLineSegment(transform.position, currentPoint.position, nextPoint.position);
-
-                if (distanceToSegment < minDistanceToRoad)
-                {
-                    minDistanceToRoad = distanceToSegment;
-                    
-                    float distToCurrent = Vector3.Distance(transform.position, currentPoint.position);
-                    float distToNext = Vector3.Distance(transform.position, nextPoint.position);
-                    
-                    bestResetPoint = (distToCurrent < distToNext) ? currentPoint : nextPoint;
-                }
-            }
-
-            if (minDistanceToRoad > maxDistanceFromTrack && bestResetPoint != null)
-            {
-                ResetCarTo(bestResetPoint, "Bay ra khỏi đường đua!");
-            }
-        }
-        private float DistanceToLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
-        {
-            Vector3 lineDirection = lineEnd - lineStart;
-            float lineLength = lineDirection.magnitude;
-            lineDirection.Normalize();
-
-            Vector3 vectorToPoint = point - lineStart;
-            float projectLength = Vector3.Dot(vectorToPoint, lineDirection);
-
-            projectLength = Mathf.Clamp(projectLength, 0f, lineLength);
-
-            Vector3 closestPointOnLine = lineStart + lineDirection * projectLength;
-            return Vector3.Distance(point, closestPointOnLine);
         }
         private void CheckStuckAndReset()
         {
@@ -185,13 +144,29 @@ namespace VehicleSystem.Core
         private void HandleInput()
         {
             if (!isEngineOn) { currentMotorTorque = 0f; currentBrakeForce = brakeForce; return; }
+            
+            // --- XỬ LÝ ĐỘNG CƠ ---
             currentMotorTorque = motorTorque;
-            float horizontalInput = Input.GetAxis("Horizontal");
-            currentSteeringAngle = maxSteeringAngle * horizontalInput;
             if (Input.GetKey(KeyCode.Space)) { currentBrakeForce = brakeForce; currentMotorTorque = 0f; }
             else { currentBrakeForce = 0f; }
-        }
 
+            // --- XỬ LÝ GÓC LÁI (QUAN TRỌNG) ---
+            float horizontalInput = Input.GetAxis("Horizontal");
+
+            // 1. Lấy tốc độ hiện tại (km/h)
+            float speedKmh = rb.linearVelocity.magnitude * 3.6f;
+
+            // 2. Tính tỷ lệ tốc độ (từ 0 đến 1)
+            // Nếu speed là 0 -> t = 0 (Lấy góc LowSpeed)
+            // Nếu speed là 120 -> t = 1 (Lấy góc HighSpeed)
+            float t = Mathf.Clamp01(speedKmh / highSpeedThreshold);
+
+            // 3. Nội suy góc lái (Càng nhanh góc càng hẹp dần)
+            float dynamicSteerAngle = Mathf.Lerp(maxSteerAngleLowSpeed, maxSteerAngleHighSpeed, t);
+
+            // 4. Áp dụng
+            currentSteeringAngle = dynamicSteerAngle * horizontalInput;
+        }
         private void HandleMotor()
         {
             float speed = rb.linearVelocity.magnitude * 3.6f; 
@@ -199,6 +174,7 @@ namespace VehicleSystem.Core
             float actualTorque = currentMotorTorque * externalTorqueMultiplier;
             float speedFactor = 1.0f - (speed / actualMaxSpeed);
             speedFactor = Mathf.Clamp(speedFactor, 0f, 1.0f);
+            currentspeed = speed; 
             float finalTorque = actualTorque * speedFactor;
             Debug.Log("Spedd: " + speed);
             frontLeftCollider.motorTorque = finalTorque;

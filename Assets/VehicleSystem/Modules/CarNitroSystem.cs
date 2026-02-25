@@ -7,28 +7,15 @@ namespace VehicleSystem.Modules
     [RequireComponent(typeof(CarControllerVipro))]
     public class CarNitroSystem : MonoBehaviour
     {
-        // Event báo cho UI biết để tự động kết nối thanh Slider
         public static event Action<CarNitroSystem> OnPlayerNitroSpawned;
-
-        [Header("--- THÔNG SỐ BÌNH NITRO ---")]
-        public float maxNitro = 100f;              
-        public float currentNitro = 0f;          
-        [Tooltip("Số lượng Nitro tiêu hao mỗi giây khi bấm Shift")]
-        public float nitroDrainRate = 30f;     
-
-        [Header("--- SỨC MẠNH NITRO (+30% Tốc độ) ---")]
-        [Tooltip("Tăng 30% giới hạn tốc độ tối đa")]
-        public float nitroSpeedMultiplier = 1.3f;  
-        [Tooltip("Tăng lực đẩy động cơ để vọt lên nhanh hơn")]
-        public float nitroTorqueMultiplier = 1.5f; 
-
-        [Header("--- HỒI NITRO (REGEN) ---")]
-        [Tooltip("Hồi Nitro khi chạy bình thường")]
-        public float passiveRegenRate = 2f;        
-        [Tooltip("Hồi Nitro nhanh khi đang Drift")]
-        public float driftRegenRate = 15f;         
-        [Tooltip("Lượng Nitro được thưởng ngay lập tức khi xoay 1 vòng")]
-        public float spinNitroBonus = 30f;         
+        [HideInInspector] public float maxNitro = 100f;              
+        [HideInInspector] public float currentNitro = 0f;          
+        private float nitroDrainRate = 30f;     
+        private float nitroSpeedMultiplier = 1.3f;  
+        private float nitroTorqueMultiplier = 1.5f; 
+        private float passiveRegenRate = 2f;        
+        private float driftRegenRate = 15f;         
+        private float spinNitroBonus = 30f;         
         
         public bool IsUsingNitro { get; private set; } = false;
 
