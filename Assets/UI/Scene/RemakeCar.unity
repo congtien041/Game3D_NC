@@ -330,8 +330,8 @@ MonoBehaviour:
   engineSource: {fileID: 495442765}
   backgroundMusic: {fileID: 0}
   acceleration: {fileID: 8300000, guid: 6317ba339b5073e4f9e5f77f4b6f6ca2, type: 3}
-  nitroBoost: {fileID: 8300000, guid: ec5aef8b4d07c134cb7c40cd21001d2a, type: 3}
-  brakeLoop: {fileID: 0}
+  nitroBoost: {fileID: 0}
+  brakeLoop: {fileID: 8300000, guid: 6a539b2077e5017458d0b17bc2605f5c, type: 3}
   buttonClick: {fileID: 8300000, guid: 0dacf9f11b5bb944f99b40cc48f543d6, type: 3}
   ignition: {fileID: 8300000, guid: 4450edea1c853be409ff435e9217794d, type: 3}
 --- !u!4 &554098722
@@ -1235,11 +1235,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1844993814 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5952793461770132626, guid: 3eee1c8398f34d147a412e8404a5b3c0, type: 3}
-  m_PrefabInstance: {fileID: 8481499852939972852}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1851431114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1867,7 +1862,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3382872239333695609, guid: 3eee1c8398f34d147a412e8404a5b3c0, type: 3}
   m_PrefabInstance: {fileID: 8481499852939972852}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844993814}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8157693c68992f44987d85e551a0709, type: 3}
@@ -1881,22 +1876,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3382872239333695609, guid: 3eee1c8398f34d147a412e8404a5b3c0, type: 3}
-      propertyPath: Car
-      value: 
-      objectReference: {fileID: 1844993814}
-    - target: {fileID: 3945580594646265415, guid: 3eee1c8398f34d147a412e8404a5b3c0, type: 3}
-      propertyPath: trackPath
-      value: 
-      objectReference: {fileID: 1421348236}
-    - target: {fileID: 3945580594646265415, guid: 3eee1c8398f34d147a412e8404a5b3c0, type: 3}
-      propertyPath: warningText
-      value: 
-      objectReference: {fileID: 1851431116}
-    - target: {fileID: 3945580594646265415, guid: 3eee1c8398f34d147a412e8404a5b3c0, type: 3}
-      propertyPath: warningPanel
-      value: 
-      objectReference: {fileID: 1777377890}
     - target: {fileID: 5952793461770132626, guid: 3eee1c8398f34d147a412e8404a5b3c0, type: 3}
       propertyPath: m_Name
       value: 1993 Toyota Supra MK4 - Empty
