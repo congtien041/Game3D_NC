@@ -29,8 +29,7 @@ namespace VehicleSystem.Core
         private float waitTimeToFlip = 3f;
         
         [Header("--- HỆ THỐNG RESET XE ---")]
-        public float maxDistanceFromTrack = 20.0f; 
-        public float stuckTimeLimit = 3.0f; 
+        private float stuckTimeLimit = 2.0f; 
         private float stuckDistanceThreshold = 0.5f; 
         private float stuckTimer = 0f;
         private Vector3 lastRecordedPosition;
@@ -48,9 +47,9 @@ namespace VehicleSystem.Core
         private bool isTargetable = true;  
         private Renderer[] allRenderers;
         [Header("Steering Settings")]
-        public float maxSteerAngleLowSpeed = 35f; 
-        public float maxSteerAngleHighSpeed = 8f; // 🔥 Số càng nhỏ xe càng đầm khi chạy nhanh
-        public float highSpeedThreshold = 120f;
+        private float maxSteerAngleLowSpeed = 35f; 
+        private float maxSteerAngleHighSpeed = 8f; 
+        private float highSpeedThreshold = 120f;
         private float currentMotorTorque;
         private float currentSteeringAngle;
         private float currentBrakeForce;
