@@ -23,17 +23,21 @@ namespace VehicleSystem.Core
         private float brakeForce = 3000f;    
         private float decelerationForce = 300f;
         [HideInInspector] public float maxSpeed = 120f;
+        private float currentMotorTorque;
+        private float currentSteeringAngle;
+        private float currentBrakeForce;
 
         [Header("Stability & Recovery")]
         public Transform centerOfMass;   
         private float waitTimeToFlip = 3f;
         
-        [Header("--- HỆ THỐNG RESET XE ---")]
+        [Header("Reset")]
         private float stuckTimeLimit = 2.0f; 
         private float stuckDistanceThreshold = 0.5f; 
         private float stuckTimer = 0f;
         private Vector3 lastRecordedPosition;
         private Transform[] cachedTrackPaths; 
+        private float flipTimer = 0f;     
 
         [Header("Nitro")]
         [HideInInspector] public bool isSpinning = false; 
@@ -50,10 +54,7 @@ namespace VehicleSystem.Core
         private float maxSteerAngleLowSpeed = 35f; 
         private float maxSteerAngleHighSpeed = 8f; 
         private float highSpeedThreshold = 120f;
-        private float currentMotorTorque;
-        private float currentSteeringAngle;
-        private float currentBrakeForce;
-        private float flipTimer = 0f;     
+       
         private Rigidbody rb;
         private void Start()
         {
