@@ -296,7 +296,7 @@ MonoBehaviour:
   roadPresets:
   - roadTypeName: Default Road
     id: 1
-    timestamp: 1520960221.8587415
+    timestamp: 1713876589.9287603
     roadWidth: 6
     advancedWidthSettings: 0
     faceDistance: 2
@@ -387,10 +387,10 @@ MonoBehaviour:
     smoothLevel: 0
     splatOpacity: 0
     followTerrainContours: 0
-    terrainContoursOffset: 0
+    terrainContoursOffset: 5
     terrainDeformation: 1
     defaultIndent: 2
-    defaultSurrounding: 2
+    defaultSurrounding: 5
     maxRoadheight: 0
     maxTerrainHeightOffset: 0
     minTerrainHeightDistance: 0
@@ -431,18 +431,18 @@ MonoBehaviour:
     cornerRadiusSecondaryCurvature: 0
     cornerSementsSecondaryRoad: 0
     mainRoadsOnly: 0
-    isRoadShape: 0
+    isRoadShape: 1
     controlType: 0
-    vertexColor: {r: 0, g: 0, b: 0, a: 0}
+    vertexColor: {r: 0, g: 0, b: 0, a: 1}
     trafficPosts: []
     activeTrafficPostIndex: -1
     showTrafficPosts: 0
     materialCreator: 0
     synchRoadWidth: 0
     totalLanes: 0
-    laneWidth: 0
-    shoulderWidthLeft: 0
-    shoulderWidthRight: 0
+    laneWidth: 3.5
+    shoulderWidthLeft: 1
+    shoulderWidthRight: 1
     leftLineMarkingWidth: 0
     rightLineMarkingWidth: 0
     leftLineMarkingColor: {r: 0, g: 0, b: 0, a: 0}
