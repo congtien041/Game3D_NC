@@ -1,32 +1,89 @@
 using UnityEngine;
-using TMPro;
+using TMPro; 
+using VehicleSystem.Managers; 
 
 namespace VehicleSystem.UI
 {
     public class RaceUIManager : MonoBehaviour
     {
-        public static RaceUIManager Instance;
-        [Header("Warning UI")]
-        public GameObject warningPanel;
-        public TextMeshProUGUI warningText;
+        public static RaceUIManager Instance { get; private set; } 
+        public TextMeshProUGUI countdownText;
+        public TextMeshProUGUI warningText; 
 
         private void Awake()
         {
+            // Thiết lập Singleton
             if (Instance == null) Instance = this;
             else Destroy(gameObject);
-
-            HideWarning(); 
         }
 
+        private void OnEnable()
+        {
+            GameManager.OnCountdownUpdate += UpdateCountdownText;
+            GameManager.OnRaceStart += HandleRaceStart;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.OnCountdownUpdate -= UpdateCountdownText;
+            GameManager.OnRaceStart -= HandleRaceStart;
+        }
+
+        // ==========================================
+        // 1. CHỨC NĂNG CẢNH BÁO (MỚI THÊM)
+        // ==========================================
         public void ShowWarning(string message)
         {
-            if (warningPanel) warningPanel.SetActive(true);
-            if (warningText) warningText.text = message;
+            if (warningText != null)
+            {
+                warningText.gameObject.SetActive(true);
+                warningText.text = message;
+            }
         }
 
         public void HideWarning()
         {
-            if (warningPanel) warningPanel.SetActive(false);
+            if (warningText != null)
+            {
+                warningText.gameObject.SetActive(false);
+            }
+        }
+
+        // ==========================================
+        // 2. CHỨC NĂNG ĐẾM NGƯỢC (NHƯ CŨ)
+        // ==========================================
+        private void UpdateCountdownText(string text)
+        {
+            if (countdownText != null)
+            {
+                if (string.IsNullOrEmpty(text))
+                {
+                    countdownText.gameObject.SetActive(false);
+                }
+                else
+                {
+                    countdownText.gameObject.SetActive(true);
+                    countdownText.text = text;
+                }
+            }
+        }
+
+        private void HandleRaceStart()
+        {
+            if (countdownText != null) 
+            {
+                countdownText.gameObject.SetActive(true);
+                countdownText.text = "GO!";
+                Invoke(nameof(HideText), 1f);
+            }
+        }
+
+        private void HideText()
+        {
+            if(countdownText != null) 
+            {
+                countdownText.gameObject.SetActive(false);
+            }
         }
     }
 }

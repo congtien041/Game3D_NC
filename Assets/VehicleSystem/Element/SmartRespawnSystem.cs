@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections; // Cần thiết cho Coroutine
 using VehicleSystem.Core; // Để gọi TrackPath và CarController
 
-namespace VehicleSystem.Managers
+namespace VehicleSystem.Element
 {
     public class SmartRespawnSystem : MonoBehaviour
     {

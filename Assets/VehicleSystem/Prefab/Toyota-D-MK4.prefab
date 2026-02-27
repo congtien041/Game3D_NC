@@ -6712,6 +6712,7 @@ GameObject:
   - component: {fileID: 823217535994637483}
   - component: {fileID: 1690429752877331997}
   - component: {fileID: 7553879372457454459}
+  - component: {fileID: 3207522181511758549}
   m_Layer: 6
   m_Name: Toyota-D-MK4
   m_TagString: Player
@@ -6869,6 +6870,18 @@ MonoBehaviour:
   rearRightSmoke: {fileID: 5396479412904857927}
   rearLeftSkid: {fileID: 9188508606094221631}
   rearRightSkid: {fileID: 8375634102377275681}
+--- !u!114 &3207522181511758549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5952793461770132626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 415beecc3d0a74f40ab49fcc282571a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6090416159921354469
 GameObject:
   m_ObjectHideFlags: 0
