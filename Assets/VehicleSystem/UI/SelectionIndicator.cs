@@ -9,9 +9,9 @@ namespace VehicleSystem.UI
         [SerializeField] private RectTransform indicatorBar;
         [SerializeField] private RectTransform[] tabButtons;
         [SerializeField] private Button[] buttons;
-        [SerializeField] private float moveSpeed = 800f;
-
-        private int currentTabIndex = -1;
+        private float moveSpeed = 1800f;
+        public TabVisualController tabVisualController;
+        private int currentTabIndex = 3;
         private Coroutine moveCoroutine;
 
         private void Awake()
@@ -25,6 +25,7 @@ namespace VehicleSystem.UI
             {
                 int capturedIndex = i;
                 buttons[i].onClick.AddListener(() => OnTabButtonClicked(capturedIndex));
+                // Đã xóa dòng gọi SetState ở đây
             }
         }
 
@@ -32,9 +33,9 @@ namespace VehicleSystem.UI
         {
             if (tabButtons != null && tabButtons.Length > 0)
             {
+                int lastIndex = tabButtons.Length - 1; 
+                MoveToTab(lastIndex, true);
                 Canvas.ForceUpdateCanvases(); 
-                
-                MoveToTab(0, true);
             }
         }
 
@@ -49,6 +50,13 @@ namespace VehicleSystem.UI
             if (index == currentTabIndex) return;
 
             currentTabIndex = index;
+
+            // --- GỌI ĐỔI MÀU Ở ĐÂY ---
+            // Gọi ở đây thì dù bấm chuột hay game tự chạy code nó đều đổi màu chuẩn
+            if (tabVisualController != null)
+            {
+                tabVisualController.SetState(index);
+            }
 
             if (moveCoroutine != null)
             {
