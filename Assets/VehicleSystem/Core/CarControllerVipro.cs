@@ -48,12 +48,13 @@ namespace VehicleSystem.Core
         [HideInInspector] public bool isEngineOn = false; 
         [HideInInspector] public bool isCountdown = false; 
         [HideInInspector] public float currentspeed;
+        [Header("Steering")]
+        public float steerAssist = 20f; 
+        public float driftSpinAssist = 40f; 
+        public float normalGrip = 4f; 
+        public float driftGrip = 1.5f;
         private bool isTargetable = true;  
         private Renderer[] allRenderers;
-        [Header("Steering Settings")]
-        private float maxSteerAngleLowSpeed = 35f; 
-        private float maxSteerAngleHighSpeed = 8f; 
-        private float highSpeedThreshold = 120f;
        
         private Rigidbody rb;
         private void Start()
@@ -90,6 +91,7 @@ namespace VehicleSystem.Core
             HandleMotor();
             HandleSteering();
             UpdateWheelMeshes();
+            LimitSpeed();
         }
         private void CheckStuckAndReset()
         {
@@ -144,28 +146,11 @@ namespace VehicleSystem.Core
         private void HandleInput()
         {
             if (!isEngineOn) { currentMotorTorque = 0f; currentBrakeForce = brakeForce; return; }
-            
-            // --- XỬ LÝ ĐỘNG CƠ ---
             currentMotorTorque = motorTorque;
-            if (Input.GetKey(KeyCode.Space)) { currentBrakeForce = brakeForce; currentMotorTorque = 0f; }
+            if (Input.GetKey(KeyCode.LeftControl)) { currentBrakeForce = brakeForce; currentMotorTorque = 0f; }
             else { currentBrakeForce = 0f; }
-
-            // --- XỬ LÝ GÓC LÁI (QUAN TRỌNG) ---
             float horizontalInput = Input.GetAxis("Horizontal");
-
-            // 1. Lấy tốc độ hiện tại (km/h)
-            float speedKmh = rb.linearVelocity.magnitude * 3.6f;
-
-            // 2. Tính tỷ lệ tốc độ (từ 0 đến 1)
-            // Nếu speed là 0 -> t = 0 (Lấy góc LowSpeed)
-            // Nếu speed là 120 -> t = 1 (Lấy góc HighSpeed)
-            float t = Mathf.Clamp01(speedKmh / highSpeedThreshold);
-
-            // 3. Nội suy góc lái (Càng nhanh góc càng hẹp dần)
-            float dynamicSteerAngle = Mathf.Lerp(maxSteerAngleLowSpeed, maxSteerAngleHighSpeed, t);
-
-            // 4. Áp dụng
-            currentSteeringAngle = dynamicSteerAngle * horizontalInput;
+            currentSteeringAngle = maxSteeringAngle * horizontalInput;
         }
         private void HandleMotor()
         {
@@ -173,19 +158,37 @@ namespace VehicleSystem.Core
             float actualMaxSpeed = maxSpeed * externalSpeedMultiplier;
             float actualTorque = currentMotorTorque * externalTorqueMultiplier;
             float speedFactor = 1.0f - (speed / actualMaxSpeed);
+            Debug.Log("Speed: " + speed);
             speedFactor = Mathf.Clamp(speedFactor, 0f, 1.0f);
             currentspeed = speed; 
             float finalTorque = actualTorque * speedFactor;
-            Debug.Log("Spedd: " + speed);
-            frontLeftCollider.motorTorque = finalTorque;
-            frontRightCollider.motorTorque = finalTorque;
-            rearLeftCollider.motorTorque = finalTorque;
-            rearRightCollider.motorTorque = finalTorque;
-            
-            if (currentBrakeForce > 0) ApplyBrake(currentBrakeForce);
-            else if (currentMotorTorque == 0) ApplyBrake(decelerationForce);
-            else ApplyBrake(0f);
-        }
+
+            bool isDrifting = Input.GetKey(KeyCode.Space);
+
+            if (isDrifting)
+            {
+                frontLeftCollider.motorTorque = 0f;
+                frontRightCollider.motorTorque = 0f;
+                rearLeftCollider.motorTorque = 0f;
+                rearRightCollider.motorTorque = 0f;
+
+                frontLeftCollider.brakeTorque = 0f;
+                frontRightCollider.brakeTorque = 0f;
+                rearLeftCollider.brakeTorque = brakeForce * 2f; 
+                rearRightCollider.brakeTorque = brakeForce * 2f;
+            }
+            else
+            {
+                frontLeftCollider.motorTorque = finalTorque;
+                frontRightCollider.motorTorque = finalTorque;
+                rearLeftCollider.motorTorque = finalTorque;
+                rearRightCollider.motorTorque = finalTorque;
+                
+                if (currentBrakeForce > 0) ApplyBrake(currentBrakeForce); 
+                else if (currentMotorTorque == 0) ApplyBrake(decelerationForce); 
+                else ApplyBrake(0f);
+            }
+        }   
 
         private void ApplyBrake(float force)
         {
@@ -248,6 +251,19 @@ namespace VehicleSystem.Core
             if (allRenderers != null)
                 foreach (var renderer in allRenderers)
                     if (renderer != null) renderer.enabled = show; 
+        }
+        private void LimitSpeed()
+        {
+            // Tính toán tốc độ tối đa thực tế (Ví dụ: chạy thường là 120, xịt nitro x1.5 là 180)
+            float actualMaxSpeed = maxSpeed * externalSpeedMultiplier;
+            float currentSpeedKmh = rb.linearVelocity.magnitude * 3.6f;
+
+            // Nếu vượt quá giới hạn -> Cắt bớt vận tốc ngay lập tức
+            if (currentSpeedKmh > actualMaxSpeed)
+            {
+                // Giữ nguyên hướng di chuyển hiện tại, chỉ ép ngắn cái lực lại cho bằng đúng max speed
+                rb.linearVelocity = rb.linearVelocity.normalized * (actualMaxSpeed / 3.6f);
+            }
         }
     }
 }

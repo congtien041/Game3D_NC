@@ -8,40 +8,49 @@ namespace VehicleSystem.Modules
     public class CarNitroSystem : MonoBehaviour
     {
         public static event Action<CarNitroSystem> OnPlayerNitroSpawned;
+        
         [HideInInspector] public float maxNitro = 100f;              
         [HideInInspector] public float currentNitro = 0f;          
         private float nitroDrainRate = 30f;     
-        private float nitroSpeedMultiplier = 1.3f;  
-        private float nitroTorqueMultiplier = 1.5f; 
         private float passiveRegenRate = 2f;        
         private float driftRegenRate = 15f;         
-        private float spinNitroBonus = 30f;         
-        
+        private float spinNitroBonus = 30f;    
+        private float nitroThrustForce = 20f;             
         public bool IsUsingNitro { get; private set; } = false;
+        public ParticleSystem Nitro;
+        private float minEmissionRate = 20f;
+        private float maxEmissionRate = 150f;
+        private float speedForMaxEmission = 150f; 
 
         private CarControllerVipro carController;
         private Rigidbody rb;
+
         private void Start()
         {
             carController = GetComponent<CarControllerVipro>();
-            // Báo hiệu cho UI biết bình Nitro đã sẵn sàng
             OnPlayerNitroSpawned?.Invoke(this); 
             rb = GetComponent<Rigidbody>();
+
+            if (Nitro != null) Nitro.Stop(); 
         }
 
         private void Update()
         {
-            if (carController == null || carController.isCountdown || !carController.isEngineOn) return;
+            if (carController == null || carController.isCountdown || !carController.isEngineOn) 
+            {
+                if (Nitro != null && Nitro.isPlaying) Nitro.Stop();
+                return;
+            }
 
             HandleNitroLogic();
+            HandleParticleEffects(); 
         }
 
         private void HandleNitroLogic()
         {
-            bool isPressingGas = Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
-            bool isBraking = Input.GetKey(KeyCode.Space);
+            bool isBraking = Input.GetKey(KeyCode.LeftControl);
 
-            if (Input.GetKey(KeyCode.LeftShift) && !isBraking)
+            if (Input.GetKey(KeyCode.LeftShift) && !isBraking && currentNitro > 0)
             {
                 IsUsingNitro = true;
                 currentNitro -= nitroDrainRate * Time.deltaTime;
@@ -52,10 +61,8 @@ namespace VehicleSystem.Modules
                 IsUsingNitro = false;
             }
 
-            // 2. TÍCH LŨY NITRO KHI KHÔNG SỬ DỤNG
             if (!IsUsingNitro)
             {
-                // Lấy thông số trượt của bánh sau để kiểm tra Drift
                 WheelHit hitL, hitR;
                 carController.rearLeftCollider.GetGroundHit(out hitL);
                 carController.rearRightCollider.GetGroundHit(out hitR);
@@ -65,32 +72,47 @@ namespace VehicleSystem.Modules
 
                 if (isDrifting)
                 {
-                    // Đang Drift -> Tích siêu nhanh
                     currentNitro += driftRegenRate * Time.deltaTime; 
                 }
                 else if (currentSpeed > 5f) 
                 {
-                    // Xe đang chạy thẳng bình thường (tốc độ > 5km/h) -> Tích chậm
                     currentNitro += passiveRegenRate * Time.deltaTime; 
                 }
 
                 if (currentNitro > maxNitro) currentNitro = maxNitro;
             }
 
-            // 3. TRUYỀN SỨC MẠNH XUỐNG BÁNH XE
             if (IsUsingNitro)
             {
-                carController.externalSpeedMultiplier = nitroSpeedMultiplier; // Tăng 30% tốc độ
-                carController.externalTorqueMultiplier = nitroTorqueMultiplier;
+                carController.externalSpeedMultiplier = 1.5f; 
+                carController.externalTorqueMultiplier = 3f;
+                rb.AddForce(transform.forward * nitroThrustForce * Time.deltaTime, ForceMode.VelocityChange);
             }
             else
             {
-                carController.externalSpeedMultiplier = 1f; // Trả về bình thường
+                carController.externalSpeedMultiplier = 1f; 
                 carController.externalTorqueMultiplier = 1f;
             }
         }
 
-        // Module Xoay xe (Trick) sẽ gọi hàm này để nạp điểm thưởng
+        private void HandleParticleEffects()
+        {
+            if (Nitro == null) return;
+
+            if (IsUsingNitro)
+            {
+                if (!Nitro.isPlaying) Nitro.Play();
+                float currentSpeedKmH = rb.linearVelocity.magnitude * 3.6f;
+                float speedRatio = Mathf.Clamp01(currentSpeedKmH / speedForMaxEmission);
+                var emission = Nitro.emission;
+                emission.rateOverTime = Mathf.Lerp(minEmissionRate, maxEmissionRate, speedRatio);
+            }
+            else
+            {
+                if (Nitro.isPlaying) Nitro.Stop();
+            }
+        }
+
         public void AddSpinBonus()
         {
             currentNitro += spinNitroBonus;
