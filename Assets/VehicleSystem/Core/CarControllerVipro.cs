@@ -23,20 +23,21 @@ namespace VehicleSystem.Core
         private float brakeForce = 3000f;    
         private float decelerationForce = 300f;
         [HideInInspector] public float maxSpeed = 120f;
+        private float currentMotorTorque;
+        private float currentSteeringAngle;
+        private float currentBrakeForce;
 
         [Header("Stability & Recovery")]
         public Transform centerOfMass;   
         private float waitTimeToFlip = 3f;
         
-        [Header("--- HỆ THỐNG RESET XE ---")]
-        public float maxDistanceFromTrack = 20.0f; 
-        public float stuckTimeLimit = 3.0f; 
+        [Header("Reset")]
+        private float stuckTimeLimit = 2.0f; 
         private float stuckDistanceThreshold = 0.5f; 
         private float stuckTimer = 0f;
         private Vector3 lastRecordedPosition;
-        
-        // Lưu mảng các điểm mà không cần dùng Tag
         private Transform[] cachedTrackPaths; 
+        private float flipTimer = 0f;     
 
         [Header("Nitro")]
         [HideInInspector] public bool isSpinning = false; 
@@ -46,25 +47,22 @@ namespace VehicleSystem.Core
         [Header("CountDown & Status")]
         [HideInInspector] public bool isEngineOn = false; 
         [HideInInspector] public bool isCountdown = false; 
+        [HideInInspector] public float currentspeed;
+        [Header("Steering")]
+        public float steerAssist = 20f; 
+        public float driftSpinAssist = 40f; 
+        public float normalGrip = 4f; 
+        public float driftGrip = 1.5f;
         private bool isTargetable = true;  
         private Renderer[] allRenderers;
-
-        private float currentMotorTorque;
-        private float currentSteeringAngle;
-        private float currentBrakeForce;
-        private float flipTimer = 0f;     
+       
         private Rigidbody rb;
-
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
             if (centerOfMass != null) rb.centerOfMass = centerOfMass.localPosition;
             allRenderers = GetComponentsInChildren<Renderer>();
-            
             lastRecordedPosition = transform.position;
-
-            // --- KHÔNG DÙNG TAG NỮA ---
-            // Tự động tìm kịch bản TrackPath, sau đó lấy tất cả các điểm con (children) của nó
             TrackPath trackPathManager = Object.FindAnyObjectByType<TrackPath>();
             if (trackPathManager != null)
             {
@@ -75,10 +73,6 @@ namespace VehicleSystem.Core
                     cachedTrackPaths[i] = trackPathManager.transform.GetChild(i);
                 }
             }
-            else
-            {
-                Debug.LogWarning("Không tìm thấy script TrackPath trên map!");
-            }
         }
 
         private void Update()
@@ -87,7 +81,6 @@ namespace VehicleSystem.Core
             
             CheckAndResetFlip();
             CheckStuckAndReset();  
-            CheckOffTrack();       
         }
 
         private void FixedUpdate()
@@ -98,68 +91,8 @@ namespace VehicleSystem.Core
             HandleMotor();
             HandleSteering();
             UpdateWheelMeshes();
+            LimitSpeed();
         }
-
-        // ===============================================
-        // LÔ-GÍC: BAY RA KHỎI ĐƯỜNG ĐUA BẰNG ĐOẠN THẲNG
-        // ===============================================
-        private void CheckOffTrack()
-        {
-            if (cachedTrackPaths == null || cachedTrackPaths.Length < 2) return;
-
-            float minDistanceToRoad = Mathf.Infinity;
-            Transform bestResetPoint = null;
-
-            // Duyệt qua TỪNG CẶP điểm nối tiếp nhau theo đúng thứ tự (1-2, 2-3, 3-4...)
-            for (int i = 0; i < cachedTrackPaths.Length; i++)
-            {
-                Transform currentPoint = cachedTrackPaths[i];
-                
-                // Điểm tiếp theo (Dùng % để điểm cuối cùng nối vòng lại điểm đầu tiên tạo thành Track kín)
-                Transform nextPoint = cachedTrackPaths[(i + 1) % cachedTrackPaths.Length];
-
-                // Tính khoảng cách từ xe đến cái BỀ MẶT ĐƯỜNG nối giữa 2 điểm này
-                float distanceToSegment = DistanceToLineSegment(transform.position, currentPoint.position, nextPoint.position);
-
-                // Tìm ra đoạn đường nào đang gần xe nhất
-                if (distanceToSegment < minDistanceToRoad)
-                {
-                    minDistanceToRoad = distanceToSegment;
-                    
-                    // Xác định xem trong đoạn đường này, xe đang đứng nghiêng về điểm nào hơn để lát nữa Reset về đó
-                    float distToCurrent = Vector3.Distance(transform.position, currentPoint.position);
-                    float distToNext = Vector3.Distance(transform.position, nextPoint.position);
-                    
-                    bestResetPoint = (distToCurrent < distToNext) ? currentPoint : nextPoint;
-                }
-            }
-
-            // Bất chấp điểm dài điểm ngắn, chỉ cần xe văng ra khỏi CÁI ĐƯỜNG ẢO đó xa hơn maxDistance là bị bế về!
-            if (minDistanceToRoad > maxDistanceFromTrack && bestResetPoint != null)
-            {
-                ResetCarTo(bestResetPoint, "Bay ra khỏi đường đua!");
-            }
-        }
-        // HÀM TOÁN HỌC ĐỂ TÍNH KHOẢNG CÁCH TỚI ĐOẠN THẲNG
-        private float DistanceToLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
-        {
-            Vector3 lineDirection = lineEnd - lineStart;
-            float lineLength = lineDirection.magnitude;
-            lineDirection.Normalize();
-
-            Vector3 vectorToPoint = point - lineStart;
-            float projectLength = Vector3.Dot(vectorToPoint, lineDirection);
-
-            // Giới hạn projection nằm gọn trong đoạn thẳng
-            projectLength = Mathf.Clamp(projectLength, 0f, lineLength);
-
-            Vector3 closestPointOnLine = lineStart + lineDirection * projectLength;
-            return Vector3.Distance(point, closestPointOnLine);
-        }
-
-        // ===============================================
-        // LÔ-GÍC: KẸT XE BẰNG TỌA ĐỘ 
-        // ===============================================
         private void CheckStuckAndReset()
         {
             bool isBraking = Input.GetKey(KeyCode.Space);
@@ -204,44 +137,58 @@ namespace VehicleSystem.Core
         {
             transform.position = targetPath.position + Vector3.up * 1.5f;
             transform.rotation = targetPath.rotation;
-            
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            
             stuckTimer = 0f;
             lastRecordedPosition = transform.position;
-            
-            Debug.Log($"<color=orange>RESET XE: {reason}</color>");
         }
 
         private void HandleInput()
         {
             if (!isEngineOn) { currentMotorTorque = 0f; currentBrakeForce = brakeForce; return; }
             currentMotorTorque = motorTorque;
+            if (Input.GetKey(KeyCode.LeftControl)) { currentBrakeForce = brakeForce; currentMotorTorque = 0f; }
+            else { currentBrakeForce = 0f; }
             float horizontalInput = Input.GetAxis("Horizontal");
             currentSteeringAngle = maxSteeringAngle * horizontalInput;
-            if (Input.GetKey(KeyCode.Space)) { currentBrakeForce = brakeForce; currentMotorTorque = 0f; }
-            else { currentBrakeForce = 0f; }
         }
-
         private void HandleMotor()
         {
             float speed = rb.linearVelocity.magnitude * 3.6f; 
             float actualMaxSpeed = maxSpeed * externalSpeedMultiplier;
             float actualTorque = currentMotorTorque * externalTorqueMultiplier;
             float speedFactor = 1.0f - (speed / actualMaxSpeed);
+            Debug.Log("Speed: " + speed);
             speedFactor = Mathf.Clamp(speedFactor, 0f, 1.0f);
+            currentspeed = speed; 
             float finalTorque = actualTorque * speedFactor;
-            
-            frontLeftCollider.motorTorque = finalTorque;
-            frontRightCollider.motorTorque = finalTorque;
-            rearLeftCollider.motorTorque = finalTorque;
-            rearRightCollider.motorTorque = finalTorque;
-            
-            if (currentBrakeForce > 0) ApplyBrake(currentBrakeForce);
-            else if (currentMotorTorque == 0) ApplyBrake(decelerationForce);
-            else ApplyBrake(0f);
-        }
+
+            bool isDrifting = Input.GetKey(KeyCode.Space);
+
+            if (isDrifting)
+            {
+                frontLeftCollider.motorTorque = 0f;
+                frontRightCollider.motorTorque = 0f;
+                rearLeftCollider.motorTorque = 0f;
+                rearRightCollider.motorTorque = 0f;
+
+                frontLeftCollider.brakeTorque = 0f;
+                frontRightCollider.brakeTorque = 0f;
+                rearLeftCollider.brakeTorque = brakeForce * 2f; 
+                rearRightCollider.brakeTorque = brakeForce * 2f;
+            }
+            else
+            {
+                frontLeftCollider.motorTorque = finalTorque;
+                frontRightCollider.motorTorque = finalTorque;
+                rearLeftCollider.motorTorque = finalTorque;
+                rearRightCollider.motorTorque = finalTorque;
+                
+                if (currentBrakeForce > 0) ApplyBrake(currentBrakeForce); 
+                else if (currentMotorTorque == 0) ApplyBrake(decelerationForce); 
+                else ApplyBrake(0f);
+            }
+        }   
 
         private void ApplyBrake(float force)
         {
@@ -304,6 +251,19 @@ namespace VehicleSystem.Core
             if (allRenderers != null)
                 foreach (var renderer in allRenderers)
                     if (renderer != null) renderer.enabled = show; 
+        }
+        private void LimitSpeed()
+        {
+            // Tính toán tốc độ tối đa thực tế (Ví dụ: chạy thường là 120, xịt nitro x1.5 là 180)
+            float actualMaxSpeed = maxSpeed * externalSpeedMultiplier;
+            float currentSpeedKmh = rb.linearVelocity.magnitude * 3.6f;
+
+            // Nếu vượt quá giới hạn -> Cắt bớt vận tốc ngay lập tức
+            if (currentSpeedKmh > actualMaxSpeed)
+            {
+                // Giữ nguyên hướng di chuyển hiện tại, chỉ ép ngắn cái lực lại cho bằng đúng max speed
+                rb.linearVelocity = rb.linearVelocity.normalized * (actualMaxSpeed / 3.6f);
+            }
         }
     }
 }

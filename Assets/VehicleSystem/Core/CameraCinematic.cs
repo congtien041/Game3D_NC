@@ -10,9 +10,8 @@ namespace VehicleSystem.Core
         private CarControllerVipro carController;
 
         [Header("Game Mode")]
-        private bool isGameplay = true;
         public bool isCinematic = true; 
-        private bool isWinCinematic = false;   // 🔥 thêm
+        private bool isWinCinematic = false;  
 
         [System.Serializable]
         public struct CinematicShot
@@ -35,21 +34,23 @@ namespace VehicleSystem.Core
             new CinematicShot { offset = new Vector3(2f, 0.3f, 3.5f), fov = 45 }
         };
 
-        // 🔥 WIN SETTINGS
         [Header("Win Cinematic Settings")]
-        
         private float winAngle = 0f;
         public Vector3 winOffset = new Vector3(-4f, 2f, 6f);
         public float winRotateSpeed = 25f;
         public float winFOV = 50f;
-
+        private float currentWinRadius;
+        private float currentWinHeight;
         [Header("Gameplay Follow Settings")]
         public float distance = 6.0f;    
         public float height = 2.5f;      
         public float lookAtHeight = 1.0f; 
         public float rotationDamping = 3.0f; 
         public float heightDamping = 2.0f;   
-
+        [Header("--- HIỆU ỨNG TỐC ĐỘ (DYNAMIC FOV) ---")]
+        public float baseFOV = 60f;          // FOV khi đi chậm
+        public float highSpeedFOV = 150f;     // FOV khi max tốc độ (cảm giác hút mắt)
+        public float maxSpeedForEffect = 150f;
         private int currentShotIndex = 0;
         private float timer = 0;
         private Camera cam; 
@@ -74,19 +75,15 @@ namespace VehicleSystem.Core
         {
             if (activeCar == null) return;
 
-            if (isWinCinematic)
+            if (isWinCinematic)         
             {
                 HandleWinMode();
-                return;
             }
-
-            if (isCinematic)
+            else if (isCinematic)
             {
                 HandleCinematicMode();
-                return;
             }
-
-            if (isGameplay)
+            else
             {
                 HandleGameplayMode();
             }
@@ -115,35 +112,20 @@ namespace VehicleSystem.Core
             transform.LookAt(activeCar.position + Vector3.up * 0.5f);
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, shot.fov, Time.deltaTime * 2f);
         }
-
-        // 🔥 WIN MODE
         void HandleWinMode()
-{
-    winAngle += winRotateSpeed * Time.deltaTime;
-
-    // Tính vị trí xoay quanh xe bằng sin/cos
-    Vector3 offset = new Vector3(
-        Mathf.Sin(winAngle * Mathf.Deg2Rad) * winOffset.z,
-        winOffset.y,
-        Mathf.Cos(winAngle * Mathf.Deg2Rad) * winOffset.z
-    );
-
-    Vector3 desiredPos = activeCar.position + offset;
-
-    transform.position = Vector3.Lerp(
-        transform.position,
-        desiredPos,
-        Time.deltaTime * 5f   // tăng smooth lên cho mượt
-    );
-
-    transform.LookAt(activeCar.position + Vector3.up * 0.8f);
-
-    cam.fieldOfView = Mathf.Lerp(
-        cam.fieldOfView,
-        winFOV,
-        Time.deltaTime * 3f
-    );
-}
+        {
+            winAngle += winRotateSpeed * Time.deltaTime;
+            currentWinRadius = Mathf.Lerp(currentWinRadius, winOffset.z, Time.deltaTime * 5f);
+            currentWinHeight = Mathf.Lerp(currentWinHeight, winOffset.y, Time.deltaTime * 5f);
+            Vector3 offset = new Vector3(
+                Mathf.Sin(winAngle * Mathf.Deg2Rad) * currentWinRadius,
+                currentWinHeight,
+                Mathf.Cos(winAngle * Mathf.Deg2Rad) * currentWinRadius
+            );
+            transform.position = activeCar.position + offset;
+            transform.LookAt(activeCar.position + Vector3.up * 0.8f);
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, winFOV, Time.deltaTime * 3f);
+        }
 
         void RandomizeShot()
         {
@@ -152,28 +134,29 @@ namespace VehicleSystem.Core
 
         void HandleGameplayMode()
         {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 60, Time.deltaTime * 2f);
+            // --- XỬ LÝ DYNAMIC FOV ---
+            
+            float currentSpeed = carController.currentspeed;
+            // Tính tỷ lệ tốc độ (từ 0 đến 1)
+            float speedRatio = Mathf.Clamp01(currentSpeed / maxSpeedForEffect);
+            
+            // Tính FOV mục tiêu dựa trên tốc độ
+            float targetFOV = Mathf.Lerp(baseFOV, highSpeedFOV, speedRatio);
+
+            // Lerp FOV mượt mà
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * 2f);
+            // ------------------------
 
             float wantedRotationAngle = activeCar.eulerAngles.y;
             if (carController != null && carController.isSpinning)
                 wantedRotationAngle = transform.eulerAngles.y;
 
             float wantedHeight = activeCar.position.y + height;
-
             float currentRotationAngle = transform.eulerAngles.y;
             float currentHeight = transform.position.y;
 
-            currentRotationAngle = Mathf.LerpAngle(
-                currentRotationAngle,
-                wantedRotationAngle,
-                rotationDamping * Time.deltaTime
-            );
-
-            currentHeight = Mathf.Lerp(
-                currentHeight,
-                wantedHeight,
-                heightDamping * Time.deltaTime
-            );
+            currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
+            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
 
             Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
 
@@ -190,11 +173,13 @@ namespace VehicleSystem.Core
             isCinematic = false;
         }
 
+        // 🔥 GỌI KHI WIN
         public void TriggerWin()
         {
             isCinematic = false;
-            isGameplay = false;
             isWinCinematic = true;
+            Vector3 dirToCam = transform.position - activeCar.position;
+            winAngle = Mathf.Atan2(dirToCam.x, dirToCam.z) * Mathf.Rad2Deg;
         }
     }
 }   

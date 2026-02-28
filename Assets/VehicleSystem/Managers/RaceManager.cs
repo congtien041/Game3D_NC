@@ -10,7 +10,7 @@ namespace VehicleSystem.Managers
         private CarControllerVipro playerCar; 
         private Rigidbody carRb;
         public TrackPath trackPath; 
-        private float maxDistanceFromTrack = 15.0f; 
+        private float maxDistanceFromTrack = 20.0f; 
         private float allowedAngle = 110f; 
         private float wrongWayTimeLimit = 3.0f;
         private float stuckVelocityThreshold = 1.0f; 
@@ -32,13 +32,6 @@ namespace VehicleSystem.Managers
 
             Transform closestPoint = trackPath.GetClosestWaypoint(playerCar.transform.position);
             if (closestPoint == null) return;
-            float distanceToTrack = Vector3.Distance(playerCar.transform.position, closestPoint.position);
-            
-            if (distanceToTrack > maxDistanceFromTrack)
-            {
-                StartCoroutine(RespawnProcess(closestPoint));
-                return;
-            }
 
             float angle = Vector3.Angle(playerCar.transform.forward, closestPoint.forward);
             if (angle > allowedAngle)
@@ -46,12 +39,6 @@ namespace VehicleSystem.Managers
                 wrongWayTimer += Time.deltaTime;
                 
                 RaceUIManager.Instance.ShowWarning($"WRONG WAY! {wrongWayTimeLimit - wrongWayTimer:F1}");
-
-                if (wrongWayTimer >= wrongWayTimeLimit)
-                {
-                    StartCoroutine(RespawnProcess(closestPoint));
-                    return;
-                }
             }
             else
             {
