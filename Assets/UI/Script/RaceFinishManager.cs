@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement; // Thư viện để chuyển Scene
 using TMPro; // Thư viện TextMeshPro cho UI đẹp (nếu dùng Text thường thì đổi thành UnityEngine.UI)
 
-public class RaceFinishManager : MonoBehaviour
+public class RaceFinishManagers : MonoBehaviour
 {
     [Header("Cài đặt chung")]
     public string menuSceneName = "MainMenu"; // Tên scene Menu để quay về (Public như bạn yêu cầu)
