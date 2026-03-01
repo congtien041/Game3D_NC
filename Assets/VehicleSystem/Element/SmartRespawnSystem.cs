@@ -1,7 +1,8 @@
 using TMPro;
 using UnityEngine;
 using System.Collections; // Cần thiết cho Coroutine
-using VehicleSystem.Core; // Để gọi TrackPath và CarController
+using VehicleSystem.Core;
+using VehicleSystem.Managers; // Để gọi TrackPath và CarController
 
 namespace VehicleSystem.Element
 {
@@ -50,7 +51,13 @@ namespace VehicleSystem.Element
         }
 
         private void Update()
-        {
+        {       
+            if(Input.GetKeyDown(KeyCode.R)) 
+                    StartCoroutine(RespawnRoutine());
+
+
+            if(GameManager.Instance.currentMode == GameMode.FreeRoam) return;
+
             if (playerCarScript == null || trackPath == null) return;
             if (isResetting) return; 
 

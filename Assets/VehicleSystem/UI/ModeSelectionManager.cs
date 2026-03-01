@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using VehicleSystem.Managers; // Để gọi GameMode
 
@@ -33,6 +34,8 @@ namespace VehicleSystem.UI
             {
                 GameManager.Instance.currentMode = mode;
             }
+
+            SceneManager.LoadScene("Main");
         }
     }
 }
