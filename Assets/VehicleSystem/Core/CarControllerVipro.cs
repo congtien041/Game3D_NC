@@ -48,11 +48,6 @@ namespace VehicleSystem.Core
         [HideInInspector] public bool isEngineOn = false; 
         [HideInInspector] public bool isCountdown = false; 
         [HideInInspector] public float currentspeed;
-        [Header("Steering")]
-        public float steerAssist = 20f; 
-        public float driftSpinAssist = 40f; 
-        public float normalGrip = 4f; 
-        public float driftGrip = 1.5f;
         private bool isTargetable = true;  
         private Renderer[] allRenderers;
        
