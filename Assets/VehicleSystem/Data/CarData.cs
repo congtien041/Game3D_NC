@@ -3,17 +3,20 @@ using UnityEngine.AddressableAssets; // <--- BẮT BUỘC PHẢI CÓ DÒNG NÀY
 
 namespace VehicleSystem.Data
 {
-    [CreateAssetMenu(fileName = "NewCarData", menuName = "Game Data/Car Data")]
+    [CreateAssetMenu(fileName = "New Car", menuName = "Hyperdrive Racing/Car Data")]
     public class CarData : ScriptableObject
     {
-        public string carName = "Tên Xe";
-        public AssetReferenceGameObject carPrefab; 
-        public float baseMotorTorque = 1500f;
-        public float maxSteeringAngle = 30f;
-        public float brakeForce = 3000f;
-        public float baseMaxSpeed = 50f;      
-        public float speedIncreasePerLevel = 10f; 
-        public int maxLevel = 5;              
-        public int baseUpgradeCost = 100;     
+        public string carID;
+        public string carName; // Ví dụ: "BlackSportCar"
+        public GameObject carPrefab; // Model 3D hiện trong garage
+        public Sprite carIcon; // MỚI: Ảnh 2D vuông vuông hiển thị trên UI
+        public int price;
+        public bool isUnlockedByDefault;
+        
+        [Header("Car Stats (Max 500)")]
+        public float topSpeed;     // Tương ứng thanh 1
+        public float acceleration; // Tương ứng thanh 2
+        public float handling;     // Tương ứng thanh 3
+        public float nitro;        // MỚI: Tương ứng thanh 4
     }
 }

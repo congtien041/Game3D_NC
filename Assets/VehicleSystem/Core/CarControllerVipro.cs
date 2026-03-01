@@ -1,10 +1,14 @@
 using UnityEngine;
 using VehicleSystem.Core;
+using VehicleSystem.Data;
 
 namespace VehicleSystem.Core
 {    
     public class CarControllerVipro : MonoBehaviour
     {
+        [Header("Car Data")]
+        public CarStatsData carStats = new CarStatsData();
+
         [Header("Wheel Colliders")]
         public WheelCollider frontLeftCollider;
         public WheelCollider frontRightCollider;
@@ -17,12 +21,6 @@ namespace VehicleSystem.Core
         public Transform rearLeftMesh;
         public Transform rearRightMesh;
 
-        [Header("Car Settings")]
-        private float motorTorque = 1500f;   
-        private float maxSteeringAngle = 30f;
-        private float brakeForce = 3000f;    
-        private float decelerationForce = 300f;
-        [HideInInspector] public float maxSpeed = 120f;
         private float currentMotorTorque;
         private float currentSteeringAngle;
         private float currentBrakeForce;
@@ -48,16 +46,27 @@ namespace VehicleSystem.Core
         [HideInInspector] public bool isEngineOn = false; 
         [HideInInspector] public bool isCountdown = false; 
         [HideInInspector] public float currentspeed;
+        
         private bool isTargetable = true;  
         private Renderer[] allRenderers;
        
         private Rigidbody rb;
+
+        public void InitializeStats(CarStatsData upgradedStats)
+        {
+            if (upgradedStats != null)
+            {
+                this.carStats = upgradedStats.Clone();
+            }
+        }
+
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
             if (centerOfMass != null) rb.centerOfMass = centerOfMass.localPosition;
             allRenderers = GetComponentsInChildren<Renderer>();
             lastRecordedPosition = transform.position;
+            
             TrackPath trackPathManager = Object.FindAnyObjectByType<TrackPath>();
             if (trackPathManager != null)
             {
@@ -88,6 +97,7 @@ namespace VehicleSystem.Core
             UpdateWheelMeshes();
             LimitSpeed();
         }
+
         private void CheckStuckAndReset()
         {
             bool isBraking = Input.GetKey(KeyCode.Space);
@@ -140,20 +150,35 @@ namespace VehicleSystem.Core
 
         private void HandleInput()
         {
-            if (!isEngineOn) { currentMotorTorque = 0f; currentBrakeForce = brakeForce; return; }
-            currentMotorTorque = motorTorque;
-            if (Input.GetKey(KeyCode.LeftControl)) { currentBrakeForce = brakeForce; currentMotorTorque = 0f; }
-            else { currentBrakeForce = 0f; }
+            if (!isEngineOn) 
+            { 
+                currentMotorTorque = 0f; 
+                currentBrakeForce = carStats.brakeForce; 
+                return; 
+            }
+            
+            currentMotorTorque = carStats.motorTorque;
+            if (Input.GetKey(KeyCode.LeftControl)) 
+            { 
+                currentBrakeForce = carStats.brakeForce; 
+                currentMotorTorque = 0f; 
+            }
+            else 
+            { 
+                currentBrakeForce = 0f; 
+            }
+            
             float horizontalInput = Input.GetAxis("Horizontal");
-            currentSteeringAngle = maxSteeringAngle * horizontalInput;
+            currentSteeringAngle = carStats.maxSteeringAngle * horizontalInput;
         }
+
         private void HandleMotor()
         {
             float speed = rb.linearVelocity.magnitude * 3.6f; 
-            float actualMaxSpeed = maxSpeed * externalSpeedMultiplier;
+            float actualMaxSpeed = carStats.maxSpeed * externalSpeedMultiplier;
             float actualTorque = currentMotorTorque * externalTorqueMultiplier;
+            
             float speedFactor = 1.0f - (speed / actualMaxSpeed);
-            Debug.Log("Speed: " + speed);
             speedFactor = Mathf.Clamp(speedFactor, 0f, 1.0f);
             currentspeed = speed; 
             float finalTorque = actualTorque * speedFactor;
@@ -169,8 +194,9 @@ namespace VehicleSystem.Core
 
                 frontLeftCollider.brakeTorque = 0f;
                 frontRightCollider.brakeTorque = 0f;
-                rearLeftCollider.brakeTorque = brakeForce * 2f; 
-                rearRightCollider.brakeTorque = brakeForce * 2f;
+                // Sử dụng lực phanh từ carStats
+                rearLeftCollider.brakeTorque = carStats.brakeForce * 2f; 
+                rearRightCollider.brakeTorque = carStats.brakeForce * 2f;
             }
             else
             {
@@ -180,7 +206,7 @@ namespace VehicleSystem.Core
                 rearRightCollider.motorTorque = finalTorque;
                 
                 if (currentBrakeForce > 0) ApplyBrake(currentBrakeForce); 
-                else if (currentMotorTorque == 0) ApplyBrake(decelerationForce); 
+                else if (currentMotorTorque == 0) ApplyBrake(carStats.decelerationForce); 
                 else ApplyBrake(0f);
             }
         }   
@@ -247,16 +273,15 @@ namespace VehicleSystem.Core
                 foreach (var renderer in allRenderers)
                     if (renderer != null) renderer.enabled = show; 
         }
+
         private void LimitSpeed()
         {
-            // Tính toán tốc độ tối đa thực tế (Ví dụ: chạy thường là 120, xịt nitro x1.5 là 180)
-            float actualMaxSpeed = maxSpeed * externalSpeedMultiplier;
+            // Lấy maxSpeed từ carStats
+            float actualMaxSpeed = carStats.maxSpeed * externalSpeedMultiplier;
             float currentSpeedKmh = rb.linearVelocity.magnitude * 3.6f;
 
-            // Nếu vượt quá giới hạn -> Cắt bớt vận tốc ngay lập tức
             if (currentSpeedKmh > actualMaxSpeed)
             {
-                // Giữ nguyên hướng di chuyển hiện tại, chỉ ép ngắn cái lực lại cho bằng đúng max speed
                 rb.linearVelocity = rb.linearVelocity.normalized * (actualMaxSpeed / 3.6f);
             }
         }

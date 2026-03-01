@@ -37,7 +37,7 @@ namespace VehicleSystem.Audio
         {
             if (audioSystem.engineSource == null) return;
 
-            float speedRatio = carController.currentspeed / carController.maxSpeed;
+            float speedRatio = carController.currentspeed / carController.carStats.maxSpeed;
             speedRatio = Mathf.Clamp01(speedRatio);
 
             audioSystem.engineSource.pitch = Mathf.Lerp(minPitch, maxPitch, speedRatio);
