@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace VehicleSystem.Managers
 {
-    public enum GameMode { Circuit, TimeAttack, Elimination }
+    public enum GameMode { Circuit, TimeAttack, FreeRoam }
     public enum GameState { Loading, Countdown, Racing, Finished }
 
     public class GameManager : MonoBehaviour

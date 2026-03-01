@@ -33,8 +33,8 @@ namespace VehicleSystem.UI
         {
             if (tabButtons != null && tabButtons.Length > 0)
             {
-                int lastIndex = tabButtons.Length - 1; 
-                MoveToTab(lastIndex, true);
+                int Index = 2; 
+                MoveToTab(Index, true);
                 Canvas.ForceUpdateCanvases(); 
             }
         }

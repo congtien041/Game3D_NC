@@ -9,15 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e4d47cbb5255234a977d587606171e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 09886900e10689d4da8a6662976f7d22, type: 3}
   m_Name: Toyota
   m_EditorClassIdentifier: 
-  carName: Toyota
+  carID: 1
+  carName: Toyota-D-MK4
   carPrefab: {fileID: 5952793461770132626, guid: 3eee1c8398f34d147a412e8404a5b3c0, type: 3}
-  baseMotorTorque: 1500
-  maxSteeringAngle: 30
-  brakeForce: 3000
-  baseMaxSpeed: 50
-  speedIncreasePerLevel: 10
-  maxLevel: 5
-  baseUpgradeCost: 100
+  carIcon: {fileID: 21300000, guid: f155edf2b082836438a654bf08701208, type: 3}
+  carPrice: 0
+  isUnlockedByDefault: 1
+  baseTopSpeed: 110
+  baseAcceleration: 55
+  baseHandling: 30
+  baseNitro: 40
+  maxUpgradeLevel: 5
+  topSpeedPerLvl: 2.5
+  accelerationPerLvl: 1.2
+  handlingPerLvl: 0.8
+  nitroPerLvl: 1.5
+  upgradeCosts: 64000000fa000000f4010000e8030000d0070000

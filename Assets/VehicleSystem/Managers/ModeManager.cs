@@ -50,9 +50,9 @@ namespace VehicleSystem.Managers
             {
                 HandleTimeAttackMode();
             }
-            else if (currentCachedMode == GameMode.Elimination)
+            else if (currentCachedMode == GameMode.FreeRoam)
             {
-                HandleEliminationMode();
+                // HandleEliminationMode();
             }
         }
  
