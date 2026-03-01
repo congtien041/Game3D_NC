@@ -19,9 +19,9 @@ MonoBehaviour:
   carPrice: 0
   isUnlockedByDefault: 1
   baseTopSpeed: 110
-  baseAcceleration: 58.6
-  baseHandling: 39.02
-  baseNitro: 45.09
+  baseAcceleration: 55
+  baseHandling: 30
+  baseNitro: 40
   maxUpgradeLevel: 5
   topSpeedPerLvl: 2.5
   accelerationPerLvl: 1.2
