@@ -88,7 +88,7 @@ namespace VehicleSystem.Managers
                     Debug.LogWarning("Save file tampered! Resetting money to 0.");
                 }
             }
-            currentMoney.SetValue(0);
+            currentMoney.SetValue(10000);
         }
 
         private string Encrypt(string plainText)

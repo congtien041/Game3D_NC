@@ -1,7 +1,8 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using VehicleSystem.Core; 
+using VehicleSystem.Core;
+using VehicleSystem.UI;
 
 namespace VehicleSystem.Data
 {
@@ -9,7 +10,7 @@ namespace VehicleSystem.Data
     {
         public CarDataSO[] allCars; 
         private int currentIndex = 0; 
-        private float maxSliderValue = 500f; 
+        private float maxSliderValue = 800f; 
         public Image carIconImage;        
         public TextMeshProUGUI carNameText; 
         public Slider stat1Slider; 
@@ -64,14 +65,40 @@ namespace VehicleSystem.Data
             if (carData == null) return;
             carNameText.text = carData.carName;
             if (carIconImage != null && carData.carIcon != null) { carIconImage.sprite = carData.carIcon; }
-            stat1Slider.value = carData.baseTopSpeed;
-            stat2Slider.value = carData.baseAcceleration;
-            stat3Slider.value = carData.baseHandling;
-            stat4Slider.value = carData.baseNitro;
-            stat1Text.text = carData.baseTopSpeed.ToString("0");
-            stat2Text.text = carData.baseAcceleration.ToString("0");
-            stat3Text.text = carData.baseHandling.ToString("0");
-            stat4Text.text = carData.baseNitro.ToString("0");
+
+            // 1. TẢI DỮ LIỆU NÂNG CẤP CỦA XE NÀY
+            CarUpgradeSave save = LoadCarSave(carData.carID);
+
+            // 2. TÍNH TOÁN CHỈ SỐ CUỐI CÙNG (GỐC + NÂNG CẤP)
+            CarStatsData finalStats = carData.CalculateFinalStats(save);
+
+            // 3. HIỂN THỊ CHỈ SỐ ĐÃ TÍNH TOÁN (Thay vì baseTopSpeed)
+            stat1Slider.value = finalStats.uiTopSpeed;
+            stat2Slider.value = finalStats.uiAcceleration;
+            stat3Slider.value = finalStats.uiHandling;
+            stat4Slider.value = finalStats.uiNitro;
+
+            stat1Text.text = finalStats.uiTopSpeed.ToString("0");
+            stat2Text.text = finalStats.uiAcceleration.ToString("0");
+            stat3Text.text = finalStats.uiHandling.ToString("0");
+            stat4Text.text = finalStats.uiNitro.ToString("0");
+
+            if (CarUpgradeManager.Instance != null)
+            {
+                CarUpgradeManager.Instance.SetCurrentCar(carData);
+            }
+        }
+
+        // Hàm hỗ trợ tự động tải file Save dựa vào ID của xe
+        private CarUpgradeSave LoadCarSave(string carID)
+        {
+            string saveKey = "CarSave_" + carID;
+            if (PlayerPrefs.HasKey(saveKey))
+            {
+                string json = PlayerPrefs.GetString(saveKey);
+                return JsonUtility.FromJson<CarUpgradeSave>(json);
+            }
+            return new CarUpgradeSave { carID = carID }; // Trả về level 0 nếu xe chưa từng được nâng cấp
         }
     }
 }

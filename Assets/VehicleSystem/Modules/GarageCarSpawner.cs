@@ -23,11 +23,19 @@ public class GarageSimpleSpawner : MonoBehaviour
         {
             Destroy(currentCarInstance);
         }
-
         if (emptyCarPrefabs[index] != null)
         {
-            currentCarInstance = Instantiate(emptyCarPrefabs[index], spawnPoint.position, spawnPoint.rotation);
+            currentCarInstance = Instantiate(emptyCarPrefabs[index]);
             currentCarInstance.transform.SetParent(spawnPoint);
+            currentCarInstance.transform.localPosition = Vector3.zero; 
+            currentCarInstance.transform.localRotation = Quaternion.identity;
+            currentCarInstance.transform.localScale = new Vector3(1, 1, 1);
+            Rigidbody rb = currentCarInstance.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true; 
+                rb.useGravity = false; 
+            }
         }
     }
 }

@@ -3,159 +3,209 @@ using UnityEngine.UI;
 using TMPro;
 using VehicleSystem.Data;
 using VehicleSystem.Core;
+using VehicleSystem.Managers;
 
 namespace VehicleSystem.UI
 {
     public class CarUpgradeManager : MonoBehaviour
     {
         [Header("Data References")]
-        public CarDataSO currentCar;       // Dữ liệu gốc của xe đang hiển thị
-        public CarUpgradeSave currentSave; // Dữ liệu lưu trữ cấp độ hiện tại của xe
+        // Đổi thành private, không cần kéo thả trong Editor nữa
+        private CarDataSO currentCar; 
+        private CarUpgradeSave currentSave;
 
-        [Header("Player Resources")]
-        public int playerMoney = 15000;    // Tiền hiện có (để test)
-        public int playerBlueprints = 10;  // Số lượng blueprint hiện có
+        [Header("Shared Buttons (Menu & Upgrade)")]
+        public Button upgradeBtn;
+        public Button garageBtn;
+        public Button modeBtn;
+        public Button playBtn;
+        
+        [Header("Extra Buttons")]
+        public Button backBtn;
 
-        [Header("Resource UI")]
-        public TextMeshProUGUI moneyText;
-        public TextMeshProUGUI blueprintText; // Hiển thị blueprint bên dưới tên xe
+        [Header("Button Text References")]
+        public TextMeshProUGUI upgradeBtnText;
+        public TextMeshProUGUI garageBtnText;
+        public TextMeshProUGUI modeBtnText;
+        public TextMeshProUGUI playBtnText;
 
-        [Header("UI - Top Speed")]
+        [Header("Stats UI")]
         public TextMeshProUGUI topSpeedText;
         public Image topSpeedFill;
-        public Button topSpeedBtn;
-        public TextMeshProUGUI topSpeedCostText; // Text hiển thị giá tiền trên nút
-
-        [Header("UI - Acceleration")]
         public TextMeshProUGUI accelText;
         public Image accelFill;
-        public Button accelBtn;
-        public TextMeshProUGUI accelCostText;
-
-        [Header("UI - Handling")]
         public TextMeshProUGUI handlingText;
         public Image handlingFill;
-        public Button handlingBtn;
-        public TextMeshProUGUI handlingCostText;
-
-        [Header("UI - Nitro")]
         public TextMeshProUGUI nitroText;
         public Image nitroFill;
-        public Button nitroBtn;
-        public TextMeshProUGUI nitroCostText;
+
+        private bool isUpgradeMode = false;
+        public static CarUpgradeManager Instance { get; private set; }
+        public bool IsUpgradeMode => isUpgradeMode;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {
-            // Khởi tạo save rỗng để test nếu chưa có hệ thống Load/Save
-            if (currentSave == null && currentCar != null)
-            {
-                currentSave = new CarUpgradeSave { carID = currentCar.carID };
-            }
+            if (backBtn != null)
+                backBtn.onClick.AddListener(ExitUpgradeMode);
+
+            ShowMenuUI();
+        }
+
+        // ---- HÀM MỚI: Nhận xe từ MenuUIManager truyền sang ----
+        public void SetCurrentCar(CarDataSO carData)
+        {
+            currentCar = carData;
+            LoadCarData(); // Tải file save của chiếc xe mới này
             
+            // Nếu đang mở bảng nâng cấp mà đổi xe thì update luôn UI
+            if (isUpgradeMode) 
+            {
+                RefreshUI();
+            }
+        }
+
+        public void EnterUpgradeMode()
+        {
+            isUpgradeMode = true;
+            SetupUpgradeButtons();
+            
+            if (backBtn != null) backBtn.gameObject.SetActive(true); 
+        }
+
+        public void ExitUpgradeMode()
+        {
+            isUpgradeMode = false;
+            ShowMenuUI();
+            
+            if (backBtn != null) backBtn.gameObject.SetActive(false); 
+        }
+
+        public void SetupUpgradeButtons()
+        {
+            ClearAllButtonListeners();
+
+            upgradeBtn.onClick.AddListener(UpgradeTopSpeed);
+            garageBtn.onClick.AddListener(UpgradeAcceleration);
+            modeBtn.onClick.AddListener(UpgradeHandling);
+            playBtn.onClick.AddListener(UpgradeNitro);
+
             RefreshUI();
         }
 
-        // Hàm này gọi để làm mới toàn bộ số liệu trên màn hình
+        public void ShowMenuUI()
+        {
+            ClearAllButtonListeners();
+
+            upgradeBtn.onClick.AddListener(EnterUpgradeMode);
+            // garageBtn.onClick.AddListener(OpenGarage);
+            // modeBtn.onClick.AddListener(OpenMode);
+            // playBtn.onClick.AddListener(PlayGame);
+
+            upgradeBtnText.text = "UPGRADE";
+            garageBtnText.text = "GARAGE";
+            modeBtnText.text = "MODE";
+            playBtnText.text = "PLAY";
+
+            upgradeBtn.interactable = true;
+            garageBtn.interactable = true;
+            modeBtn.interactable = true;
+            playBtn.interactable = true;
+        }
+
+        private void ClearAllButtonListeners()
+        {
+            upgradeBtn.onClick.RemoveAllListeners();
+            garageBtn.onClick.RemoveAllListeners();
+            modeBtn.onClick.RemoveAllListeners();
+            playBtn.onClick.RemoveAllListeners();
+        }
+
         public void RefreshUI()
         {
-            if (currentCar == null || currentSave == null) return;
+            if (!isUpgradeMode || currentCar == null || currentSave == null) return;
 
-            // 1. Cập nhật tài nguyên người chơi
-            if (moneyText != null) moneyText.text = playerMoney.ToString();
-            if (blueprintText != null) blueprintText.text = playerBlueprints.ToString() + "/50";
+            int playerMoney = MoneyManager.Instance.GetBalance();
 
-            // 2. Lấy chỉ số thực tế sau khi đã cộng dồn level
             CarStatsData currentStats = currentCar.CalculateFinalStats(currentSave);
-
-            // 3. Cập nhật Text chỉ số (Format "F1" lấy 1 số thập phân, "F2" lấy 2 số)
             topSpeedText.text = currentStats.uiTopSpeed.ToString("F1");
             accelText.text = currentStats.uiAcceleration.ToString("F2");
             handlingText.text = currentStats.uiHandling.ToString("F2");
             nitroText.text = currentStats.uiNitro.ToString("F2");
 
-            // 4. Cập nhật thanh màu xanh ngọc (Fill Amount 0 -> 1)
             topSpeedFill.fillAmount = (float)currentSave.topSpeedLevel / currentCar.maxUpgradeLevel;
             accelFill.fillAmount = (float)currentSave.accelerationLevel / currentCar.maxUpgradeLevel;
             handlingFill.fillAmount = (float)currentSave.handlingLevel / currentCar.maxUpgradeLevel;
             nitroFill.fillAmount = (float)currentSave.nitroLevel / currentCar.maxUpgradeLevel;
 
-            // 5. Cập nhật trạng thái Nút và Giá tiền
-            UpdateUpgradeButton(topSpeedBtn, topSpeedCostText, currentSave.topSpeedLevel);
-            UpdateUpgradeButton(accelBtn, accelCostText, currentSave.accelerationLevel);
-            UpdateUpgradeButton(handlingBtn, handlingCostText, currentSave.handlingLevel);
-            UpdateUpgradeButton(nitroBtn, nitroCostText, currentSave.nitroLevel);
+            UpdateButtonState(upgradeBtn, upgradeBtnText, "TOP SPEED", currentSave.topSpeedLevel, playerMoney);
+            UpdateButtonState(garageBtn, garageBtnText, "ACCEL", currentSave.accelerationLevel, playerMoney);
+            UpdateButtonState(modeBtn, modeBtnText, "HANDLING", currentSave.handlingLevel, playerMoney);
+            UpdateButtonState(playBtn, playBtnText, "NITRO", currentSave.nitroLevel, playerMoney);
         }
 
-        // Hàm hỗ trợ kiểm tra nút có bấm được không và hiển thị giá
-        private void UpdateUpgradeButton(Button btn, TextMeshProUGUI costText, int currentLevel)
+        private void UpdateButtonState(Button btn, TextMeshProUGUI btnText, string statName, int level, int money)
         {
-            if (currentLevel >= currentCar.maxUpgradeLevel)
+            if (level >= currentCar.maxUpgradeLevel)
             {
-                if (costText != null) costText.text = "MAX";
+                btnText.text = statName + "\nMAX";
                 btn.interactable = false;
             }
             else
             {
-                int cost = currentCar.GetUpgradeCost(currentLevel);
-                if (costText != null) costText.text = cost.ToString();
+                int cost = currentCar.GetUpgradeCost(level);
+                btnText.text = $"{statName}\n${cost}";
+                btn.interactable = (money >= cost);
+            }
+        }
+
+        public void UpgradeTopSpeed() => PerformUpgrade(ref currentSave.topSpeedLevel);
+        public void UpgradeAcceleration() => PerformUpgrade(ref currentSave.accelerationLevel);
+        public void UpgradeHandling() => PerformUpgrade(ref currentSave.handlingLevel);
+        public void UpgradeNitro() => PerformUpgrade(ref currentSave.nitroLevel);
+
+        private void LoadCarData()
+        {
+            if (currentCar == null) return;
+            string saveKey = "CarSave_" + currentCar.carID;
+
+            if (PlayerPrefs.HasKey(saveKey))
+            {
+                string json = PlayerPrefs.GetString(saveKey);
+                currentSave = JsonUtility.FromJson<CarUpgradeSave>(json);
+            }
+            else
+            {
+                currentSave = new CarUpgradeSave { carID = currentCar.carID };
+            }
+        }
+
+        private void SaveCarData()
+        {
+            if (currentSave == null) return;
+            string saveKey = "CarSave_" + currentSave.carID;
+            string json = JsonUtility.ToJson(currentSave);
+            
+            PlayerPrefs.SetString(saveKey, json);
+            PlayerPrefs.Save();
+        }
+
+        private void PerformUpgrade(ref int level)
+        {
+            int cost = currentCar.GetUpgradeCost(level);
+            if (MoneyManager.Instance.SpendMoney(cost))
+            {
+                level++;
+                SaveCarData(); 
+                RefreshUI();
                 
-                // Nút chỉ bấm được khi đủ tiền
-                btn.interactable = (playerMoney >= cost);
+                // ---- DÒNG NÀY ĐỂ BÁO LẠI CHO MENU UPDATE THANH SLIDER BÊN NGOÀI ----
+                FindObjectOfType<MenuUIManager>().DisplayCar(currentCar);
             }
-        }
-
-        // --- CÁC HÀM GẮN VÀO SỰ KIỆN ONCLICK() CỦA NÚT ---
-
-        public void UpgradeTopSpeed()
-        {
-            int cost = currentCar.GetUpgradeCost(currentSave.topSpeedLevel);
-            if (playerMoney >= cost && currentSave.topSpeedLevel < currentCar.maxUpgradeLevel)
-            {
-                playerMoney -= cost;
-                currentSave.topSpeedLevel++;
-                RefreshUI();
-            }
-        }
-
-        public void UpgradeAcceleration()
-        {
-            int cost = currentCar.GetUpgradeCost(currentSave.accelerationLevel);
-            if (playerMoney >= cost && currentSave.accelerationLevel < currentCar.maxUpgradeLevel)
-            {
-                playerMoney -= cost;
-                currentSave.accelerationLevel++;
-                RefreshUI();
-            }
-        }
-
-        public void UpgradeHandling()
-        {
-            int cost = currentCar.GetUpgradeCost(currentSave.handlingLevel);
-            if (playerMoney >= cost && currentSave.handlingLevel < currentCar.maxUpgradeLevel)
-            {
-                playerMoney -= cost;
-                currentSave.handlingLevel++;
-                RefreshUI();
-            }
-        }
-
-        public void UpgradeNitro()
-        {
-            int cost = currentCar.GetUpgradeCost(currentSave.nitroLevel);
-            if (playerMoney >= cost && currentSave.nitroLevel < currentCar.maxUpgradeLevel)
-            {
-                playerMoney -= cost;
-                currentSave.nitroLevel++;
-                RefreshUI();
-            }
-        }
-
-        // Hàm dùng để đổi xe khác trên UI
-        public void LoadNewCarData(CarDataSO newCar, CarUpgradeSave newSave)
-        {
-            currentCar = newCar;
-            currentSave = newSave;
-            RefreshUI();
         }
     }
 }
