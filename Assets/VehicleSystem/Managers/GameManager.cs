@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 namespace VehicleSystem.Managers
 {
@@ -22,7 +23,7 @@ namespace VehicleSystem.Managers
         public static event Action<string> OnCountdownUpdate;
         public static event Action OnRaceStart;
         public static event Action OnRaceFinished;
-
+        private bool hasStartedCountdown = false;
         private void Awake()
         {
             if (Instance == null) Instance = this;
@@ -30,13 +31,18 @@ namespace VehicleSystem.Managers
             DontDestroyOnLoad(gameObject);
         }
 
-        private void Start()
-        {
-            ChangeState(GameState.Countdown);
-        }
+        // private void Start()
+        // {
+        //     ChangeState(GameState.Countdown);
+        // }
 
         private void Update()
         {
+            if (SceneManager.GetActiveScene().name == "Main" && !hasStartedCountdown)
+    {
+                hasStartedCountdown = true;
+                ChangeState(GameState.Countdown);
+    }
             // Chỉ đếm thời gian khi đang đua
             if (State == GameState.Racing)
             {
