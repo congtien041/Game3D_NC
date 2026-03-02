@@ -27,6 +27,13 @@ namespace VehicleSystem.Managers
                 FindPlayerCar();
                 return;
             }
+            if (playerCar.isSpinning)
+            {
+                wrongWayTimer = 0f;
+                stuckTimer = 0f;
+                RaceUIManager.Instance.HideWarning(); // Tắt ngay UI nếu nó lỡ hiện
+                return; // Thoát khỏi hàm Update, không chạy đoạn kiểm tra bên dưới nữa
+            }
 
             if (trackPath == null || isResetting) return;
 
