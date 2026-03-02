@@ -1165,6 +1165,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraScript: {fileID: 1850753365}
+  uiToHide:
+  - {fileID: 2099495545}
+  - {fileID: 210646747}
   winUI: {fileID: 721944042}
   nextUI: {fileID: 2054065906}
 --- !u!4 &534463470
