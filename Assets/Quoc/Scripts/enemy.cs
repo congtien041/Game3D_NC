@@ -1,30 +1,45 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyMove : MonoBehaviour
 {
-    public Transform[] waypoints;   // Danh sách node
-    public float speed = 3f;
+    public Transform[] waypoints;
+    public float speed = 5f;
+    public float startDelay = 2f;   // Thời gian chờ
 
     private int currentWaypointIndex = 0;
+    private bool canMove = false;
+
+    void Start()
+    {
+        StartCoroutine(StartAfterDelay());
+    }
+
+    IEnumerator StartAfterDelay()
+    {
+        yield return new WaitForSeconds(startDelay);
+        canMove = true;
+    }
 
     void Update()
     {
-        if (currentWaypointIndex >= waypoints.Length)
-            return;
+        if (!canMove) return;
+        if (waypoints.Length == 0) return;
 
         Transform target = waypoints[currentWaypointIndex];
 
-        // Di chuyển tới node
         transform.position = Vector3.MoveTowards(
             transform.position,
             target.position,
             speed * Time.deltaTime
         );
 
-        // Kiểm tra nếu đã tới gần node
-        if (Vector3.Distance(transform.position, target.position) < 0.1f)
+        if (Vector3.Distance(transform.position, target.position) < 0.5f)
         {
             currentWaypointIndex++;
+
+            if (currentWaypointIndex >= waypoints.Length)
+                currentWaypointIndex = 0;
         }
     }
 }
